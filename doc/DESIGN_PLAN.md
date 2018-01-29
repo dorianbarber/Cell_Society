@@ -30,7 +30,7 @@ This project will have a design heirarchy that maximizes its ability to adapt to
 ### User Interface
 The user interface will be handled and defined in the Menu class. It will be able to handle user input in the form of sliders, click buttons, and drop down menus. The basic plan for the layout is as follows: one window will contain a central grid of cells which will be handled by the underlying class structure, clickable buttons that will allow the user to step forward or backward and pause and play the simulation, a sliding element to define the step speed of the simulation, and one drop down menu to allow users to select different game models. 
 
-![Planning Images/UI.jpg]
+![](./Planning Images/UI.jpg)
 
 
 
