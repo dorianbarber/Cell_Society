@@ -1,3 +1,4 @@
+
 CELL SOCIETY TEAM 09
 ===================
 
@@ -30,11 +31,61 @@ This project will have a design hierarchy that maximizes its ability to adapt to
 
 ___
 ### User Interface
-The user interface will be handled and defined in the Menu class. It will be able to handle user input in the form of sliders, click buttons, and drop down menus. The basic plan for the layout is as follows: one window will contain a central grid of cells which will be handled by the underlying class structure, clickable buttons that will allow the user to step forward or backward and pause and play the simulation, a sliding element to define the step speed of the simulation, and one drop down menu to allow users to select different game models. 
+The user interface will be handled and defined in the Menu class. It will be able to handle user input in the form of sliders, click buttons, and drop down menus. The basic plan for the layout is as follows: 
+* The left side of the window will contain a central grid of cells whose states will be handled by the Grid class 
+*  The right side will contain clickable buttons that will allow the user to:
+	1. pause and play the simulation
+	2. step forward or backward (when paused)
+	3. define the step speed of the simulation (slider)
+	4. allow users to select different game models (drop-down menu)
 
 ![](./Planning Images/UI.jpg)
 
 
+
+### Design Details
+**Menu** 
+* The menu class will house instance variables, including, but not limited to:
+```java
+private scene myScene;
+private root myRoot;
+private int animationSpeed;
+private int gridSize;
+private Grid myGrid;
+```
+It will also include several methods that serve to initialize the stage and scene and allow the user to choose a simulation. 
+```java
+//Will return the beginning scene
+//(i.e. with a blank grid of default size
+private Scene setUp(int gridsize, int startspeed){}
+//There will be several kinds of input which will
+//all follow this general pattern
+private void handleKeyInput(KeyCode code) {}
+//Pauses the simulation
+private void pause(){}
+//Loads the next grid state when next button pushed
+private void updateGrid(){}
+//Loads the previous grid state
+//reverse of updateGrid(){}
+private void prevGrid(){}
+//Set the animation speed
+private void setSpeed(){}
+//Loads a different model into the grid class
+private void setModel(Grid g){}
+```
+**Grid**
+The grid class will mainly include two instance variables, though more will likely have to be included :
+```java
+//our implementation is undecided at the moment, but it
+//will be some form of two-d grid of Cell ojects
+private Cell[][] grid;
+private Model currentModel;
+```
+It will also include methods to update each 
+
+
++ The Grid class houses a collection of cell objects, and a model
+	+ Grid will handle interactions between the Cells and Model with the method updateCells-- which will call the cells to update their state based on their own information and the rules and logic defined in Model
 
 ___
 ### Design Considerations
