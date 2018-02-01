@@ -1,20 +1,14 @@
 package cellsociety_team09;
 
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
+import java.util.ArrayList;
+
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyCode;
+import javafx.scene.control.Slider;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.shape.Shape;
 import javafx.stage.Stage;
-import javafx.util.Duration;
-import java.util.Random;
 
 public class Menu extends Application{
 	
@@ -25,7 +19,7 @@ public class Menu extends Application{
 	private final int WIDTH = 900;
 	private final int HEIGHT = 600;
 	private final Color BACKGROUND = Color.ANTIQUEWHITE;
-	
+	private Grid myGrid;
 	
 	
     /**
@@ -46,8 +40,17 @@ public class Menu extends Application{
 	private Scene initializeStart(int screenwidth, int screenheight, Color paint){
 		Group root = new Group();
 		myRoot = root;
+		myGrid = new Grid(20, .05 * screenheight, 10, 500);
 		Scene scene = new Scene(root, screenwidth, screenheight, paint);
+		root.getChildren().add(myGrid.drawBlankGrid(screenwidth, screenheight));
+		Slider speedtoggle = new Slider();
+		speedtoggle.setLayoutY(myGrid.getY() + myGrid.getDimensions() + 5); 
+		speedtoggle.setMinWidth(300);
+		speedtoggle.setMaxWidth(300);
+		speedtoggle.setLayoutX(myGrid.getX() + myGrid.getDimensions() / 2 - speedtoggle.getWidth());
+		root.getChildren().add(speedtoggle);
 		
 		return scene;
 	}
+	
 }
