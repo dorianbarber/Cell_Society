@@ -1,7 +1,7 @@
 package cellsociety_team09;
 
 public class Grid {
-	private Cell[][] gridCells;
+	private Cell[][] gridCells; //please change to arraylist for dynamic size changing 
 	private int gridSize;
 	private Model simulation;
 	
