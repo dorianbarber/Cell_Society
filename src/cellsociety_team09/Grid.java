@@ -1,40 +1,52 @@
 package cellsociety_team09;
 
 import javafx.scene.Group;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 
 public class Grid {
-	private double gridXPosition;
-	private double gridYPosition;
-	private int gridBlockSize;
+	private CellModel[][] gridCells;
 	private int gridSize;
+	private Group cellSet;
+	private static final CellModel[] possibleModels= {
+			new Life_Model()
+	};
 	
-	public Grid(double x, double y, int blocksize, int gridsize){
-		gridXPosition = x;
-		gridYPosition = y;
-		gridSize = gridsize;
-		gridBlockSize = blocksize;
-	}
-	public Group drawBlankGrid(int screenwidth, int screenheight){
-		Group retgroup = new Group();
-		for (double i = gridXPosition; i < gridXPosition + gridSize; i += gridBlockSize){
-			for (double j = gridYPosition; j < gridYPosition + gridSize; j += gridBlockSize){
-				Rectangle toAdd = new Rectangle(i, j, 10, 10);
-				toAdd.setFill(Color.ANTIQUEWHITE);
-				toAdd.setStroke(Color.BLACK);
-				retgroup.getChildren().add(toAdd);
+	public Grid(int n) {
+		gridSize = n;
+		gridCells = new CellModel[gridSize][gridSize];
+		for(int i = 0; i < gridSize; i++) {
+			for(int j = 0; j < gridSize; j++) {
+				gridCells[i][j] = new CellModel();
 			}
 		}
-		return retgroup;
 	}
-	public double getX(){
-		return gridXPosition;
+	
+	
+	public Group getCells() {
+		
 	}
-	public double getY(){
-		return gridYPosition;
+	
+	/**
+	 * Loops through the cells to let them find their
+	 * neighbors and also get their next state
+	 */
+	public void findCellNeighbors() {
+		for(int i = 0; i < gridSize; i++) {
+			for(int j = 0; j < gridSize; j++) {
+				gridCells[i][j].getNeighbors();
+				gridCells[i][j].findNextState();
+			}
+		}
 	}
-	public int getDimensions(){
-		return gridSize;
+	
+	/**
+	 * Loops through cells to move each one to their next state
+	 */
+	public void moveSimulationForward() {
+		for(int i = 0; i < gridSize; i++) {
+			for(int j = 0; j < gridSize; j++) {
+				gridCells[i][j].moveForward();
+			}
+		}
+		this.findCellNeighbors();
 	}
 }
