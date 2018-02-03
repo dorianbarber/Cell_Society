@@ -1,28 +1,37 @@
 package cellsociety_team09;
 
+import java.util.ArrayList;
+
 import javafx.scene.Group;
 
+/**
+ * Manager for cell interactions, 
+ * 
+ * @author Dorian
+ *
+ */
 public class Grid {
-	private CellModel[][] gridCells;
+	private ArrayList<ArrayList<CellModel>> gridCells; 
 	private int gridSize;
 	private Group cellSet;
 	private static final CellModel[] possibleModels= {
-			new Life_Model()
+			new SegregationCell()
 	};
 	
-	public Grid(int n) {
-		gridSize = n;
-		gridCells = new CellModel[gridSize][gridSize];
+	public Grid(int size, int modelChoice) {
+		gridSize = size;
+		gridCells = new  ArrayList<ArrayList<CellModel>>();
 		for(int i = 0; i < gridSize; i++) {
 			for(int j = 0; j < gridSize; j++) {
-				gridCells[i][j] = new CellModel();
+				gridCells.get(i).set(j, possibleModels[modelChoice]);
+				cellSet.getChildren().add(gridCells.get(i).get(j));
 			}
 		}
 	}
 	
-	
+	//supposed to return the set of cells for the menu class to use
 	public Group getCells() {
-		
+		return cellSet;
 	}
 	
 	/**
@@ -32,8 +41,8 @@ public class Grid {
 	public void findCellNeighbors() {
 		for(int i = 0; i < gridSize; i++) {
 			for(int j = 0; j < gridSize; j++) {
-				gridCells[i][j].getNeighbors();
-				gridCells[i][j].findNextState();
+				gridCells.get(i).get(j).getNeighbors(i, j, gridCells);
+				gridCells.get(i).get(j).findNextState();
 			}
 		}
 	}
@@ -44,7 +53,7 @@ public class Grid {
 	public void moveSimulationForward() {
 		for(int i = 0; i < gridSize; i++) {
 			for(int j = 0; j < gridSize; j++) {
-				gridCells[i][j].moveForward();
+				gridCells.get(i).get(j).moveForward();
 			}
 		}
 		this.findCellNeighbors();

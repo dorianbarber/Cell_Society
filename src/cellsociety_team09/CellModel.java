@@ -1,14 +1,19 @@
 
 package cellsociety_team09;
 
+import javafx.scene.Node;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Shape;
-import java.util.*;
-public abstract class CellModel {
+import java.util.ArrayList;
+
+public abstract class CellModel extends Shape{
 	protected Shape shape;
 	protected Color color;
 	protected StateNode state;
 	protected CellModel[] neighbors;
+	
+	//For XMLFile identification purposes
+	public static final String DATA_TYPE = "Model";
 	
 	
 	public CellModel() {
@@ -25,6 +30,12 @@ public abstract class CellModel {
 		state.moveForward();
 	}
 	
+	
+	@Override
+	public com.sun.javafx.geom.Shape impl_configShape() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 }
 
