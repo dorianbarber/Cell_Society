@@ -1,4 +1,4 @@
-    package cellsociety_team09;
+   package cellsociety_team09;
 
 import javafx.application.Application;
 import javafx.collections.FXCollections;
