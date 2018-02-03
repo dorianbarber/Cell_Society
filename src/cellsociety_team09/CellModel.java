@@ -24,7 +24,7 @@ public abstract class CellModel {
 	public void moveForward() {
 		state.moveForward();
 	}
-	
-	
+
+
 }
 
