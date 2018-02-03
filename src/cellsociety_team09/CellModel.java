@@ -6,4 +6,8 @@ public class CellModel {
 	private Shape shape;
 	private stateNode state;
 	private CellModel[] neighbors;
+	
+	public CellModel() {
+		
+	}
 }
