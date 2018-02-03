@@ -1,11 +1,12 @@
 
 package cellsociety_team09;
 
+import javafx.scene.Node;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Shape;
 import java.util.ArrayList;
 
-public abstract class CellModel {
+public abstract class CellModel extends Shape{
 	protected Shape shape;
 	protected Color color;
 	protected StateNode state;

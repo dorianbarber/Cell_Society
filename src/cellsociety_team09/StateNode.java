@@ -6,6 +6,8 @@ import javafx.scene.paint.Color;
  * StateNode class to keep track of the history of 
  * states that each cell has been in 
  * 
+ * Has no dependencies
+ * 
  * @author Dorian
  *
  */
