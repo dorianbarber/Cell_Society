@@ -13,7 +13,7 @@ import javafx.scene.Group;
 public class Grid {
 	private ArrayList<ArrayList<CellModel>> gridCells; 
 	private int gridSize;
-	private Group cellSet;
+	//private Group cellSet;
 	private static final CellModel[] possibleModels= {
 			new SegregationCell()
 	};
@@ -24,14 +24,19 @@ public class Grid {
 		for(int i = 0; i < gridSize; i++) {
 			for(int j = 0; j < gridSize; j++) {
 				gridCells.get(i).set(j, possibleModels[modelChoice]);
-				cellSet.getChildren().add(gridCells.get(i).get(j));
+				//cellSet.getChildren().add(gridCells.get(i).get(j));
 			}
 		}
 	}
 	
 	//supposed to return the set of cells for the menu class to use
-	public Group getCells() {
-		return cellSet;
+	public ArrayList<ArrayList<CellModel>> getCells() {
+		return gridCells;
+	}
+	
+	//returns the dimension of the grid
+	public int getGridSize() {
+		return gridSize;
 	}
 	
 	/**
