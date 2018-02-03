@@ -18,35 +18,44 @@ public class StateNode {
 	private StateNode nextState;
 	private StateNode prevState;
 	
+	//Creates a fresh StateNode with no set pointers
 	public StateNode(Color c, int[] currentStates) {
 		stateColor = c;
 		states = currentStates;
 	}
 	
+	//Creates a StateNode with purpose to act as a pointer
 	public StateNode(StateNode pointee) {
 		setNode(pointee);
 	}
 	
+	//gets the color of the StateNode
 	public Color getColor() {
 		return stateColor;
 	}
 	
+	//gets the array of states of the StateNode
 	public int[] getStates() {
 		return states;
 	}
 	
+	//sets the nextState to the StateNode which represents the next state
 	public void setNextState(StateNode next) {
 		this.nextState = next;
 	}
 	
-	//Moves this StateNode to the nextState
+	/**
+	 * Makes this StateNode the next state node
+	 * and points the new prevState to the state
+	 * the StateNode was just in
+	 */
 	public void moveForward() {
 		StateNode pointer = new StateNode(this);
 		this.setNode(nextState);
 		this.prevState = pointer;
 	}
 	
-	
+	//refactored code for creating a pointer 
 	private void setNode(StateNode target) {
 		stateColor = target.stateColor;
 		states = target.states;
