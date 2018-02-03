@@ -11,6 +11,9 @@ public abstract class CellModel {
 	protected StateNode state;
 	protected CellModel[] neighbors;
 	
+	//For XMLFile identification purposes
+	public static final String DATA_TYPE = "Model";
+	
 	
 	public CellModel() {
 		

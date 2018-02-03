@@ -45,16 +45,30 @@ public class XMLParser {
         }
     }
     
+    
+    public CellModel getModel(File dataFile){
+    	Element root = getRootElement(dataFile);
+    	if(!isValidFile(root, CellModel.DATA_TYPE)) {
+    		throw new XMLException(ERROR_MESSAGE, CellModel.DATA_TYPE);
+    	}
+    	
+    	
+    	return null;
+    	
+    }
+    
+    
+    
     // Returns if this is a valid XML file for the specified object type
     private boolean isValidFile (Element root, String type) {
         return getAttribute(root, TYPE_ATTRIBUTE).equals(type);
     }
     
-    
     // Get value of Element's attribute
     private String getAttribute (Element e, String attributeName) {
         return e.getAttribute(attributeName);
     }
+    
     
     // Get root element of an XML file
     private Element getRootElement (File xmlFile) {
@@ -67,10 +81,4 @@ public class XMLParser {
             throw new XMLException(e);
         }
     }
-
-
-
-
-
-
 }
