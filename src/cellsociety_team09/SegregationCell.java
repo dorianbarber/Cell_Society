@@ -107,7 +107,7 @@ public class SegregationCell extends CellModel
 		}
 	}
 		
-	public void moveForward(ArrayList<ArrayList<Cell>> grid)
+	public void moveForward(ArrayList<ArrayList<CellModel>> grid)
 	{
 		
 		
@@ -116,6 +116,22 @@ public class SegregationCell extends CellModel
 	{
 		return state.getStates();
 	}
+
+
+
+
+
+	@Override
+	void getNeighbors(int row, int col, ArrayList<ArrayList<CellModel>> grid) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+
+
+	
 	
 	
 }

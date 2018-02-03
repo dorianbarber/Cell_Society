@@ -31,5 +31,11 @@ public abstract class CellModel extends Shape{
 	}
 	
 	
+	@Override
+	public com.sun.javafx.geom.Shape impl_configShape() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
 }
 
