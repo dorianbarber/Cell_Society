@@ -1,4 +1,3 @@
-
 CELL SOCIETY TEAM 09
 ===================
 
@@ -46,7 +45,7 @@ The user interface will be handled and defined in the Menu class. It will be abl
 ### Design Details
 **Menu** 
 * The menu class will house instance variables, including, but not limited to:
-```java
+```
 private scene myScene;
 private root myRoot;
 private int animationSpeed;
@@ -56,7 +55,7 @@ private Grid myGrid;
 private List<Model> models;
 ```
 It will also include several methods that serve to initialize the stage and scene and allow the user to choose a simulation. 
-```java
+```
 //Will return the beginning scene
 //(i.e. with a blank grid of default size
 private Scene setUp(int gridsize, int startspeed){}
@@ -77,7 +76,7 @@ private void setModel(Grid g){}
 ```
 **Grid**
 The grid class will mainly include two instance variables, though more will likely have to be included during implementation :
-```java
+```
 //our implementation is undecided at the moment, but it
 //will be some form of two-d grid of Cell ojects
 //it has been written here as a two-d array for //simplicity
@@ -86,7 +85,7 @@ private Model currentModel;
 ```
 It will also include methods to update each Cell object within our Cell-containing data structure and to update its model variable
 
-```java
+```
 //Gets information about initial Cell placement from //provided file
 private Cell[][] getInfo(File f){}
 //Runs through the data structure and calls 
@@ -107,7 +106,7 @@ private Scene getNextScene(){}
 **Model -- Abstract**
 
 The Model will define how Cell variables change state using methods which take cells as parameters. Each model will have a different method implementation based on the rules of the simulation the model represents.
-```java
+```
 //Takes in a Cell and sets that Cell's nextCell variable
 //to a new Cell determined by the rules of the specific //game  
 private void updateCell(Cell c){}
@@ -117,7 +116,7 @@ private void updateCell(Cell c){}
 private void getSimulation(File f){}
 ```
 One instance variable that will certainly be necessary is one to hold all of the integers representing states and their mappings to a Cell's color in the display
-```java
+```
 //This HashMap will contain the integer values 
 //and strings which
 //represent states according to the read file data
@@ -129,12 +128,12 @@ private HashMap<Integer, String> states;
 **Cell -- Abstract**
 
 Each Cell object will have several instance variables to represent its past, present, and future states, as well as the group of Cells which are its neighbors. The size of the neighbors list will change depending on what kind of Cell it is. 
-```java
+```
 private Cell previousState, currentState, nextState;
 List<Cell> neighbors;
 ```
 It will also include methods which enable setting and getting all of those states
-```java
+```
 private Cell getPreviousState(){}
 private Cell getCurrentState(){}
 ... and so on
