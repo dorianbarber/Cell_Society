@@ -3,7 +3,8 @@ package cellsociety_team09;
 
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Shape;
-import java.util.*;
+import java.util.ArrayList;
+
 public abstract class CellModel {
 	protected Shape shape;
 	protected Color color;

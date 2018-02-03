@@ -9,7 +9,7 @@ public class Grid {
 	private int gridSize;
 	private Group cellSet;
 	private static final CellModel[] possibleModels= {
-			
+			new SegregationCell()
 	};
 	
 	public Grid(int size, int modelChoice) {
