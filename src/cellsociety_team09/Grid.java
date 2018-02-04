@@ -2,7 +2,7 @@ package cellsociety_team09;
 
 import java.util.ArrayList;
 
-import javafx.scene.Group;
+//import javafx.scene.Group;
 
 /**
  * Manager for cell interactions, 
@@ -23,7 +23,8 @@ public class Grid {
 		gridCells = new  ArrayList<ArrayList<CellModel>>();
 		for(int i = 0; i < gridSize; i++) {
 			for(int j = 0; j < gridSize; j++) {
-				gridCells.get(i).set(j, possibleModels[modelChoice]);
+				gridCells.add(new ArrayList<CellModel>());
+				gridCells.get(i).add(possibleModels[modelChoice]);
 				//cellSet.getChildren().add(gridCells.get(i).get(j));
 			}
 		}
@@ -62,5 +63,9 @@ public class Grid {
 			}
 		}
 		this.findCellNeighbors();
+	}
+	
+	public static void main(String[] args) {
+		Grid tester = new Grid(125, 0);
 	}
 }

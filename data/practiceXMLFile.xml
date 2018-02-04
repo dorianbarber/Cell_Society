@@ -1,1 +1,15 @@
-<Model>SegregationCell</Model>
+<data type="Model">
+	SegregationCell
+	<Simulation>Schelling's Model of Segregation</Simulation>
+	<Author>Conrad Mitchell</Author>
+	<Size>36</Size>
+	<integer-array name = "Values">
+		<value>0</value><value>0</value><value>0</value><value>0</value><value>0</value><value>0</value>
+		<value>0</value><value>0</value><value>0</value><value>0</value><value>0</value><value>0</value>
+		<value>1</value><value>1</value><value>1</value><value>1</value><value>2</value><value>2</value>
+		<value>2</value><value>2</value><value>0</value><value>0</value><value>0</value><value>0</value>
+		<value>0</value><value>0</value><value>0</value><value>0</value><value>0</value><value>0</value>
+		<value>0</value><value>0</value><value>0</value><value>0</value><value>0</value><value>0</value>
+	</integer-array>
+
+</data>
