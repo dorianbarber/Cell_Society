@@ -73,7 +73,7 @@ public class Menu extends Application{
 		return speedtoggle;
 	}
 	private Button getPlayButton(){
-		Image play = new Image(getClass().getResourceAsStream("../playicon.png"), 30, 30, false, false);
+		Image play = new Image(getClass().getResourceAsStream("../pauseicon.png"), 30, 30, false, false);
 		Button playbutton = new Button("", new ImageView(play));
 		playbutton.setLayoutX(myGrid.getX() + myGrid.getDimensions() / 2 - 3 * BUTTONOFFSET);
 		playbutton.setLayoutY(myGrid.getY() + myGrid.getDimensions() + BUTTONOFFSET);

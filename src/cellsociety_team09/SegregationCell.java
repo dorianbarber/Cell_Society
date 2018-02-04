@@ -17,14 +17,26 @@ public class SegregationCell extends CellModel
 	private double t;
 	private boolean ismoving=false;
 	
-	public SegregationCell()
+	public SegregationCell(int cellstates, double moveprb)
 	{
-		t=.5;
+		t=moveprb;
 		shape = new Rectangle(1,1);
-		color = Color.WHITE;
-		int[] states= {1};
+		color = colors[cellstates];
+		int[] states= {cellstates};
 		state = new StateNode(color,states);
 		neighbors = new SegregationCell[]{null};
+	}
+	
+	public SegregationCell()
+	{
+		this(0,.5);
+	}
+	
+	
+	
+	
+	public void getInput(int[] states)
+	{
 	}
 	
 	
@@ -173,10 +185,3 @@ public class SegregationCell extends CellModel
 		return((double)(mecount))/(notmecount+mecount);
 	}
 }
-
-
-	
-	
-
-
-

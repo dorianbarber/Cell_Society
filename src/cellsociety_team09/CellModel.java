@@ -11,9 +11,7 @@ public abstract class CellModel {
 	protected CellModel[] neighbors;
 	
 	
-	public CellModel() {
-		
-	}
+	public CellModel(){}
 	
 	abstract void getNeighbors(int row, int col, ArrayList<ArrayList<CellModel>> grid );
 	

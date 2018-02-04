@@ -24,6 +24,12 @@ public class StateNode {
 		return states;
 	}
 	
+	public void setState(Color c, int[] currentstates)
+	{
+		stateColor=c;
+		states=currentstates; 
+	}
+	
 	public void setNextState(StateNode next) {
 		nextState = next;
 	}
