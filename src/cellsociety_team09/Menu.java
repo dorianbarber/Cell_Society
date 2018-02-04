@@ -106,7 +106,6 @@ public class Menu extends Application{
 		root.getChildren().add(myBox);
 		root.getChildren().add(getText());
 		root.getChildren().add(getBackStepButton());
-		
 		return scene;
 	}
 	private Slider getAnimationSpeedSlider(){

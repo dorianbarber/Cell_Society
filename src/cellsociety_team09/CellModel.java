@@ -1,7 +1,6 @@
 
 package cellsociety_team09;
 
-import javafx.scene.Node;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Shape;
 import java.util.ArrayList;
@@ -24,12 +23,13 @@ public abstract class CellModel extends Shape{
 	
 	abstract void findNextState();
 
+
 	public abstract void moveForward(ArrayList<ArrayList<CellModel>> cellgrid);
 	
 	public abstract void getInput(ArrayList<Integer> states);
 
 	public Color getColor(){
-		return color;
+        return color;
 	}
 	
 	
@@ -39,5 +39,14 @@ public abstract class CellModel extends Shape{
 		return null;
 	}
 	
+<<<<<<< src/cellsociety_team09/CellModel.java
+	
+	//@Conrad this is a method so that I can test whether the grid
+	//class works well. I will delete this later. -Dorian
+	public String getState() {
+		return state.getStates()[0] + "";
+	}
+=======
+>>>>>>> src/cellsociety_team09/CellModel.java
 }
 

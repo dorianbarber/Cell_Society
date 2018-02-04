@@ -8,10 +8,10 @@ import javafx.scene.shape.Shape;
 
 public class SegregationCell extends CellModel 
 {
-	public static final int EMPTYCELL=0;
-	public static final int TYPE1=1;
-	public static final int TYPE2=2;
-	public static final int MOVING=3;
+	public static final int EMPTYCELL = 0;
+	public static final int TYPE1 = 1;
+	public static final int TYPE2 = 2;
+	public static final int MOVING = 3;
 	public static final Color[] colors = {Color.WHITE, Color.AZURE, Color.RED};
 
 	private double t;
@@ -139,6 +139,7 @@ public class SegregationCell extends CellModel
 			state.setNextState(s);
 		}
 	}
+		
 	
 	
 	public void moveForward(ArrayList<ArrayList<CellModel>> cellgrid)
@@ -168,24 +169,6 @@ public class SegregationCell extends CellModel
 	}
 
 
-	public Color getColor(){
-		return color;
-	}
-
-
-	@Override
-	void getNeighbors(int row, int col, ArrayList<ArrayList<CellModel>> grid) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-
-
-
-	
-	
-	
 	private SegregationCell[][] convertGrid(ArrayList<ArrayList<CellModel>> cellgrid)
 	{
 		SegregationCell[][] grid= new SegregationCell[cellgrid.size()][cellgrid.get(0).size()];
