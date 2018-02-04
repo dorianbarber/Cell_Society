@@ -15,9 +15,7 @@ public abstract class CellModel extends Shape{
 	public static final String DATA_TYPE = "Model";
 	
 	
-	public CellModel() {
-		
-	}
+	public CellModel(){}
 	
 	abstract void getNeighbors(int row, int col, ArrayList<ArrayList<CellModel>> grid );
 	
@@ -25,8 +23,13 @@ public abstract class CellModel extends Shape{
 	
 	abstract void findNextState();
 
-	public void moveForward(ArrayList<ArrayList<CellModel>> cellgrid) {
-		state.moveForward();
+
+	public abstract void moveForward(ArrayList<ArrayList<CellModel>> cellgrid);
+	
+	public abstract void getInput(ArrayList<Integer> states);
+
+	public Color getColor(){
+        return color;
 	}
 	
 	
@@ -36,11 +39,14 @@ public abstract class CellModel extends Shape{
 		return null;
 	}
 	
+<<<<<<< src/cellsociety_team09/CellModel.java
 	
 	//@Conrad this is a method so that I can test whether the grid
 	//class works well. I will delete this later. -Dorian
 	public String getState() {
 		return state.getStates()[0] + "";
 	}
+=======
+>>>>>>> src/cellsociety_team09/CellModel.java
 }
 
