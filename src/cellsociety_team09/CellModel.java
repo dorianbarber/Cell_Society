@@ -21,10 +21,9 @@ public abstract class CellModel {
 	
 	abstract void findNextState();
 
-	public void moveForward(ArrayList<ArrayList<CellModel>> cellgrid) {
-		state.moveForward();
-	}
-
+	public abstract void moveForward(ArrayList<ArrayList<CellModel>> cellgrid);
+	
+	public abstract void getInput(ArrayList<Integer> states);
 
 }
 
