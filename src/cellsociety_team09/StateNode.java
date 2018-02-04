@@ -41,7 +41,12 @@ public class StateNode {
 		return states;
 	}
 	
-	//sets the nextState to the StateNode which represents the next state
+	public void setState(Color c, int[] currentstates)
+	{
+		stateColor=c;
+		states=currentstates; 
+	}
+	
 	public void setNextState(StateNode next) {
 		this.nextState = next;
 	}

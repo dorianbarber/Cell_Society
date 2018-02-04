@@ -2,7 +2,7 @@ package cellsociety_team09;
 
 import java.util.ArrayList;
 
-import javafx.scene.Group;
+//import javafx.scene.Group;
 
 /**
  * Manager for cell interactions, 
@@ -29,8 +29,13 @@ public class Grid {
 	}
 	
 	//supposed to return the set of cells for the menu class to use
-	public Group getCells() {
-		return cellSet;
+	public ArrayList<ArrayList<CellModel>> getCells() {
+		return gridCells;
+	}
+	
+	//returns the dimension of the grid
+	public int getGridSize() {
+		return gridSize;
 	}
 	
 	/**
@@ -52,12 +57,14 @@ public class Grid {
 	public void moveSimulationForward() {
 		for(int i = 0; i < gridSize; i++) {
 			for(int j = 0; j < gridSize; j++) {
-				gridCells.get(i).get(j).moveForward();
+				gridCells.get(i).get(j).moveForward(gridCells);
 			}
 		}
 		this.findCellNeighbors();
 	}
-	public ArrayList<ArrayList<CellModel>> getCellSet(){
-		return gridCells;
+	
+	public static void main(String[] args) {
+		Grid tester = new Grid(125, 0);
 	}
 }
+
