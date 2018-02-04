@@ -13,6 +13,7 @@ public class Grid {
 	private ArrayList<ArrayList<CellModel>> gridCells; 
 	private int gridSize;
 	private static final CellModel[] possibleModels= {
+			new LifeCell(),
 			new SegregationCell()
 	};
 	
@@ -56,7 +57,7 @@ public class Grid {
 	public void moveSimulationForward() {
 		for(int i = 0; i < gridSize; i++) {
 			for(int j = 0; j < gridSize; j++) {
-				gridCells.get(i).get(j).moveForward();
+				gridCells.get(i).get(j).moveForward(gridCells);
 			}
 		}
 		this.findCellNeighbors();
@@ -74,5 +75,7 @@ public class Grid {
 			}
 			System.out.println();
 		}
+		Grid tester = new Grid(125, 0);
 	}
 }
+

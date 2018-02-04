@@ -34,6 +34,8 @@ public class XMLParser {
     
     
     private NodeList children;
+    private ArrayList<ArrayList<Integer>> xmlEdits;
+    
     private static final List<String> DATA_FIELDS = Arrays.asList(new String[] {
     		"Simulation",
     		"Author",
@@ -65,12 +67,24 @@ public class XMLParser {
     	for(String field : DATA_FIELDS) {
     		results.put(field, getTextValue(root, field));
     	}
+    	
     	ArrayList<String> list = new ArrayList<>();
-    	System.out.println(children.getLength());
-    	for(int i = 0; i < children.getLength(); i++) {
+    	for(int i = 1; i < children.getLength(); i += 2) {
     		list.add(children.item(i).getTextContent());
-    		System.out.println(list.get(i).trim());
     	}
+    	for(int j = 0; j < list.size(); j++) {
+    		xmlEdits.add(new ArrayList<Integer>());
+    		String edit = list.get(j);
+    		int startPos = 0;
+    		int spacePosition = 0;
+    		while(edit.indexOf(" ", spacePosition) != -1) {
+    			String element = edit.substring(startPos, edit.indexOf(" ", spacePosition));
+    			Integer number = Integer.parseInt(element);
+    			xmlEdits.get(j).add(number);
+    			spacePosition = edit.indexOf(" ", spacePosition) + 1;
+    		}
+    	}
+    	
     	return results;
     }
     
@@ -108,11 +122,6 @@ public class XMLParser {
     // Returns if this is a valid XML file for the specified object type
     private boolean isValidFile (Element root, String type) {
         return getAttribute(root, TYPE_ATTRIBUTE).equals(type);
-    }
-    
-    
-    private void getNodeList() {
-    	
     }
     
     

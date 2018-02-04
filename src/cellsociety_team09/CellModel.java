@@ -1,7 +1,6 @@
 
 package cellsociety_team09;
 
-import javafx.scene.Node;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Shape;
 import java.util.ArrayList;
@@ -26,7 +25,7 @@ public abstract class CellModel extends Shape{
 	
 	abstract void findNextState();
 
-	public void moveForward() {
+	public void moveForward(ArrayList<ArrayList<CellModel>> cellgrid) {
 		state.moveForward();
 	}
 	
