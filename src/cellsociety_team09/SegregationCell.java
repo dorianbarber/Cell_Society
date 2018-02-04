@@ -126,7 +126,6 @@ public class SegregationCell extends CellModel
 			StateNode s = new StateNode(colors[me],new int[] {me});
 			state.setNextState(s);
 		}
-		
 	}
 	
 	
@@ -149,11 +148,8 @@ public class SegregationCell extends CellModel
 						break Outerloop;
 					}
 				}
-		
 	}
 		
-		
-	
 	public int[] getStates()
 	{
 		return state.getStates();
