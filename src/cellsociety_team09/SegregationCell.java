@@ -8,17 +8,17 @@ import javafx.scene.shape.Shape;
 
 public class SegregationCell extends CellModel 
 {
-	public static final int EMPTYCELL=0;
-	public static final int TYPE1=1;
-	public static final int TYPE2=2;
-	public static final int MOVING=3;
+	public static final int EMPTYCELL = 0;
+	public static final int TYPE1 = 1;
+	public static final int TYPE2 = 2;
+	public static final int MOVING = 3;
 
 	private double t;
 	private int ncount;
 	
 	public SegregationCell()
 	{
-		t=.5;
+		t = .5;
 		shape = new Rectangle(1,1);
 		color = Color.BLACK;
 		int[] states= {1};

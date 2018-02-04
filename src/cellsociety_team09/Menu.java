@@ -49,7 +49,7 @@ public class Menu extends Application{
 	private final int DROPOFFSET = 15;
 	private final int SLIDERSIZE = 300;
 	private final int BUTTONSIZE = 30;
-	private GridView myGrid;
+	private SquareGridView myGrid;
 	private int blocksize;
 	private double stepincrement = FRAMES_PER_SECOND;
 	private double sliderx;
@@ -65,7 +65,7 @@ public class Menu extends Application{
 
 	@Override
 	public void start(Stage stage) {
-		myScene = initializeStart (WIDTH, HEIGHT, BACKGROUND);	
+		myScene = initializeStart(WIDTH, HEIGHT, BACKGROUND);	
 		myStage = stage;
 		myStage.setScene(myScene);
 		myStage.show();
@@ -80,17 +80,7 @@ public class Menu extends Application{
 		animation.getKeyFrames().add(frame);
 	}
 	private void step(double elapsedTime) {
-//		myRoot.getChildren().remove(test);
-//		Random rand = new Random();
-//		if (test.getFill() == Color.BLUE){	
-//			test.setFill(Color.RED);
-//		}
-//		else {
-//			test.setFill(Color.BLUE);
-//		}
-//		myRoot.getChildren().add(test);
-		//System.out.println(stepincrement);
-		//System.out.println("HI");
+
 		myRoot.getChildren().remove(gridgroup);
 		gridgroup = myGrid.drawRandomGrid(WIDTH, HEIGHT, blocksize);
 		myRoot.getChildren().add(gridgroup);
@@ -100,7 +90,7 @@ public class Menu extends Application{
 		blocksize = 10;
 		Group root = new Group();
 		myRoot = root;
-		myGrid = new GridView(GRIDX, GRIDY, blocksize, GRIDSIZE);
+		myGrid = new SquareGridView(GRIDX, GRIDY, blocksize, GRIDSIZE);
 		Scene scene = new Scene(root, screenwidth, screenheight, paint);
 		gridgroup = myGrid.drawBlankGrid(screenwidth, screenheight, blocksize);
 		root.getChildren().add(gridgroup);
