@@ -13,10 +13,8 @@ import java.util.ArrayList;
 public class Grid {
 	private ArrayList<ArrayList<CellModel>> gridCells; 
 	private int gridSize;
-	//private Group cellSet;
-	private static final CellModel[] possibleModels= {
-			new SegregationCell()
-	};
+	private Group cellSet;
+	private static final CellModel[] possibleModels = {new SegregationCell()};
 	
 	public Grid(int size, int modelChoice) {
 		gridSize = size;
