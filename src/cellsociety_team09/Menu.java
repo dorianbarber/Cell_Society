@@ -54,6 +54,7 @@ public class Menu extends Application{
 	private double stepincrement = FRAMES_PER_SECOND;
 	private double sliderx;
 	private Group gridgroup;
+
 	
 	
     /**
@@ -101,7 +102,6 @@ public class Menu extends Application{
 		root.getChildren().add(getMenu());
 		root.getChildren().add(getText());
 		root.getChildren().add(getBackStepButton());
-		
 		return scene;
 	}
 	private Slider getAnimationSpeedSlider(){

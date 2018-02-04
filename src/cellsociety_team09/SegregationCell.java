@@ -129,7 +129,8 @@ public class SegregationCell extends CellModel
 
 
 
-
+	
+	
 
 	
 	

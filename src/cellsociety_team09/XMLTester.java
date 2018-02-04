@@ -30,7 +30,6 @@ public class XMLTester extends Application{
                 for(String s: map.keySet()) {
                 	//System.out.println(s+": " + map.get(s));
                 }
-                xml.printStates();
             }
             catch (XMLException e) {
                 Alert a = new Alert(AlertType.ERROR);

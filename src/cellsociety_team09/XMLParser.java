@@ -18,14 +18,6 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-import javafx.application.Application;
-import javafx.application.Platform;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
-import javafx.stage.FileChooser;
-import javafx.stage.FileChooser.ExtensionFilter;
-import javafx.stage.Stage;
-
 /**
  * Parses XML files to get exactly what is necessary
  * 
@@ -41,12 +33,12 @@ public class XMLParser {
     private final DocumentBuilder DOCUMENT_BUILDER;
     
     
-    private List<Integer> stateList = null;
+    private NodeList children;
     private static final List<String> DATA_FIELDS = Arrays.asList(new String[] {
     		"Simulation",
     		"Author",
     		"Size",
-    		"integer-array"
+    		"gridEdits"
     });
     
     
@@ -69,29 +61,17 @@ public class XMLParser {
     	if(!isValidFile(root, CellModel.DATA_TYPE)) {
     		throw new XMLException(ERROR_MESSAGE, CellModel.DATA_TYPE);
     	}
-    	ArrayList<Integer> list = new ArrayList<>();
-    	int length = 0;
     	Map<String, String> results = new HashMap<>();
     	for(String field : DATA_FIELDS) {
     		results.put(field, getTextValue(root, field));
-    		if(field.equals("Size")) {
-    			length = Integer.parseInt(getTextValue(root, field));
-    		}
     	}
-    	for(int i = 0; i < length; i++) {
-    		list.add(Integer.parseInt(getNextSibling());
-    		//System.out.print();
+    	ArrayList<String> list = new ArrayList<>();
+    	System.out.println(children.getLength());
+    	for(int i = 0; i < children.getLength(); i++) {
+    		list.add(children.item(i).getTextContent());
+    		System.out.println(list.get(i).trim());
     	}
-    	stateList = list;
-    	
     	return results;
-    }
-    
-    
-    public void printStates() {
-    	for(Integer i: stateList) {
-    		System.out.print(i + " ");
-    	}
     }
     
     // Helper method to make a documentBuilder.
@@ -105,32 +85,14 @@ public class XMLParser {
     }
     
     
-    
-    public Node findSubNode(String name, Node node) {
-        if (node.getNodeType() != Node.ELEMENT_NODE) {
-            System.err.println("Error: Search node not of element type");
-            System.exit(22);
-        }
-
-        if (! node.hasChildNodes()) return null;
-
-        NodeList list = node.getChildNodes();
-        for (int i=0; i < list.getLength(); i++) {
-            Node subnode = list.item(i);
-            if (subnode.getNodeType() == Node.ELEMENT_NODE) {
-               if (subnode.getNodeName().equals(name)) 
-                   return subnode;
-            }
-        }
-        return null;
-    }
-    
-    
     // Get root element of an XML file
     private Element getRootElement (File xmlFile) {
         try {
             DOCUMENT_BUILDER.reset();
-            Document xmlDocument = DOCUMENT_BUILDER.parse(xmlFile);
+            Document xmlDocument = DOCUMENT_BUILDER.parse(xmlFile); 
+            NodeList briefNode = xmlDocument.getElementsByTagName("gridEdits");
+            System.out.println(briefNode.getLength());
+            children = briefNode.item(0).getChildNodes();
             return xmlDocument.getDocumentElement();
         }
         catch (SAXException | IOException e) {
@@ -149,7 +111,9 @@ public class XMLParser {
     }
     
     
-    
+    private void getNodeList() {
+    	
+    }
     
     
 

@@ -37,5 +37,11 @@ public abstract class CellModel extends Shape{
 		return null;
 	}
 	
+	
+	//@Conrad this is a method so that I can test whether the grid
+	//class works well. I will delete this later. -Dorian
+	public String getState() {
+		return state.getStates()[0] + "";
+	}
 }
 
