@@ -14,17 +14,16 @@ public class Grid {
 	private ArrayList<ArrayList<CellModel>> gridCells; 
 	private int gridSize;
 	private Group cellSet;
-	private static final CellModel[] possibleModels= {
-			new SegregationCell()
-	};
+	private static final CellModel[] possibleModels = {new SegregationCell()};
 	
 	public Grid(int size, int modelChoice) {
 		gridSize = size;
 		gridCells = new  ArrayList<ArrayList<CellModel>>();
 		for(int i = 0; i < gridSize; i++) {
 			for(int j = 0; j < gridSize; j++) {
-				gridCells.get(i).set(j, possibleModels[modelChoice]);
-				cellSet.getChildren().add(gridCells.get(i).get(j));
+				gridCells.add(new ArrayList<CellModel>());
+				gridCells.get(i).add(possibleModels[modelChoice]);
+				//cellSet.getChildren().add(gridCells.get(i).get(j));
 			}
 		}
 	}
@@ -57,5 +56,8 @@ public class Grid {
 			}
 		}
 		this.findCellNeighbors();
+	}
+	public ArrayList<ArrayList<CellModel>> getCellSet(){
+		return gridCells;
 	}
 }

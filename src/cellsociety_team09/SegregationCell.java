@@ -118,7 +118,9 @@ public class SegregationCell extends CellModel
 	}
 
 
-
+	public Color getColor(){
+		return color;
+	}
 
 
 	@Override

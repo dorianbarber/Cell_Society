@@ -54,7 +54,9 @@ public class Menu extends Application{
 	private double stepincrement = FRAMES_PER_SECOND;
 	private double sliderx;
 	private Group gridgroup;
-	
+	private Grid grid;
+	private ComboBox<String> myBox;
+	private boolean happened = true;
 	
     /**
      * Start the program.
@@ -80,10 +82,11 @@ public class Menu extends Application{
 		animation.getKeyFrames().add(frame);
 	}
 	private void step(double elapsedTime) {
-
+		
 		myRoot.getChildren().remove(gridgroup);
-		gridgroup = myGrid.drawRandomGrid(WIDTH, HEIGHT, blocksize);
+		gridgroup = myGrid.drawGrid(grid, WIDTH, HEIGHT, blocksize);
 		myRoot.getChildren().add(gridgroup);
+		//grid.moveSimulationForward();
 	}
 	
 	private Scene initializeStart(int screenwidth, int screenheight, Color paint){
@@ -91,6 +94,7 @@ public class Menu extends Application{
 		Group root = new Group();
 		myRoot = root;
 		myGrid = new SquareGridView(GRIDX, GRIDY, blocksize, GRIDSIZE);
+		grid = new Grid(125,0);
 		Scene scene = new Scene(root, screenwidth, screenheight, paint);
 		gridgroup = myGrid.drawBlankGrid(screenwidth, screenheight, blocksize);
 		root.getChildren().add(gridgroup);
@@ -98,7 +102,8 @@ public class Menu extends Application{
 		root.getChildren().add(getPlayButton());
 		root.getChildren().add(getPauseButton());
 		root.getChildren().add(getStepForwardButton());
-		root.getChildren().add(getMenu());
+		myBox = getMenu();
+		root.getChildren().add(myBox);
 		root.getChildren().add(getText());
 		root.getChildren().add(getBackStepButton());
 		
@@ -181,8 +186,57 @@ public class Menu extends Application{
 		ComboBox<String> combobox = new ComboBox<String>(options);
 		combobox.setLayoutX(GRIDSIZE + GRIDX + DROPOFFSET);
 		combobox.setLayoutY(2 * GRIDY);
+		//combobox.setValue("Game of Life");
+		combobox.valueProperty().addListener((option, oldvalue, newvalue) -> {
+			handleBoxInput(oldvalue, newvalue);
+		});
+		
 		return combobox;
 	}
+	private void handleBoxInput(String oldvalue, String newvalue) {
+		if (happened) {
+			if (oldvalue == null) {
+				oldvalue = "";
+			}
+			if (oldvalue.equals(newvalue)) {
+				return;
+			}
+			if (newvalue.equals("Game of Life")) {
+				myScene = initializeStart(WIDTH, HEIGHT, BACKGROUND);
+				myStage.setScene(myScene);
+				myStage.show();
+				happened = false;
+				myBox.setValue("Game of Life");
+			} else {
+				myScene = initializeSegregation(WIDTH, HEIGHT, BACKGROUND);
+				myStage.setScene(myScene);
+				myStage.show();
+			} 
+		}
+		happened = true;
+	}
+
+	private Scene initializeSegregation(int screenwidth, int screenheight, Color background) {
+		blocksize = 10;
+		Group root = new Group();
+		myRoot = root;
+		myGrid = new SquareGridView(GRIDX, GRIDY, blocksize, GRIDSIZE);
+		grid = new Grid(125,0);
+		Scene scene = new Scene(root, screenwidth, screenheight, background);
+		gridgroup = myGrid.drawBlankGrid(screenwidth, screenheight, blocksize);
+		root.getChildren().add(gridgroup);
+		root.getChildren().add(getAnimationSpeedSlider());
+		root.getChildren().add(getPlayButton());
+		root.getChildren().add(getPauseButton());
+		root.getChildren().add(getStepForwardButton());
+		myBox = getMenu();
+		root.getChildren().add(myBox);
+		root.getChildren().add(getText());
+		root.getChildren().add(getBackStepButton());
+		
+		return scene;
+	}
+
 	private Group getText(){
 		Text description = new Text();
 		description.setLayoutX(GRIDSIZE + GRIDX + DROPOFFSET / 2);
