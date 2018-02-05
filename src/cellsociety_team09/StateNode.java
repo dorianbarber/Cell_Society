@@ -43,7 +43,7 @@ public class StateNode {
 	
 	//sets the nextState to the StateNode which represents the next state
 	public void setNextState(StateNode next) {
-		this.nextState = next;
+		nextState = next;
 	}
 	
 	/**

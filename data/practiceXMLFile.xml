@@ -4,8 +4,8 @@
 	<Author>Conrad Mitchell</Author>
 	<Size>10</Size>
 	<gridEdits>
-		<point1>5 5 1</point1>
-		<point2>8 8 1</point2>
-		<point3>6 2 1</point3>
+		<point>5 5 1</point>
+		<point>8 8 1</point>
+		<point>6 2 1</point>
 	</gridEdits>
 </data>

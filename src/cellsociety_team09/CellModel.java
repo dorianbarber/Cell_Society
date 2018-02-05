@@ -28,6 +28,9 @@ public abstract class CellModel extends Shape{
 	public void moveForward(ArrayList<ArrayList<CellModel>> cellgrid) {
 		state.moveForward();
 	}
+	public Color getColor(){
+		return color;
+	}
 	
 	
 	@Override

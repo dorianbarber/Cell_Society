@@ -1,6 +1,10 @@
 package cellsociety_team09;
 
+import java.io.File;
 import java.util.ArrayList;
+import java.util.Map;
+
+import javax.swing.JFileChooser;
 
 
 /**
@@ -65,6 +69,7 @@ public class Grid {
 	
 	public static void main(String[] args) {
 		Grid tester = new Grid(10, 0);
+		ArrayList<ArrayList<Integer>> edits = tester.getXMLFile();
 		tester.printGrid();
 	}
 	
@@ -75,7 +80,17 @@ public class Grid {
 			}
 			System.out.println();
 		}
-		Grid tester = new Grid(125, 0);
+	}
+	
+	public ArrayList<ArrayList<CellModel>> getCellSet(){
+		return gridCells;
+	}
+	
+	public ArrayList<ArrayList<Integer>> getXMLFile() {
+		XMLParser xml = new XMLParser("type");
+	    File file = new File("data\\practiceXMLFile.xml");
+		Map<String, String> map = xml.getModel(file);
+		return xml.getEdits();
 	}
 }
 

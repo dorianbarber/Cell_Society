@@ -36,11 +36,11 @@ public class LifeCell extends CellModel {
 				alivecount++;
 		if(getStates()[0]==ALIVESTATE && (alivecount==2) || alivecount==3)
 		{
-			 s = new StateNode(colors[ALIVESTATE],new int[]{1});
+			 s = new StateNode(colors[ALIVESTATE], new int[]{ALIVESTATE});
 		}
 		else
 		{
-			 s = new StateNode(colors[DEADSTATE],new int[]{DEADSTATE});
+			 s = new StateNode(colors[DEADSTATE], new int[]{DEADSTATE});
 		}
 		state.setNextState(s);
 	}
@@ -48,7 +48,6 @@ public class LifeCell extends CellModel {
 	public void moveForward(ArrayList<ArrayList<CellModel>> grid) {
 		state.moveForward();
 	}
-
 
 	public void getNeighbors( int r, int c, ArrayList<ArrayList<CellModel>> cellgrid)
 	{

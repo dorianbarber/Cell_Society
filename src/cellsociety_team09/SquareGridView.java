@@ -53,6 +53,22 @@ public class SquareGridView {
 		}
 		return retgroup;
 	}
+	public Group drawGrid(Grid g, int screenwidth, int screenheight, int blocksize){
+		Group retgroup = new Group();
+		int x = 0, y = 0;
+		for (double i = gridXPosition; i < gridXPosition + gridSize; i += gridBlockSize){
+			for (double j = gridYPosition; j < gridYPosition + gridSize; j += gridBlockSize){
+				Rectangle toAdd = new Rectangle(i, j, blocksize, blocksize);
+				toAdd.setFill(g.getCellSet().get(x).get(y).getColor());
+				toAdd.setStroke(Color.BLACK);
+				retgroup.getChildren().add(toAdd);
+				y++;
+			}
+			x++;
+			y = 0;
+		}
+		return retgroup;
+	}
 	public double getX(){
 		return gridXPosition;
 	}

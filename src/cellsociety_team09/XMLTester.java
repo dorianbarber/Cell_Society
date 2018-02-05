@@ -27,9 +27,6 @@ public class XMLTester extends Application{
             try {
                 XMLParser xml = new XMLParser("type");
             	Map<String, String> map = xml.getModel(dataFile);
-                for(String s: map.keySet()) {
-                	//System.out.println(s+": " + map.get(s));
-                }
             }
             catch (XMLException e) {
                 Alert a = new Alert(AlertType.ERROR);
