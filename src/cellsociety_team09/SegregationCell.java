@@ -71,8 +71,8 @@ public class SegregationCell extends CellModel
 					grid[r+1][c-1], grid[r][c-1], null}; 		
 		}
 		else if(r==(height-1)) { // bottom edge check
-			neighbors = new SegregationCell[] {grid.get(r-1).get(c), grid.get(r-1).get(c+1), grid.get(r).get(c+1),null,null, 
-					null, grid.get(r).get(c-1) , grid.get(r-1).get(c-1)};		
+			neighbors = new SegregationCell[] {null, null, grid[r][c+1], grid[r+1][c+1],grid[r+1][c], 
+					grid[r+1][c-1], grid[r][c-1],null};		
 		}
 		else if(c==0){ //left edge check
 			neighbors = new SegregationCell[] {grid[r-1][c], grid[r-1][c+1], grid[r][c+1],  grid[r+1][c+1], 

@@ -15,8 +15,10 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Slider;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
@@ -57,6 +59,7 @@ public class Menu extends Application{
 	private Grid grid;
 	private ComboBox<String> myBox;
 	private boolean happened = true;
+	private int gridsize = 20;
 	
     /**
      * Start the program.
@@ -90,11 +93,11 @@ public class Menu extends Application{
 	}
 	
 	private Scene initializeStart(int screenwidth, int screenheight, Color paint){
-		blocksize = GRIDSIZE / 10;
+		blocksize = GRIDSIZE / gridsize;
 		Group root = new Group();
 		myRoot = root;
 		myGrid = new SquareGridView(GRIDX, GRIDY, blocksize, GRIDSIZE);
-		grid = new Grid(10,0);
+		grid = new Grid(gridsize,0);
 		Scene scene = new Scene(root, screenwidth, screenheight, paint);
 		gridgroup = myGrid.drawBlankGrid(screenwidth, screenheight, blocksize);
 		root.getChildren().add(gridgroup);
@@ -106,8 +109,36 @@ public class Menu extends Application{
 		root.getChildren().add(myBox);
 		root.getChildren().add(getText());
 		root.getChildren().add(getBackStepButton());
+		root.getChildren().add(getSizeField());
 		return scene;
 	}
+	private TextField getSizeField() {
+		TextField input = new TextField();
+		input.setLayoutX(GRIDSIZE + GRIDX + DROPOFFSET / 2);
+		input.setLayoutY(400);
+		input.textProperty().addListener((option, oldvalue, newvalue) -> {
+			if (!newvalue.matches("\\d*")) {
+	            input.setText(oldvalue);
+	        }
+			gridsize = Integer.parseInt(input.getText());
+			if (gridsize > 80){
+				gridsize = 80;
+			}
+			if (gridsize < 2){
+				gridsize = 2;
+			}
+			
+		});
+		input.setOnKeyPressed((event) -> { if(event.getCode() == KeyCode.ENTER) { 
+			myScene = initializeStart(WIDTH, HEIGHT, BACKGROUND);
+			myStage.setScene(myScene);
+			myStage.show();
+			} 
+		});
+		
+		return input;
+	}
+
 	private Slider getAnimationSpeedSlider(){
 		Slider speedtoggle = new Slider();
 		speedtoggle.setLayoutY(myGrid.getY() + myGrid.getDimensions() + SLIDEROFFSET); 

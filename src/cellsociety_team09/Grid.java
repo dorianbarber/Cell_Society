@@ -26,9 +26,9 @@ public class Grid {
 				gridCells.get(i).add(new LifeCell());
 			}
 		}
-		gridCells.get(3).set(3, new LifeCell(1));
-		gridCells.get(3).set(4, new LifeCell(1));
-		gridCells.get(3).set(5, new LifeCell(1));
+//		gridCells.get(3).set(3, new LifeCell(1));
+//		gridCells.get(3).set(4, new LifeCell(1));
+//		gridCells.get(3).set(5, new LifeCell(1));
 		this.findCellNeighbors();
 	}
 	
