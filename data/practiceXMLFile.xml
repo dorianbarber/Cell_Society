@@ -1,0 +1,11 @@
+<data type="Model">
+	<Simulation>Schelling's Model of Segregation</Simulation>
+	<SimulationNumber>0</SimulationNumber>
+	<Author>Conrad Mitchell</Author>
+	<Size>10</Size>
+	<gridEdits>
+		<point1>5 5 1</point1>
+		<point2>8 8 1</point2>
+		<point3>6 2 1</point3>
+	</gridEdits>
+</data>
