@@ -39,4 +39,10 @@ public class StateNode {
 		this.nextState = this;
 		this.prevState = pointer;
 	}
+	
+	public void moveBackward() {
+		StateNode pointer = this;
+		this.nextState = this;
+		this.prevState = pointer;
+	}
 }
