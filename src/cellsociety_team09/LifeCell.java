@@ -15,7 +15,7 @@ public class LifeCell extends CellModel {
 	public LifeCell(int cellstate)
 	{
 		shape = new Rectangle(1,1);
-		color = Color.WHITE;
+		color = colors[cellstate];
 		int[] states= {cellstate};
 		state = new StateNode(color,states);
 		neighbors = new LifeCell[]{null};
@@ -36,20 +36,22 @@ public class LifeCell extends CellModel {
 	
 	public void findNextState()
 	{
-		StateNode s;
+		
 		int alivecount=0;
 		for(int a=0; a<neighbors.length; a++)
 			if(neighbors[a]!=null && neighbors[a].getStates()[0]==1)
 				alivecount++;
 		if(getStates()[0]==ALIVESTATE && (alivecount==2) || alivecount==3)
 		{
-			 s = new StateNode(colors[ALIVESTATE],new int[]{1});
+			StateNode s = new StateNode(colors[ALIVESTATE],new int[]{ALIVESTATE});
+			 state.setNextState(s);
 		}
 		else
 		{
-			 s = new StateNode(colors[DEADSTATE],new int[]{DEADSTATE});
+			StateNode s = new StateNode(colors[DEADSTATE],new int[]{DEADSTATE});
+			 state.setNextState(s);
 		}
-		state.setNextState(s);
+		
 	}
 	
 	public void moveForward(ArrayList<ArrayList<CellModel>> grid) {
@@ -66,14 +68,15 @@ public class LifeCell extends CellModel {
 	{
 		ArrayList<ArrayList<LifeCell>> grid= new ArrayList<ArrayList<LifeCell>>();
 		for(int i=0; i<cellgrid.get(0).size(); i++)
-			for(int k=0; k<cellgrid.size(); k++)
+			for(int k=0; k<cellgrid.get(0).size(); k++)
 			{
+				grid.add(new ArrayList<LifeCell>());
 				LifeCell cell=(LifeCell)cellgrid.get(k).get(i);
-				grid.get(k).set(i, cell);
+				grid.get(k).add(cell);
 			}
 		
 		int length=grid.get(0).size();
-		int height=grid.size();
+		int height=grid.get(0).size();
 		if(c==0 && r==0){
 			neighbors = new LifeCell[] {null, null,grid.get(r).get(c+1), grid.get(r+1).get(c+1), grid.get(r+1).get(c),
 					null, null, null, null};
@@ -95,8 +98,8 @@ public class LifeCell extends CellModel {
 					grid.get(r+1).get(c-1), grid.get(r).get(c-1), null}; 		
 		}
 		else if(r==(height-1)) { // bottom edge check
-			neighbors = new LifeCell[] {null, null, grid.get(r).get(c+1), grid.get(r+1).get(c+1),grid.get(r+1).get(c), 
-					grid.get(r+1).get(c-1), grid.get(r).get(c-1),null};		
+			neighbors = new LifeCell[] {grid.get(r-1).get(c), grid.get(r-1).get(c+1), grid.get(r).get(c+1),null,null, 
+					null, grid.get(r).get(c-1) , grid.get(r-1).get(c-1)};		
 		}
 		else if(c==0){ //left edge check
 			neighbors = new LifeCell[] {grid.get(r-1).get(c), grid.get(r-1).get(c+1), grid.get(r).get(c+1),  grid.get(r+1).get(c+1), 
