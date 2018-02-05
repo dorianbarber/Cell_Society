@@ -61,7 +61,7 @@ public class Menu extends Application{
 	private ComboBox<String> myBox;
 	private boolean happened = true;
 	private int gridsize = 20;
-	
+	private boolean pressed;
     /**
      * Start the program.
      */
@@ -115,7 +115,7 @@ public class Menu extends Application{
 		return scene;
 	}
 	private VBox getSizeField() {
-		Label label1 = new Label("Enter the size of the grid in cells (i.e. 4 for a 4x4 grid)");
+		Label label1 = new Label("Enter the size of the grid in cells (i.e. 4 for a 4x4 grid) -- Maximum = 200");
 		VBox hb = new VBox();
 		TextField input = new TextField();
 		label1.setWrapText(true);
@@ -125,6 +125,7 @@ public class Menu extends Application{
 		hb.setLayoutX(GRIDSIZE + GRIDX + DROPOFFSET / 2);
 		hb.setLayoutY(420);
 		hb.setMaxWidth(WIDTH - hb.getLayoutX() - 5);
+		input.setText(Integer.toString(gridsize));
 		input.textProperty().addListener((option, oldvalue, newvalue) -> {
 			if (!newvalue.matches("\\d*")) {
 	            input.setText(oldvalue);
@@ -132,8 +133,8 @@ public class Menu extends Application{
 			if (!newvalue.equals("")){
 				gridsize = Integer.parseInt(input.getText());
 			}
-			if (gridsize > 80){
-				gridsize = 80;
+			if (gridsize > 200){
+				gridsize = 200;
 			}
 			if (gridsize < 2){
 				gridsize = 2;
@@ -142,12 +143,22 @@ public class Menu extends Application{
 			
 		});
 		input.setOnKeyPressed((event) -> { if(event.getCode() == KeyCode.ENTER) { 
+			String text = input.getText();
+			//System.out.println(text);
 			//System.out.println(gridsize);
+			
 			myScene = initializeStart(WIDTH, HEIGHT, BACKGROUND);
+			input.setText(text);
 			myStage.setScene(myScene);
 			myStage.show();
 			animation.stop();
-			} 
+			pressed = false;
+			
+			//System.out.println(input.getText());
+			
+		}});
+		input.setOnMouseClicked((event) -> {
+			input.setText("");
 		});
 		
 		return hb;
