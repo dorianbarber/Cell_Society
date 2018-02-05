@@ -2,9 +2,12 @@ package cellsociety_team09;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import javax.swing.JFileChooser;
+
+import javafx.scene.Node;
 
 
 /**
@@ -33,10 +36,16 @@ public class Grid {
 				gridCells.get(i).add(possibleModels[modelChoice]);
 			}
 		}
+		ArrayList<ArrayList<Integer>> edits = this.getXMLFile(xmlModel[0]);
+		for(int i = 0; i < edits.size(); i++) {
+			int row = edits.get(i).get(0);
+			int col = edits.get(i).get(1);
+			gridCells.get(row).set(col, new LifeCell(edits.get(i).get(2)));
+		}
 	}
 	
 	//supposed to return the set of cells for the menu class to use
-	public ArrayList<ArrayList<CellModel>> getCells() {
+	public ArrayList<ArrayList<CellModel>> getCellSet() {
 		return gridCells;
 	}
 	
