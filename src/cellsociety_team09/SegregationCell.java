@@ -166,6 +166,24 @@ public class SegregationCell extends CellModel
 	{
 		return state.getStates();
 	}
+
+
+	public Color getColor(){
+		return color;
+	}
+
+
+	@Override
+	void getNeighbors(int row, int col, ArrayList<ArrayList<CellModel>> grid) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+
+
+	
 	
 	
 	private SegregationCell[][] convertGrid(ArrayList<ArrayList<CellModel>> cellgrid)
