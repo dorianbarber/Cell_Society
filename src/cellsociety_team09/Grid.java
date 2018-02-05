@@ -23,9 +23,13 @@ public class Grid {
 		for(int i = 0; i < gridSize; i++) {
 			for(int j = 0; j < gridSize; j++) {
 				gridCells.add(new ArrayList<CellModel>());
-				gridCells.get(i).add(possibleModels[modelChoice]);
+				gridCells.get(i).add(new LifeCell());
 			}
 		}
+		gridCells.get(3).set(3, new LifeCell(1));
+		gridCells.get(3).set(4, new LifeCell(1));
+		gridCells.get(3).set(5, new LifeCell(1));
+		this.findCellNeighbors();
 	}
 	
 	//supposed to return the set of cells for the menu class to use
@@ -55,12 +59,19 @@ public class Grid {
 	 * Loops through cells to move each one to their next state
 	 */
 	public void moveSimulationForward() {
+		
 		for(int i = 0; i < gridSize; i++) {
 			for(int j = 0; j < gridSize; j++) {
 				gridCells.get(i).get(j).moveForward(gridCells);
+				
 			}
 		}
-		this.findCellNeighbors();
+		for(int i = 0; i < gridSize; i++) {
+			for(int j = 0; j < gridSize; j++) {
+				gridCells.get(i).get(j).findNextState();
+			}
+		}
+		
 	}
 	
 	public static void main(String[] args) {

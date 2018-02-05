@@ -71,8 +71,8 @@ public class SegregationCell extends CellModel
 					grid[r+1][c-1], grid[r][c-1], null}; 		
 		}
 		else if(r==(height-1)) { // bottom edge check
-			neighbors = new SegregationCell[] {null, null, grid[r][c+1], grid[r+1][c+1],grid[r+1][c], 
-					grid[r+1][c-1], grid[r][c-1],null};		
+			neighbors = new SegregationCell[] {grid.get(r-1).get(c), grid.get(r-1).get(c+1), grid.get(r).get(c+1),null,null, 
+					null, grid.get(r).get(c-1) , grid.get(r-1).get(c-1)};		
 		}
 		else if(c==0){ //left edge check
 			neighbors = new SegregationCell[] {grid[r-1][c], grid[r-1][c+1], grid[r][c+1],  grid[r+1][c+1], 
@@ -184,5 +184,11 @@ public class SegregationCell extends CellModel
 	private double nPercent(int mecount, int notmecount)
 	{
 		return((double)(mecount))/(notmecount+mecount);
+	}
+
+	@Override
+	public void getInput(ArrayList<Integer> states) {
+		// TODO Auto-generated method stub
+		
 	}
 }

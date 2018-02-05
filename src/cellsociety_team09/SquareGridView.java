@@ -59,7 +59,7 @@ public class SquareGridView {
 		for (double i = gridXPosition; i < gridXPosition + gridSize; i += gridBlockSize){
 			for (double j = gridYPosition; j < gridYPosition + gridSize; j += gridBlockSize){
 				Rectangle toAdd = new Rectangle(i, j, blocksize, blocksize);
-				toAdd.setFill(g.getCellSet().get(x).get(y).getColor());
+				toAdd.setFill(g.getCells().get(x).get(y).getColor());
 				toAdd.setStroke(Color.BLACK);
 				retgroup.getChildren().add(toAdd);
 				y++;

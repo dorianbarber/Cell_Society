@@ -86,15 +86,15 @@ public class Menu extends Application{
 		myRoot.getChildren().remove(gridgroup);
 		gridgroup = myGrid.drawGrid(grid, WIDTH, HEIGHT, blocksize);
 		myRoot.getChildren().add(gridgroup);
-		//grid.moveSimulationForward();
+		grid.moveSimulationForward();
 	}
 	
 	private Scene initializeStart(int screenwidth, int screenheight, Color paint){
-		blocksize = 10;
+		blocksize = GRIDSIZE / 10;
 		Group root = new Group();
 		myRoot = root;
 		myGrid = new SquareGridView(GRIDX, GRIDY, blocksize, GRIDSIZE);
-		grid = new Grid(125,0);
+		grid = new Grid(10,0);
 		Scene scene = new Scene(root, screenwidth, screenheight, paint);
 		gridgroup = myGrid.drawBlankGrid(screenwidth, screenheight, blocksize);
 		root.getChildren().add(gridgroup);
