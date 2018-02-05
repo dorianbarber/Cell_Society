@@ -12,14 +12,21 @@ public class LifeCell extends CellModel {
 	public static final int ALIVESTATE=1;
 	public static final Color[] colors = {Color.WHITE, Color.BLACK};
 	
-	public LifeCell()
+	public LifeCell(int cellstate)
 	{
 		shape = new Rectangle(1,1);
 		color = Color.WHITE;
-		int[] states= {0};
+		int[] states= {cellstate};
 		state = new StateNode(color,states);
 		neighbors = new LifeCell[]{null};
 	}
+	
+	public LifeCell()
+	{
+		this(0);
+	}
+	
+	
 	
 	
 	public int[] getStates()
@@ -32,7 +39,7 @@ public class LifeCell extends CellModel {
 		StateNode s;
 		int alivecount=0;
 		for(int a=0; a<neighbors.length; a++)
-			if(neighbors[a].getStates()[0]==1)
+			if(neighbors[a]!=null && neighbors[a].getStates()[0]==1)
 				alivecount++;
 		if(getStates()[0]==ALIVESTATE && (alivecount==2) || alivecount==3)
 		{
@@ -47,6 +54,11 @@ public class LifeCell extends CellModel {
 	
 	public void moveForward(ArrayList<ArrayList<CellModel>> grid) {
 		state.moveForward();
+	}
+	
+	public void getInput(ArrayList<Integer> states)
+	{
+		
 	}
 
 	public void getNeighbors( int r, int c, ArrayList<ArrayList<CellModel>> cellgrid)

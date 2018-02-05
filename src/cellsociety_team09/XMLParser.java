@@ -101,7 +101,6 @@ public class XMLParser {
             DOCUMENT_BUILDER.reset();
             Document xmlDocument = DOCUMENT_BUILDER.parse(xmlFile); 
             NodeList briefNode = xmlDocument.getElementsByTagName("gridEdits");
-            System.out.println(briefNode.getLength());
             children = briefNode.item(0).getChildNodes();
             return xmlDocument.getDocumentElement();
         }
@@ -137,13 +136,7 @@ public class XMLParser {
     }
     
     
-    
-    
     public ArrayList<ArrayList<Integer>> getEdits(){
     	return xmlEdits;
     }
-    
-    
-    
-
 }
