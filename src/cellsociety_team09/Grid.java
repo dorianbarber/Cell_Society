@@ -33,7 +33,7 @@ public class Grid {
 		for(int i = 0; i < gridSize; i++) {
 			for(int j = 0; j < gridSize; j++) {
 				gridCells.add(new ArrayList<CellModel>());
-				gridCells.get(i).add(possibleModels[modelChoice]);
+				gridCells.get(i).add(new LifeCell());
 			}
 		}
 		ArrayList<ArrayList<Integer>> edits = this.getXMLFile(xmlModel[0]);
@@ -45,7 +45,7 @@ public class Grid {
 	}
 	
 	//supposed to return the set of cells for the menu class to use
-	public ArrayList<ArrayList<CellModel>> getCellSet() {
+	public ArrayList<ArrayList<CellModel>> getCells() {
 		return gridCells;
 	}
 	
@@ -71,12 +71,19 @@ public class Grid {
 	 * Loops through cells to move each one to their next state
 	 */
 	public void moveSimulationForward() {
+		
 		for(int i = 0; i < gridSize; i++) {
 			for(int j = 0; j < gridSize; j++) {
 				gridCells.get(i).get(j).moveForward(gridCells);
+				
 			}
 		}
-		this.findCellNeighbors();
+		for(int i = 0; i < gridSize; i++) {
+			for(int j = 0; j < gridSize; j++) {
+				gridCells.get(i).get(j).findNextState();
+			}
+		}
+		
 	}
 	
 	/**

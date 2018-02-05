@@ -1,7 +1,5 @@
    package cellsociety_team09;
 
-import java.util.Random;
-
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
@@ -10,16 +8,21 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Group;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -39,7 +42,7 @@ public class Menu extends Application{
 	
 	private final int WIDTH = 700;
 	private final int HEIGHT = 600;
-	private final int GRIDSIZE = 500;
+	private final double GRIDSIZE = 500;
 	private final int GRIDX = WIDTH / 20; 
 	private final int GRIDY = HEIGHT / 20;
 	private final Color BACKGROUND = Color.ANTIQUEWHITE;
@@ -50,13 +53,14 @@ public class Menu extends Application{
 	private final int SLIDERSIZE = 300;
 	private final int BUTTONSIZE = 30;
 	private SquareGridView myGrid;
-	private int blocksize;
+	private double blocksize;
 	private double stepincrement = FRAMES_PER_SECOND;
 	private double sliderx;
 	private Group gridgroup;
 	private Grid grid;
 	private ComboBox<String> myBox;
 	private boolean happened = true;
+	private int gridsize = 20;
 	
     /**
      * Start the program.
@@ -86,17 +90,18 @@ public class Menu extends Application{
 		myRoot.getChildren().remove(gridgroup);
 		gridgroup = myGrid.drawGrid(grid, WIDTH, HEIGHT, blocksize);
 		myRoot.getChildren().add(gridgroup);
-		//grid.moveSimulationForward();
+		grid.moveSimulationForward();
 	}
 	
 	private Scene initializeStart(int screenwidth, int screenheight, Color paint){
-		blocksize = 10;
+		blocksize = GRIDSIZE / gridsize;
+		//System.out.println("blocksize = " + blocksize);
 		Group root = new Group();
 		myRoot = root;
 		myGrid = new SquareGridView(GRIDX, GRIDY, blocksize, GRIDSIZE);
-		grid = new Grid(125,0);
+		grid = new Grid(gridsize,0);
 		Scene scene = new Scene(root, screenwidth, screenheight, paint);
-		gridgroup = myGrid.drawBlankGrid(screenwidth, screenheight, blocksize);
+		gridgroup = myGrid.drawGrid(grid, screenwidth, screenheight, blocksize);
 		root.getChildren().add(gridgroup);
 		root.getChildren().add(getAnimationSpeedSlider());
 		root.getChildren().add(getPlayButton());
@@ -106,8 +111,48 @@ public class Menu extends Application{
 		root.getChildren().add(myBox);
 		root.getChildren().add(getText());
 		root.getChildren().add(getBackStepButton());
+		root.getChildren().add(getSizeField());
 		return scene;
 	}
+	private VBox getSizeField() {
+		Label label1 = new Label("Enter the size of the grid in cells (i.e. 4 for a 4x4 grid)");
+		VBox hb = new VBox();
+		TextField input = new TextField();
+		label1.setWrapText(true);
+        label1.setTextAlignment(TextAlignment.JUSTIFY);
+		hb.getChildren().addAll(label1, input);
+		hb.setSpacing(10);
+		hb.setLayoutX(GRIDSIZE + GRIDX + DROPOFFSET / 2);
+		hb.setLayoutY(420);
+		hb.setMaxWidth(WIDTH - hb.getLayoutX() - 5);
+		input.textProperty().addListener((option, oldvalue, newvalue) -> {
+			if (!newvalue.matches("\\d*")) {
+	            input.setText(oldvalue);
+	        }
+			if (!newvalue.equals("")){
+				gridsize = Integer.parseInt(input.getText());
+			}
+			if (gridsize > 80){
+				gridsize = 80;
+			}
+			if (gridsize < 2){
+				gridsize = 2;
+			}
+			
+			
+		});
+		input.setOnKeyPressed((event) -> { if(event.getCode() == KeyCode.ENTER) { 
+			//System.out.println(gridsize);
+			myScene = initializeStart(WIDTH, HEIGHT, BACKGROUND);
+			myStage.setScene(myScene);
+			myStage.show();
+			animation.stop();
+			} 
+		});
+		
+		return hb;
+	}
+
 	private Slider getAnimationSpeedSlider(){
 		Slider speedtoggle = new Slider();
 		speedtoggle.setLayoutY(myGrid.getY() + myGrid.getDimensions() + SLIDEROFFSET); 
@@ -130,7 +175,7 @@ public class Menu extends Application{
 
 	private Button getBackStepButton(){
 		
-		Image play = new Image(getClass().getResourceAsStream("../pauseicon.png"), 30, 30, false, false);
+		Image play = new Image(getClass().getResourceAsStream("../stepbackward.png"), 30, 30, false, false);
 		Button pausebutton = new Button("", new ImageView(play));
 		pausebutton.setLayoutX(sliderx + 13.5);
 		pausebutton.setLayoutY(myGrid.getY() + myGrid.getDimensions() + BUTTONVERTOFFSET);
@@ -162,7 +207,7 @@ public class Menu extends Application{
 		return pausebutton;
 	}
 	private Button getStepForwardButton() {
-		Image play = new Image(getClass().getResourceAsStream("../playicon.png"), BUTTONSIZE, BUTTONSIZE, false, false);
+		Image play = new Image(getClass().getResourceAsStream("../stepforward.png"), BUTTONSIZE, BUTTONSIZE, false, false);
 		Button stepforwardbutton = new Button("", new ImageView(play));
 		stepforwardbutton.setLayoutX(sliderx + 3 * BUTTONHOROFFSET + 3 * BUTTONSIZE + 13.5);
 		stepforwardbutton.setLayoutY(myGrid.getY() + myGrid.getDimensions() + BUTTONVERTOFFSET);
@@ -210,19 +255,22 @@ public class Menu extends Application{
 				myScene = initializeSegregation(WIDTH, HEIGHT, BACKGROUND);
 				myStage.setScene(myScene);
 				myStage.show();
+				happened = false;
+				myBox.setValue("Spreading Fire");
 			} 
 		}
 		happened = true;
 	}
 
 	private Scene initializeSegregation(int screenwidth, int screenheight, Color background) {
-		blocksize = 10;
+		blocksize = GRIDSIZE / gridsize;
+		//System.out.println("blocksize = " + blocksize);
 		Group root = new Group();
 		myRoot = root;
 		myGrid = new SquareGridView(GRIDX, GRIDY, blocksize, GRIDSIZE);
-		grid = new Grid(125,0);
+		grid = new Grid(gridsize,0);
 		Scene scene = new Scene(root, screenwidth, screenheight, background);
-		gridgroup = myGrid.drawBlankGrid(screenwidth, screenheight, blocksize);
+		gridgroup = myGrid.drawGrid(grid, screenwidth, screenheight, blocksize);
 		root.getChildren().add(gridgroup);
 		root.getChildren().add(getAnimationSpeedSlider());
 		root.getChildren().add(getPlayButton());
@@ -232,7 +280,7 @@ public class Menu extends Application{
 		root.getChildren().add(myBox);
 		root.getChildren().add(getText());
 		root.getChildren().add(getBackStepButton());
-		
+		root.getChildren().add(getSizeField());
 		return scene;
 	}
 

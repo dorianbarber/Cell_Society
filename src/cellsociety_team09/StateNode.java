@@ -58,11 +58,21 @@ public class StateNode {
 	 */
 	public void moveForward() {
 		StateNode pointer = new StateNode(this);
-		this.setNode(nextState);
+		if (nextState != null) {
+			this.setNode(nextState);
+			//System.out.println("GGGGG");
+		}
+		else{
+			//System.out.println("Null");
+		}
 		this.prevState = pointer;
 	}
 	
-	//refactored code for creating a pointer 
+	public void moveBackward() {
+		StateNode pointer = this;
+		this.nextState = this;
+		this.prevState = pointer;
+	}
 	private void setNode(StateNode target) {
 		stateColor = target.stateColor;
 		states = target.states;
