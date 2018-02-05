@@ -66,7 +66,7 @@ public class LifeCell extends CellModel {
 
 	public void getNeighbors( int r, int c, ArrayList<ArrayList<CellModel>> grid)
 	{
-		(LifeCell)
+		//(LifeCell)
 		int length=grid.get(0).size();
 		int height=grid.get(0).size();
 		if(c==0 && r==0){

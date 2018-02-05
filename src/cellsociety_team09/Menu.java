@@ -60,7 +60,7 @@ public class Menu extends Application{
 	private Grid grid;
 	private ComboBox<String> myBox;
 	private boolean happened = true;
-	private int gridsize = 20;
+	private int gridsize = 10;
 	
     /**
      * Start the program.
@@ -99,7 +99,8 @@ public class Menu extends Application{
 		Group root = new Group();
 		myRoot = root;
 		myGrid = new SquareGridView(GRIDX, GRIDY, blocksize, GRIDSIZE);
-		grid = new Grid(gridsize,0);
+		//grid = new Grid(gridsize,0);
+		grid = new Grid(0);
 		Scene scene = new Scene(root, screenwidth, screenheight, paint);
 		gridgroup = myGrid.drawGrid(grid, screenwidth, screenheight, blocksize);
 		root.getChildren().add(gridgroup);

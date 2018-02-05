@@ -2,6 +2,7 @@ package cellsociety_team09;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -21,11 +22,16 @@ public class Grid {
 	private int gridSize;
 	private static final CellModel[] possibleModels= {
 			new LifeCell(),
+			new FireCell(),
 			new SegregationCell()
 	};
+	
 	private static final String[] xmlModel = {
+			"BeaconLifeCell.xml",
 			"GliderLifeCell.xml"
 	};
+	
+	Map<String, String> modelDescription =  new HashMap<>();
 	
 	public Grid(int size, int modelChoice) {
 		gridSize = size;
@@ -36,7 +42,20 @@ public class Grid {
 				gridCells.get(i).add(new LifeCell());
 			}
 		}
+	}
+	
+	public Grid(int modelChoice) {
 		ArrayList<ArrayList<Integer>> edits = this.getXMLFile(xmlModel[0]);
+		gridSize = Integer.parseInt(modelDescription.get("Size"));
+				
+		gridCells = new  ArrayList<ArrayList<CellModel>>();
+		for(int i = 0; i < gridSize; i++) {
+			for(int j = 0; j < gridSize; j++) {
+				gridCells.add(new ArrayList<CellModel>());
+				gridCells.get(i).add(new LifeCell());
+			}
+		}
+		
 		for(int i = 0; i < edits.size(); i++) {
 			int row = edits.get(i).get(0);
 			int col = edits.get(i).get(1);
@@ -92,15 +111,14 @@ public class Grid {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		Grid tester = new Grid(10, 0);
-		//Algorithm for editing the grid 
-		ArrayList<ArrayList<Integer>> edits = tester.getXMLFile(xmlModel[0]);
-		for(int i = 0; i < edits.size(); i++) {
-			int row = edits.get(i).get(0);
-			int col = edits.get(i).get(1);
-			gridCells.get(row).set(col, new LifeCell(edits.get(i).get(2)));
+		Grid tester = new Grid(0);
+		tester.findCellNeighbors();
+		System.out.println();
+		for(int i = 0; i < 18; i++) {
+			tester.printGrid();
+			System.out.println();
+			tester.moveSimulationForward();
 		}
-		tester.printGrid();
 	}
 	
 	/**
@@ -111,6 +129,7 @@ public class Grid {
 		for(int i = 0; i < gridSize; i++) {
 			for(int j = 0; j < gridSize; j++) {
 				System.out.print(gridCells.get(i).get(j).getState() + " ");
+				System.out.flush();  
 			}
 			System.out.println();
 		}
@@ -124,7 +143,7 @@ public class Grid {
 		XMLParser xml = new XMLParser("type");
 		String filePath = String.format("data\\%s", fileName);
 	    File file = new File(filePath);
-		Map<String, String> map = xml.getModel(file);
+		modelDescription = xml.getModel(file);
 		
 		return xml.getEdits();
 	}
