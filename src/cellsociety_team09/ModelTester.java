@@ -107,15 +107,15 @@ public class ModelTester extends Application{
 					if(.9>Math.random())
 					{
 						if(.8>Math.random())
-							gridCells.get(i).set(j,new FireCell(2,.7));
+							gridCells.get(i).set(j,new FireCell(2,70));
 					}
-					else gridCells.get(i).set(j,new FireCell(0,.7));
+					else gridCells.get(i).set(j,new FireCell(0,70));
 					
 						
 				}
 			}
-			gridCells.get(4).set(6, new FireCell(1,.7));
-			gridCells.get(12).set(20, new FireCell(1,.7));
+			gridCells.get(4).set(6, new FireCell(1,70));
+			gridCells.get(12).set(20, new FireCell(1,70));
 
 			
 			

@@ -15,10 +15,10 @@ public class FireCell extends CellModel {
 	public static final Color[] colors = {Color.GREY, Color.RED, Color.GREEN};
 	private int burnprb;
 	
-	public FireCell(int cellstate, int bprb)
+	public FireCell(int cellstate, int d)
 	{
-		burnprb=bprb;
-		shape = new Rectangle(1,1);
+		burnprb=d;
+		//shape = new Rectangle(1,1);
 		color=colors[cellstate];
 		int[] states= {cellstate,burnprb};
 		state = new StateNode(color,states);
@@ -31,7 +31,8 @@ public class FireCell extends CellModel {
 	}
 	
 	
-	
+
+	@Override 
 	public void getInput(List<Integer> states)
 	{
 		burnprb=states.get(1);
@@ -130,6 +131,8 @@ public class FireCell extends CellModel {
 										null}; // top left
 		}
 	}
+
+	
 
 
 }

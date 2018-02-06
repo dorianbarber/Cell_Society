@@ -11,12 +11,18 @@ public abstract class CellModel extends Shape{
 	protected Color color;
 	protected StateNode state;
 	protected CellModel[] neighbors;
+	protected Color[] possiblestates;
+
 	
 	//For XMLFile identification purposes
 	public static final String DATA_TYPE = "Model";
 	
 	
 	public CellModel(){}
+	
+	public Color[] getPossibleStates(){
+		return possiblestates;
+	}
 	
 	abstract void getNeighbors(int row, int col, ArrayList<ArrayList<CellModel>> grid );
 	
@@ -32,7 +38,9 @@ public abstract class CellModel extends Shape{
 	public Color getColor(){
         return state.getColor();
 	}
-	
+	public StateNode getKind(){
+		return state;
+	}
 	public void moveBackward()
 	{
 		if(state.hasPrev())
