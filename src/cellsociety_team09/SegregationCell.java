@@ -32,19 +32,116 @@ public class SegregationCell extends CellModel
 	
 	public SegregationCell()
 	{
-		this(0,.5);
+		this((int)((Math.random()*2)+1),.75);
+		
 	}
 	
-	
-	
-	
-	public void getInput(int[] states)
+	@Override	
+	public void findNextState()
 	{
+		moved=false;
+		int me = state.getStates()[0];
+		if(me==1 || me==2)
+		{
+			int notme=3-me;
+			int temp;
+			int mecount=0; 
+			int notmecount=0;
+			for(int a=0; a< neighbors.length; a++)
+			{
+				if(neighbors[a]!=null)
+				{
+					temp=neighbors[a].getStates()[0];
+					if(me==temp)
+						mecount++;
+					if(temp==notme)
+						notmecount++;
+				}
+			}
+			if(nPercent( mecount,notmecount)<t)
+			{
+				StateNode s = new StateNode(colors[me+2],new int[] {me+2});
+				state.setNextState(s);
+				ismoving=true;
+			}
+			else
+			{
+				StateNode s = new StateNode(colors[me],new int[] {me});
+				state.setNextState(s);
+			}
+		}
+		else
+		{
+			StateNode s = new StateNode(colors[EMPTYCELL],new int[] {EMPTYCELL});
+			state.setNextState(s);
+		}
+	}
+		
+	
+	@Override
+	public void moveForward(ArrayList<ArrayList<CellModel>> grid)
+	{
+		
+		
+			while(ismoving)
+			{
+					int r = ((int)(Math.random()*grid.get(0).size()));
+					int c = ((int)(Math.random()*grid.get(0).size()));
+					int cellstate=grid.get(r).get(c).getStates()[0];
+					//System.out.println(r + " " + c + " "+ grid.get(r).get(c).getStates()[0]);
+					
+					if(cellstate==EMPTYCELL || cellstate==MOVING1 || cellstate==MOVING2)
+					{
+						SegregationCell temp = (SegregationCell)grid.get(r).get(c);
+						StateNode n = new StateNode(colors[getStates()[0]],getStates());
+						if(cellstate!=0)
+						{
+							temp.setState(colors[temp.getStates()[0]-2],new int[] {temp.getStates()[0]-2}); //for stepping backwards 
+
+						}
+						temp.findNextState(n);
+						temp.state.moveForward();
+						temp.moved=true;
+						ismoving=false;
+					}
+			}
+			if(!moved)
+				state.moveForward();
+	}
+
+	@Override	
+	public int[] getStates()
+	{
+		return state.getStates();
+	}
+
+	private double nPercent(int mecount, int notmecount)
+	{
+		return((double)(mecount))/(notmecount+mecount);
+	}
+
+	@Override
+	public void getInput(List<Integer> states) {
+			state.setState(colors[0], new int[] {0});
 	}
 	
 	
+	private void findNextState(StateNode n)
+	{
+		state.setNextState(n);
+	}
 	
+	private void setState(Color n, int[] s)
+	{
+		state.setState(n, s);
+	}
 	
+	@Override
+	protected void setNextState(StateNode a) {
+		state.setNextState(a);// TODO Auto-generated method stub
+		
+	}
+	@Override
 	public void getNeighbors( int r, int c, ArrayList<ArrayList<CellModel>> grid)
 	{
 		
@@ -95,111 +192,5 @@ public class SegregationCell extends CellModel
 					(SegregationCell) grid.get(r-1).get(c-1)}; // top left
 		}
 	}
-	public void setNextState(StateNode n)
-	{
-		state.setNextState(n);
-	}
-	
-	private void setState(Color n, int[] s)
-	{
-		state.setState(n, s);
-	}
-	
-	
-	@Override	
-	public void findNextState()
-	{
-		moved=false;
-		int me = state.getStates()[0];
-		if(me==1 || me==2)
-		{
-			int notme=3-me;
-			int temp;
-			int mecount=0; 
-			int notmecount=0;
-			for(int a=0; a< neighbors.length; a++)
-			{
-				if(neighbors[a]!=null)
-				{
-					temp=neighbors[a].getStates()[0];
-					if(me==temp)
-						mecount++;
-					if(temp==notme)
-						notmecount++;
-				}
-			}
-			if(nPercent( mecount,notmecount)<t)
-			{
-				StateNode s = new StateNode(colors[me+2],new int[] {me+2});
-				state.setNextState(s);
-				ismoving=true;
-			}
-			else
-			{
-				StateNode s = new StateNode(colors[me],new int[] {me});
-				state.setNextState(s);
-			}
-		}
-		else
-		{
-			StateNode s = new StateNode(colors[EMPTYCELL],new int[] {EMPTYCELL});
-			state.setNextState(s);
-		}
-	}
-		
-	
-	
-	public void moveForward(ArrayList<ArrayList<CellModel>> grid)
-	{
-		
-		
-			while(ismoving)
-			{
-					int r = ((int)(Math.random()*grid.get(0).size()));
-					int c = ((int)(Math.random()*grid.get(0).size()));
-					int cellstate=grid.get(r).get(c).getStates()[0];
-					//System.out.println(r + " " + c + " "+ grid.get(r).get(c).getStates()[0]);
-					
-					if(cellstate==EMPTYCELL || cellstate==MOVING1 || cellstate==MOVING2)
-					{
-						SegregationCell temp = (SegregationCell)grid.get(r).get(c);
-						StateNode n = new StateNode(colors[getStates()[0]],getStates());
-						if(cellstate!=0)
-						{
-							temp.setState(colors[temp.getStates()[0]-2],new int[] {temp.getStates()[0]-2}); //for stepping backwards 
 
-						}
-						temp.setNextState(n);
-						temp.state.moveForward();
-						temp.moved=true;
-						ismoving=false;
-					}
-			}
-			if(!moved)
-				state.moveForward();
-	}
-
-		
-	public int[] getStates()
-	{
-		return state.getStates();
-	}
-
-
-	
-	
-	public Color getColor(){
-		return color;
-	}
-	
-	private double nPercent(int mecount, int notmecount)
-	{
-		return((double)(mecount))/(notmecount+mecount);
-	}
-
-	@Override
-	public void getInput(List<Integer> states) {
-		// TODO Auto-generated method stub
-		
-	}
 }
