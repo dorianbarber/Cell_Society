@@ -21,13 +21,15 @@ public class Grid {
 //	private static final CellModel[] possibleModels= {
 //			new LifeCell(),
 //			new FireCell(),
-//			new SegregationCell()
+//			new SegregationCell(),
+//			new WaterCell()
 //	};
 	
 	
 	private static final String[] xmlModel = {
 			"GliderLifeCell.xml",
 			"TestFireCell.xml",
+			"Wa-TorCell.xml",
 			"TestSegregationCell.xml"
 			//"BeaconLifeCell.xml"
 	};
