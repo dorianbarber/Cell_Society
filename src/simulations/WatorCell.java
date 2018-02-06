@@ -135,7 +135,6 @@ public class WatorCell extends CellModel {
 	
 	public void handleShark() 
 	{
-		System.out.println("A shark has a starvrate of " + starverate + " has a hunger of" + getStates()[2]);
 		int reproduce=0;
 		StateNode baby=null;
 		StateNode empty= new StateNode(colors[EMPTYCELL],new int[] {EMPTYCELL,0,0});
@@ -158,7 +157,6 @@ public class WatorCell extends CellModel {
 					WatorCell c = (WatorCell)neighbors[nebs[a]];
 					if(c.getStates()[0]==FISHCELL && c.isAlive() && (!c.moving ||(c.inheat && c.getStates()[0]==FISHCELL))){
 						c.setNextState(new StateNode(colors[SHARKCELL], new int[] {SHARKCELL,reproduce,0}));
-						System.out.println("A shark has eaten and moved");
 
 						if(inheat) {
 							setNextState(baby);
@@ -193,7 +191,6 @@ public class WatorCell extends CellModel {
 							c.setNextState(new StateNode(colors[SHARKCELL], new int[] {SHARKCELL,reproduce,hunger}));
 							moving=true;
 							c.moved=true;
-							System.out.println("A shark is moving but not eating");
 							break;
 						}
 					}
@@ -202,13 +199,11 @@ public class WatorCell extends CellModel {
 			if(!moving){	
 				if(inheat)
 					reproduce=800;
-				System.out.println("A shark is not moving or eating");
 
 				setNextState(new StateNode(colors[SHARKCELL],new int[] {SHARKCELL,reproduce,hunger}));
 			}
 		}
 		else {
-			System.out.println("A shark has starved");
 			setNextState(new StateNode(colors[EMPTYCELL],new int[] {EMPTYCELL,0,0}));
 			setAlive(false);
 		}

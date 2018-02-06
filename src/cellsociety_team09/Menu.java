@@ -37,7 +37,7 @@ public class Menu extends Application{
 	private Scene myScene;
 	private Group myRoot;
 	
-	private Rectangle test = new Rectangle(30,30);;
+	//private Rectangle test = new Rectangle(30,30);;
 	
 	public static final int FRAMES_PER_SECOND = 1;
 	public static final int MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
