@@ -191,7 +191,7 @@ public class SegregationCell extends CellModel
 	}
 
 	@Override
-	public void getInput(ArrayList<Integer> states) {
+	public void getInput(List<Integer> states) {
 		// TODO Auto-generated method stub
 		
 	}
