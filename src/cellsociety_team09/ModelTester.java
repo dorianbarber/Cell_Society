@@ -22,7 +22,7 @@ public class ModelTester extends Application{
 	private Stage myStage;
 	private Scene myScene;
     public static final int SIZE = 700;
-    public static final int GRIDSIZE= 40;
+    public static final int GRIDSIZE= 100;
     public static final int FRAMES_PER_SECOND = 60;
     public static final int MILLISECOND_DELAY = 300;
     public static final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
