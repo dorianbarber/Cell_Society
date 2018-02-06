@@ -1,8 +1,5 @@
-Wa-Tor is usually implemented as a two-dimensional 
-grid with three colours, one for fish, one for 
-sharks and one for empty water. If a creature 
-moves past the edge of the grid, it reappears 
-on the opposite side. The sharks are predatory 
+Wa-Tor is a two-dimensional 
+grid with three colours, green for fish, red for 
+sharks and blue for empty water. The sharks are predatory 
 and eat the fish. Both sharks and fish live, 
-move, reproduce and die in Wa-Tor according 
-to the simple rules
+move, reproduce and die in Wa-Tor according to their surroundings.
