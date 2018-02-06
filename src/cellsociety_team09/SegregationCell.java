@@ -188,13 +188,17 @@ public class SegregationCell extends CellModel
 
 	
 	
+	public Color getColor(){
+		return color;
+	}
+	
 	private double nPercent(int mecount, int notmecount)
 	{
 		return((double)(mecount))/(notmecount+mecount);
 	}
 
 	@Override
-	public void getInput(ArrayList<Integer> states) {
+	public void getInput(List<Integer> states) {
 		// TODO Auto-generated method stub
 		
 	}

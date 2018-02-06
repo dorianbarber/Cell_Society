@@ -1,6 +1,7 @@
 package cellsociety_team09;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -58,9 +59,9 @@ public class LifeCell extends CellModel {
 		state.moveForward();
 	}
 	
-	public void getInput(ArrayList<Integer> states)
+	public void getInput(List<Integer> states)
 	{
-		
+		state.setState(colors[states.get(0)],new int[] {states.get(0)});
 	}
 	
 	public void setNextState(StateNode b)
@@ -71,6 +72,7 @@ public class LifeCell extends CellModel {
 
 	public void getNeighbors( int r, int c, ArrayList<ArrayList<CellModel>> grid)
 	{
+
 		int length=grid.get(0).size();
 		int height=grid.get(0).size();
 		if(c==0 && r==0){
@@ -117,5 +119,7 @@ public class LifeCell extends CellModel {
 					(LifeCell) grid.get(r-1).get(c-1)}; // top left
 		}
 	}
+
+
 
 }

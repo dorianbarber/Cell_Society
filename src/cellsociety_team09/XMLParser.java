@@ -34,7 +34,7 @@ public class XMLParser {
     
     
     private NodeList children;
-    private ArrayList<ArrayList<Integer>> xmlEdits;
+    private ArrayList<ArrayList<Integer>> xmlEdits = new ArrayList<ArrayList<Integer>>();
     
     private static final List<String> DATA_FIELDS = Arrays.asList(new String[] {
     		"Simulation",
@@ -75,16 +75,12 @@ public class XMLParser {
     	for(int j = 0; j < list.size(); j++) {
     		xmlEdits.add(new ArrayList<Integer>());
     		String edit = list.get(j);
-    		int startPos = 0;
-    		int spacePosition = 0;
-    		while(edit.indexOf(" ", spacePosition) != -1) {
-    			String element = edit.substring(startPos, edit.indexOf(" ", spacePosition));
-    			Integer number = Integer.parseInt(element);
-    			xmlEdits.get(j).add(number);
-    			spacePosition = edit.indexOf(" ", spacePosition) + 1;
+    		
+    		String[] values = edit.split(" ");
+    		for(int k = 0; k < values.length; k++) {
+    			xmlEdits.get(j).add(Integer.parseInt(values[k]));
     		}
     	}
-    	
     	return results;
     }
     
@@ -105,7 +101,6 @@ public class XMLParser {
             DOCUMENT_BUILDER.reset();
             Document xmlDocument = DOCUMENT_BUILDER.parse(xmlFile); 
             NodeList briefNode = xmlDocument.getElementsByTagName("gridEdits");
-            System.out.println(briefNode.getLength());
             children = briefNode.item(0).getChildNodes();
             return xmlDocument.getDocumentElement();
         }
@@ -141,9 +136,7 @@ public class XMLParser {
     }
     
     
-    
-    
-    
-    
-
+    public ArrayList<ArrayList<Integer>> getEdits(){
+    	return xmlEdits;
+    }
 }
