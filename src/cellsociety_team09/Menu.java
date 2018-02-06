@@ -73,6 +73,7 @@ public class Menu extends Application{
 	private boolean happened = true;
 	private int gridsize = 20;
 	private boolean pressed;
+	private String currentbox = "Game of Life";
 	
     /**
      * Start the program.
@@ -119,6 +120,7 @@ public class Menu extends Application{
 	}
 
 	private void reset(){
+		//System.out.println(grid.getDescription());
 		myScene = initializeStart(WIDTH, HEIGHT, BACKGROUND, new Grid(grid.getKind()), grid.getDescription());
 		myStage.setScene(myScene);
 		myStage.show();
@@ -140,7 +142,7 @@ public class Menu extends Application{
 		root.getChildren().add(getPlayButton());
 		root.getChildren().add(getPauseButton());
 		root.getChildren().add(getStepForwardButton());
-		myBox = getMenu();
+		myBox = getMenu(currentbox);
 		root.getChildren().add(myBox);
 		root.getChildren().add(getText(grid.getDescription()));
 		root.getChildren().add(getBackStepButton());
@@ -263,7 +265,7 @@ public class Menu extends Application{
 		animation.pause();
 		step(stepincrement);
 	}
-	private ComboBox<String> getMenu(){
+	private ComboBox<String> getMenu(String selected){
 		ObservableList<String> options = 
 			    FXCollections.observableArrayList(
 			        "Game of Life",
@@ -274,7 +276,7 @@ public class Menu extends Application{
 		ComboBox<String> combobox = new ComboBox<String>(options);
 		combobox.setLayoutX(GRIDSIZE + GRIDX + DROPOFFSET);
 		combobox.setLayoutY(2 * GRIDY);
-		combobox.setValue("Game of Life");
+		combobox.setValue(selected);
 		combobox.valueProperty().addListener((option, oldvalue, newvalue) -> {
 			handleBoxInput(oldvalue, newvalue);
 		});
@@ -301,7 +303,7 @@ public class Menu extends Application{
 				getWator();
 			}
 		}
-		
+		currentbox = myBox.getValue();
 		happened = true;
 	}
 	

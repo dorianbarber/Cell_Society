@@ -1,8 +1,8 @@
-In 1971, the American economist Thomas Schelling 
-created an agent-based model that might help 
-explain why segregation is so difficult to combat. 
-His model of segregation showed that even when individuals (or "agents") 
-didn't mind being surrounded or living by agents of a different race, 
-they would still choose to segregate themselves from other agents over time! 
-Although the model is quite simple, it gives a fascinating look at how 
-individuals might self-segregate, even when they have no explicit desire to do so.
+This model shows how demographic groups
+self-segregate by moving within their 
+communities. White cells indicate
+uninhabited areas, while blue and
+red cells indicate two different demographic
+groups. When a blue or red cell is surrounded
+by unacceptable numbers of the other group,
+it moves randomly to an uninhabited area.
