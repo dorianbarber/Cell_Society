@@ -2,6 +2,7 @@ package cellsociety_team09;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -12,26 +13,246 @@ public class WatorCell extends CellModel {
 	private static final int EMPTYCELL=0;
 	private static final int FISHCELL=1;
 	private static final int SHARKCELL=2;
-	private static final int FISHLEAVE=3;
-	private static final int SHARKLEAVE=4;
 	private int starverate;
-	private int reporate;
+	private int reporate1;
+	private int reporate2;
+
 	private int type;
+	private boolean isalive=true;
+
 	private boolean inheat =false;
 	private boolean moved=false;
-	private boolean isalive=true;
+	private boolean moving=false;
 	
 	//state 0 is type is repo type 3 is starve type
-	public WatorCell(int[] states)
+	public WatorCell(int s, int repo1, int repo2, int death)
 	{
+		if(s==0)
+			type=0;
+		else if(s<6)
+			type=1;
+		else
+			type=2;
 		shape = new Rectangle(1,1);
-		starverate=states[2];
-		reporate=states[1];
-		type=states[0];
+		starverate=death;
+		reporate1=repo1;
+		reporate2=repo2;
 		StateNode n = new StateNode(colors[type],new int[] {type,0,0});
 		state=n;
 		neighbors = new WatorCell[] {null};
 	}
+	
+	public WatorCell()
+	{
+		this((int)(Math.random()*8+1),4,8,10);
+	}
+	
+	
+	private void findNextState(StateNode n)
+	{
+		state.setNextState(n);
+	}
+	
+	private void setState(Color n, int[] s)
+	{
+		state.setState(n, s);
+	}
+	
+	
+	@Override	
+	public void findNextState()
+	{
+
+		int[] states = getStates();
+		
+		
+		if(states[0]==SHARKCELL)
+		{
+			handleShark();
+		}
+		if(states[0]==FISHCELL)
+		{
+			handleFish();
+		}
+		if(states[0]==EMPTYCELL && !moved)
+		{
+			setNextState(new StateNode(colors[EMPTYCELL],new int[] {EMPTYCELL,0,0}));
+		}
+	}
+		
+		
+
+		
+		
+	
+	public boolean isAlive()
+	{
+		return isalive;
+	}
+	
+	public void setAlive(boolean b)
+	{
+		isalive=b;
+	}
+	
+	public static int[] shuffle(int[] ar)
+	{
+		int a=0;
+		while(a<10)
+		{
+			int b=(int)(Math.random()*ar.length);
+			int c=(int)(Math.random()*ar.length);
+			int temp=ar[b];
+			ar[b]=ar[c];
+			ar[c]=temp;
+			a++;
+		}
+		return ar;
+	}
+	
+	
+	public void moveForward(ArrayList<ArrayList<CellModel>> grid)
+	{
+		this.moved=false;
+		this.moving=false;
+		this.inheat=false;
+		setAlive(true);
+		state.moveForward();
+	}
+
+		
+	public int[] getStates()
+	{
+		return state.getStates();
+	}
+
+
+	@Override
+	public void getInput(List<Integer> states) {
+		state.setState(colors[EMPTYCELL], new int[] {0,0,0});
+	}
+	
+	public void handleShark() 
+	{
+		System.out.println("A shark has a starvrate of " + starverate + " has a hunger of" + getStates()[2]);
+		int reproduce=0;
+		StateNode baby=null;
+		StateNode empty= new StateNode(colors[EMPTYCELL],new int[] {EMPTYCELL,0,0});
+		int[] nebs={0,2,4,6};
+		if(!(getStates()[2]>=starverate))
+		{
+			int hunger=getStates()[2]+1;
+			
+			if(getStates()[1]>=reporate2){
+				inheat=true;
+				reproduce=0;
+				baby = new StateNode(colors[SHARKCELL], new int[] {SHARKCELL,0,0});
+			}
+			else
+				reproduce=getStates()[1]+1;
+			nebs=shuffle(nebs);
+			for(int a=0; a<nebs.length; a++){
+				if(neighbors[nebs[a]]!=null)
+				{
+					WatorCell c = (WatorCell)neighbors[nebs[a]];
+					if(c.getStates()[0]==FISHCELL && c.isAlive() && (!c.moving ||(c.inheat && c.getStates()[0]==FISHCELL))){
+						c.setNextState(new StateNode(colors[SHARKCELL], new int[] {SHARKCELL,reproduce,0}));
+						System.out.println("A shark has eaten and moved");
+
+						if(inheat) {
+							setNextState(baby);
+							moved=true;
+						}
+						else {
+							setNextState(empty);
+						}
+						c.setAlive(false);
+						c.moved=true;
+						moving=true;
+						hunger=0;
+						break;
+					}
+					
+				}
+				
+			}
+			if(!moving){
+				nebs=shuffle(nebs);
+				for(int a=0; a<nebs.length; a++){
+					if(neighbors[nebs[a]]!=null)
+					{
+						WatorCell c=(WatorCell)neighbors[nebs[a]];
+						if((c.moving||c.getStates()[0]==EMPTYCELL) && !c.moved){
+							if(inheat) {
+								setNextState(baby);
+								moved=true;
+							}
+							else
+								setNextState(empty);
+							c.setNextState(new StateNode(colors[SHARKCELL], new int[] {SHARKCELL,reproduce,hunger}));
+							moving=true;
+							c.moved=true;
+							System.out.println("A shark is moving but not eating");
+							break;
+						}
+					}
+				}
+			}
+			if(!moving){	
+				if(inheat)
+					reproduce=800;
+				System.out.println("A shark is not moving or eating");
+
+				setNextState(new StateNode(colors[SHARKCELL],new int[] {SHARKCELL,reproduce,hunger}));
+			}
+		}
+		else {
+			System.out.println("A shark has starved");
+			setNextState(new StateNode(colors[EMPTYCELL],new int[] {EMPTYCELL,0,0}));
+			setAlive(false);
+		}
+	}
+	public void handleFish()
+	{
+		int reproduce=0;
+		StateNode baby=null;
+		StateNode empty= new StateNode(colors[EMPTYCELL],new int[] {EMPTYCELL,0,0});
+		int[] nebs={0,2,4,6};
+		if(isAlive())
+		{
+			if(getStates()[1]>=reporate1){
+				inheat=true;
+				reproduce=0;
+				baby = new StateNode(colors[FISHCELL], new int[] {FISHCELL,0,0});
+			}
+			else
+				reproduce=getStates()[1]+1;
+			nebs=shuffle(nebs);
+			if(!moving){
+				for(int a=0; a<nebs.length; a++){
+				//	System.out.print(nebs[a]);
+					if(neighbors[nebs[a]]!=null)
+					{
+						WatorCell c=(WatorCell)neighbors[nebs[a]];
+						if((c.getStates()[0]==EMPTYCELL) && !c.moved){
+							if(inheat)
+								setNextState(baby);
+							else
+								setNextState(empty);
+							c.setNextState(new StateNode(colors[FISHCELL], new int[] {FISHCELL,reproduce,0}));
+							moving=true;
+							c.moved=true;
+							break;
+						}
+					}
+				}
+			}
+			if(!moving){			
+				setNextState(new StateNode(getColor(),new int[] {FISHCELL,reproduce,0}));
+			}
+		}
+	}
+
 	
 	public void getNeighbors( int r, int c, ArrayList<ArrayList<CellModel>> grid)
 	{
@@ -83,154 +304,13 @@ public class WatorCell extends CellModel {
 										null}; // top left
 		}
 	}
-	
-	private void findNextState(StateNode n)
-	{
-		state.setNextState(n);
-	}
-	
-	private void setState(Color n, int[] s)
-	{
-		state.setState(n, s);
-	}
-	
-	
-	@Override	
-	public void findNextState()
-	{
-		boolean die=false;
-		int next=-1;
-		StateNode thisnode=null;
-		StateNode movenode=null;
-		int[] states = getStates();
-		int[] nebs={0,1,2,3};
-		
-		if(states[0]==SHARKCELL)
-		{
-			nebs=shuffle(nebs);
-			for(int a=0; a<nebs.length; a++)
-			{
-				WatorCell c = (WatorCell)neighbors[nebs[a]];
-				if(c.getStates()[0]==FISHCELL && c.isAlive())
-				{
-					
-				}
-			}
-		}
-		
-		
-		
-		
-		
-		
-		public boolean isAlive()
-		{
-			return isalive;
-		}
-		
-		
-		if(states[0]==FISHCELL)
-		{
-			nebs=shuffle(nebs);
-			if(states[1]==reporate)
-			{
-				inheat=true;
-			}
-			for(int a=0; a<neighbors.length; a++)
-			{
-				if(neighbors[nebs[a]].getStates()[0]==SHARKCELL)
-					die=true;
-				if(neighbors[nebs[a]].getStates()[0]==EMPTYCELL)
-					next=nebs[a];
-			}
-			if(!die && next!=-1)
-			{
-				thisnode = new StateNode(colors[FISHLEAVE], new int[] {FISHLEAVE,0,0});
-				movenode = new StateNode(colors[FISHCELL],new int[] {FISHCELL,getStates()[1]+1,0});
-				moved=true;
-				neighbors[next].setNextState(movenode);
-			}
-			else if(die)
-			{
-				 thisnode = new StateNode(colors[EMPTYCELL], new int[] {EMPTYCELL,0,0});
-			}
-			else if(next==-1)
-			{
-				 thisnode = new StateNode(colors[FISHCELL], new int[] {FISHCELL,getStates()[1]+1,0});
-			}
-			state.setNextState(thisnode);
-
-			
-				
-		}
-		
-	}
-	
-	public static int[] shuffle(int[] ar)
-	{
-		int a=0;
-		while(a<10)
-		{
-			int b=(int)(Math.random()*ar.length);
-			int c=(int)(Math.random()*ar.length);
-			int temp=ar[b];
-			ar[b]=ar[c];
-			ar[c]=temp;
-			a++;
-		}
-		return ar;
-	}
-	
-	
-	public void moveForward(ArrayList<ArrayList<CellModel>> grid)
-	{
-		
-//		
-//			while(ismoving)
-//			{
-//					int r = ((int)(Math.random()*grid.get(0).size()));
-//					int c = ((int)(Math.random()*grid.get(0).size()));
-//					int cellstate=grid.get(r).get(c).getStates()[0];
-//					//System.out.println(r + " " + c + " "+ grid.get(r).get(c).getStates()[0]);
-//					
-//					if(cellstate==EMPTYCELL || cellstate==MOVING1 || cellstate==MOVING2)
-//					{
-//						SegregationCell temp = (SegregationCell)grid.get(r).get(c);
-//						StateNode n = new StateNode(colors[getStates()[0]],getStates());
-//						if(cellstate!=0)
-//						{
-//							temp.setState(colors[temp.getStates()[0]-2],new int[] {temp.getStates()[0]-2}); //for stepping backwards 
-//
-//						}
-//						temp.findNextState(n);
-//						temp.state.moveForward();
-//						temp.moved=true;
-//						ismoving=false;
-//					}
-//			}
-//			if(!moved)
-//				state.moveForward();
-	}
-
-		
-	public int[] getStates()
-	{
-		return state.getStates();
-	}
-
-
-	
-	
-	private double nPercent(int mecount, int notmecount)
-	{
-		return((double)(mecount))/(notmecount+mecount);
-	}
 
 	@Override
-	public void getInput(ArrayList<Integer> states) {
-		// TODO Auto-generated method stub
+	protected void setNextState(StateNode a) {
+		state.setNextState(a);// TODO Auto-generated method stub
 		
 	}
+
 	
 
 }
