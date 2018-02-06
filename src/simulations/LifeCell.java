@@ -63,18 +63,21 @@ public class LifeCell extends CellModel {
 		state.moveForward();
 	}
 	
-	public void getInput(List<Integer> states)
-	{
-		state.setState(colors[states.get(0)],new int[] {states.get(0)});
-	}
-
 	public void setNextState(StateNode b)
 	{
 		state.setNextState(b);
 	}
+	
+	public void getInput(List<Integer> states)
+	{
+		state.setState(colors[states.get(0)], new int[] {states.get(0)});
+
+	}
+	
 	public StateNode getKind(){
 		return state;
 	}
+	
 	public void getNeighbors( int r, int c, ArrayList<ArrayList<CellModel>> grid)
 	{
 

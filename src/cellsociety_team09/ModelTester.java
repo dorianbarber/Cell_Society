@@ -17,6 +17,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import simulations.CellModel;
 import simulations.FireCell;
+import simulations.WatorCell;
 
 public class ModelTester extends Application{
 	
@@ -24,7 +25,7 @@ public class ModelTester extends Application{
 	private Stage myStage;
 	private Scene myScene;
     public static final int SIZE = 700;
-    public static final int GRIDSIZE= 40;
+    public static final int GRIDSIZE= 10;
     public static final int FRAMES_PER_SECOND = 60;
     public static final int MILLISECOND_DELAY = 300;
     public static final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
@@ -58,38 +59,38 @@ public class ModelTester extends Application{
 		//Image gameover = new Image(getClass().getClassLoader().getResourceAsStream("GameOver.png"));
 	 	 public void step(double d)
 		 {
-	 		for(int i = 0; i < GRIDSIZE; i++) {
-				for(int j = 0; j < GRIDSIZE; j++) {
-					gridCells.get(i).get(j).findNextState();
-				}
-			}
-    		for(int i = 0; i < GRIDSIZE; i++) {
-				for(int j = 0; j < GRIDSIZE; j++) {
-					gridCells.get(i).get(j).moveForward(gridCells);
-				}
-			}
-    		int q=0; 
-	    	int r=0;
-	    	int w=0;
-	    	int g=0;
-	    	for(int a=0; a<GRIDSIZE; a++)
-	    		for(int b=0; b<GRIDSIZE; b++)
-	    		{
-	    			if(gridCells.get(a).get(b).getStates()[0]==1)
-	    				q++;
-	    			if(gridCells.get(a).get(b).getStates()[0]==2)
-	    				r++;
-	    			if(gridCells.get(a).get(b).getStates()[0]==3)
-	    				w++;
-	    			if(gridCells.get(a).get(b).getStates()[0]==4)
-	    				g++;
-	    			
-	    			shapes.get(a).get(b).setFill(gridCells.get(a).get(b).getColor());
-	    		}
-	    	System.out.println("red"+r+ " blue"+q+" redmoving"+w+" bluemoving"+g);
-	    	
-    		
-    		
+//	 		for(int i = 0; i < GRIDSIZE; i++) {
+//				for(int j = 0; j < GRIDSIZE; j++) {
+//					gridCells.get(i).get(j).findNextState();
+//				}
+//			}
+//    		for(int i = 0; i < GRIDSIZE; i++) {
+//				for(int j = 0; j < GRIDSIZE; j++) {
+//					gridCells.get(i).get(j).moveForward(gridCells);
+//				}
+//			}
+//    		int q=0; 
+//	    	int r=0;
+//	    	int w=0;
+//	    	int g=0;
+//	    	for(int a=0; a<GRIDSIZE; a++)
+//	    		for(int b=0; b<GRIDSIZE; b++)
+//	    		{
+//	    			if(gridCells.get(a).get(b).getStates()[0]==1)
+//	    				q++;
+//	    			if(gridCells.get(a).get(b).getStates()[0]==2)
+//	    				r++;
+//	    			if(gridCells.get(a).get(b).getStates()[0]==3)
+//	    				w++;
+//	    			if(gridCells.get(a).get(b).getStates()[0]==4)
+//	    				g++;
+//	    			
+//	    			shapes.get(a).get(b).setFill(gridCells.get(a).get(b).getColor());
+//	    		}
+//	    	System.out.println("red"+r+ " blue"+q+" redmoving"+w+" bluemoving"+g);
+//	    	
+//    		
+//    		
 		 }
 	    
 	    private Scene setupGame(int width, int height, Paint background)
@@ -105,8 +106,8 @@ public class ModelTester extends Application{
 					shapes.add(new ArrayList<Rectangle>());
 					shapes.get(i).add(new Rectangle((ssize+1)*i,(ssize+1)*j,ssize,ssize));
 					gridCells.add(new ArrayList<CellModel>());
-					gridCells.get(i).add(new FireCell());
-					if(.9>Math.random())
+					gridCells.get(i).add(new WatorCell());
+					if(Math.random()<.8)
 					{
 						if(.8>Math.random())
 							gridCells.get(i).set(j,new FireCell(2,70));
@@ -116,14 +117,6 @@ public class ModelTester extends Application{
 						
 				}
 			}
-			gridCells.get(4).set(6, new FireCell(1,70));
-			gridCells.get(12).set(20, new FireCell(1,70));
-
-			
-			
-			
-			
-			
 			for(int a=0; a<GRIDSIZE; a++)
 	    		for(int b=0; b<GRIDSIZE; b++)
 	    		{
@@ -183,14 +176,14 @@ public class ModelTester extends Application{
 	    	for(int a=0; a<GRIDSIZE; a++)
 	    		for(int b=0; b<GRIDSIZE; b++)
 	    		{
-	    			if(gridCells.get(a).get(b).getStates()[0]==1)
-	    				q++;
-	    			if(gridCells.get(a).get(b).getStates()[0]==2)
-	    				r++;
-	    			if(gridCells.get(a).get(b).getStates()[0]==3)
-	    				w++;
-	    			if(gridCells.get(a).get(b).getStates()[0]==4)
-	    				g++;
+//	    			if(gridCells.get(a).get(b).getStates()[0]==1)
+//	    				q++;
+//	    			if(gridCells.get(a).get(b).getStates()[0]==2)
+//	    				r++;
+//	    			if(gridCells.get(a).get(b).getStates()[0]==3)
+//	    				w++;
+//	    			if(gridCells.get(a).get(b).getStates()[0]==4)
+//	    				g++;
 	    			
 	    			shapes.get(a).get(b).setFill(gridCells.get(a).get(b).getColor());
 	    		}
@@ -210,3 +203,4 @@ public class ModelTester extends Application{
 	
 	
 }
+

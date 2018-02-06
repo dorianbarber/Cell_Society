@@ -187,7 +187,7 @@ public class Grid {
 	 */
 	public static void main(String[] args) {
 		//input can either be a 0,1,2,3
-		Grid tester = new Grid(2);
+		Grid tester = new Grid(3);
 		
 		tester.findCellNeighbors();
 		System.out.println();

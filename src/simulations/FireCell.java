@@ -80,7 +80,7 @@ public class FireCell extends CellModel {
 	public void moveForward(ArrayList<ArrayList<CellModel>> grid) {
 		state.moveForward();
 	}
-
+	
 	
 
 	public void getNeighbors( int r, int c, ArrayList<ArrayList<CellModel>> grid)
