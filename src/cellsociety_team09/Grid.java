@@ -143,7 +143,7 @@ public class Grid {
 	 */
 	public ArrayList<ArrayList<Integer>> getXMLFile(String fileName) {
 		XMLParser xml = new XMLParser("type");
-		String filePath = String.format("data\\%s", fileName);
+		String filePath = String.format("data//%s", fileName);
 	    File file = new File(filePath);
 		modelDescription = xml.getModel(file);
 		
