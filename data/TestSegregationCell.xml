@@ -1,0 +1,48 @@
+<data type="Model">
+	<Simulation>Segregation</Simulation>
+	<SimulationNumber>2</SimulationNumber>
+	<Author>Conrad Mitchell</Author>
+	<Size>40</Size>
+	<gridEdits>
+	<point>8 5 0</point>
+	<point>4 8 0</point>
+	<point>16 22 0</point>
+	<point>23 30 0</point>
+	<point>26 28 0</point>
+	<point>24 25 0</point>
+	<point>22 30 0</point>
+	<point>18 25 0</point>
+	<point>27 23 0</point>
+	<point>6 20 0</point>
+	<point>38 26 0</point>
+	<point>20 4 0</point>
+	<point>27 11 0</point>
+	<point>16 1 0</point>
+	<point>33 14 0</point>
+	<point>23 37 0</point>
+	<point>39 27 0</point>
+	<point>22 20 0</point>
+	<point>18 29 0</point>
+	<point>36 14 0</point>
+	<point>23 14 0</point>
+	<point>9 20 0</point>
+	<point>29 29 0</point>
+	<point>37 29 0</point>
+	<point>22 18 0</point>
+	<point>34 16 0</point>
+	<point>14 39 0</point>
+	<point>25 39 0</point>
+	<point>39 38 0</point>
+	<point>34 11 0</point>
+	<point>26 32 0</point>
+	<point>37 34 0</point>
+	<point>19 13 0</point>
+	<point>8 25 0</point>
+	<point>31 16 0</point>
+	<point>19 34 0</point>
+	<point>15 37 0</point>
+	<point>11 24 0</point>
+	<point>13 35 0</point>
+	<point>12 37 0</point>
+	</gridEdits>
+</data>

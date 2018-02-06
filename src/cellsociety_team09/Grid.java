@@ -27,7 +27,8 @@ public class Grid {
 	
 	private static final String[] xmlModel = {
 			"GliderLifeCell.xml",
-			"TestFireCell.xml"
+			"TestFireCell.xml",
+			"TestSegregationCell.xml"
 			//"BeaconLifeCell.xml"
 	};
 	
@@ -118,7 +119,7 @@ public class Grid {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		Grid tester = new Grid(1);
+		Grid tester = new Grid(2);
 		
 		tester.findCellNeighbors();
 		System.out.println();
