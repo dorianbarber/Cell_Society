@@ -31,26 +31,6 @@ public class FireCell extends CellModel {
 	}
 	
 	
-
-	@Override 
-	public void getInput(List<Integer> states)
-	{
-		burnprb=states.get(1);
-		int[] s = new int[]{states.get(0),burnprb};
-		state.setState(colors[states.get(0)], s);
-	}
-	
-	public void setNextState(StateNode b)
-	{
-		state.setNextState(b);
-	}
-	
-	
-	public int[] getStates()
-	{
-		return state.getStates();
-	}
-	
 	public void findNextState()
 	{
 		int percentbrn=0;
@@ -80,6 +60,23 @@ public class FireCell extends CellModel {
 		state.moveForward();
 	}
 
+	public void getInput(List<Integer> states)
+	{
+		burnprb=states.get(1);
+		int[] s = new int[]{states.get(0),burnprb};
+		state.setState(colors[states.get(0)], s);
+	}
+	
+	public void setNextState(StateNode b)
+	{
+		state.setNextState(b);
+	}
+	
+	public int[] getStates()
+	{
+		return state.getStates();
+	}
+	
 	
 
 	public void getNeighbors( int r, int c, ArrayList<ArrayList<CellModel>> grid)

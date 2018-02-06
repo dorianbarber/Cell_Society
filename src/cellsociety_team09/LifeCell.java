@@ -27,7 +27,6 @@ public class LifeCell extends CellModel {
 	{
 		this(0);
 	}
-	
 	public Color[] getPossibleStates(){
 		return colors;
 	}
@@ -37,7 +36,7 @@ public class LifeCell extends CellModel {
 	{
 		return state.getStates();
 	}
-	
+
 	public void findNextState()
 	{
 		
@@ -62,15 +61,17 @@ public class LifeCell extends CellModel {
 		state.moveForward();
 	}
 	
-	public void getInput(List<Integer> states)
-	{
-		state.setState(colors[states.get(0)],new int[] {states.get(0)});
-	}
-
 	public void setNextState(StateNode b)
 	{
 		state.setNextState(b);
 	}
+	
+	public void getInput(List<Integer> states)
+	{
+		state.setState(colors[states.get(0)], new int[] {states.get(0)});
+
+	}
+
 	public StateNode getKind(){
 		return state;
 	}

@@ -29,7 +29,8 @@ public class Grid {
 	private static final String[] xmlModel = {
 			"GliderLifeCell.xml",
 			"TestFireCell.xml",
-			"TestSegregationCell.xml"
+			"TestSegregationCell.xml",
+			"Wa-TorCell.xml"
 			//"BeaconLifeCell.xml"
 	};
 	

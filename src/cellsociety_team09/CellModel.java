@@ -6,13 +6,15 @@ import javafx.scene.shape.Shape;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author lwpul
+ *
+ */
 public abstract class CellModel extends Shape{
 	protected Shape shape;
 	protected Color color;
 	protected StateNode state;
 	protected CellModel[] neighbors;
-	protected Color[] possiblestates;
-
 	
 	//For XMLFile identification purposes
 	public static final String DATA_TYPE = "Model";
@@ -20,10 +22,11 @@ public abstract class CellModel extends Shape{
 	
 	public CellModel(){}
 	
-	public Color[] getPossibleStates(){
-		return possiblestates;
-	}
-	
+	/**
+	 * @param row 
+	 * @param col
+	 * @param grid
+	 */
 	abstract void getNeighbors(int row, int col, ArrayList<ArrayList<CellModel>> grid );
 	
 	abstract int[] getStates();
