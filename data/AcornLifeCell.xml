@@ -1,0 +1,16 @@
+<data type="Model">
+	<Simulation>Game of Life: Acorn</Simulation>
+	<SimulationNumber>0</SimulationNumber>
+	<Author>Conrad Mitchell</Author>
+	<Size>40</Size>
+	<gridEdits>
+		<point>20 20 1</point>
+		<point>18 19 1</point>
+		
+		<point>17 21 1</point>
+		<point>18 21 1</point>
+		<point>21 21 1</point>
+		<point>22 21 1</point>
+		<point>23 21 1</point>
+	</gridEdits>
+</data>

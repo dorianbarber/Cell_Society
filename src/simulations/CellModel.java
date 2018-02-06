@@ -1,15 +1,12 @@
 
-package cellsociety_team09;
+package simulations;
 
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Shape;
 import java.util.ArrayList;
 import java.util.List;
+import cellsociety_team09.StateNode;
 
-/**
- * @author lwpul
- *
- */
 public abstract class CellModel extends Shape{
 	protected Shape shape;
 	protected Color color;
@@ -22,16 +19,12 @@ public abstract class CellModel extends Shape{
 	
 	public CellModel(){}
 	
-	/**
-	 * @param row 
-	 * @param col
-	 * @param grid
-	 */
-	abstract void getNeighbors(int row, int col, ArrayList<ArrayList<CellModel>> grid );
+	public abstract void getNeighbors(int row, int col, ArrayList<ArrayList<CellModel>> grid );
+
 	
 	abstract int[] getStates();
 	
-	abstract void findNextState();
+	public abstract void findNextState();
 
 
 	public abstract void moveForward(ArrayList<ArrayList<CellModel>> cellgrid);

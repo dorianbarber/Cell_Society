@@ -1,6 +1,15 @@
-package cellsociety_team09;
+package xml_related_package;
 
 import java.util.Scanner;
+
+/**
+ * Purpose of this class is to generate random points
+ * to be used in the excel file. Has no implications 
+ * outside of generating print statements. 
+ * 
+ * @author Dorian
+ *
+ */
 
 public class RandomPointGenerator {
 	public static void main(String[] args) {

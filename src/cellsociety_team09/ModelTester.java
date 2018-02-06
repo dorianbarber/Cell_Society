@@ -15,6 +15,9 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import simulations.CellModel;
+import simulations.FireCell;
+import simulations.WatorCell;
 
 public class ModelTester extends Application{
 	
@@ -113,9 +116,16 @@ public class ModelTester extends Application{
 
 			
 			
-			
-			
-			
+		
+					if(.8>Math.random())
+							gridCells.get(i).set(j,new FireCell(2,70));
+					
+					else gridCells.get(i).set(j,new FireCell(0,70));
+					
+						
+				}
+			}
+
 			for(int a=0; a<GRIDSIZE; a++)
 	    		for(int b=0; b<GRIDSIZE; b++)
 	    		{
@@ -175,14 +185,14 @@ public class ModelTester extends Application{
 	    	for(int a=0; a<GRIDSIZE; a++)
 	    		for(int b=0; b<GRIDSIZE; b++)
 	    		{
-	    			if(gridCells.get(a).get(b).getStates()[0]==1)
-	    				q++;
-	    			if(gridCells.get(a).get(b).getStates()[0]==2)
-	    				r++;
-	    			if(gridCells.get(a).get(b).getStates()[0]==3)
-	    				w++;
-	    			if(gridCells.get(a).get(b).getStates()[0]==4)
-	    				g++;
+//	    			if(gridCells.get(a).get(b).getStates()[0]==1)
+//	    				q++;
+//	    			if(gridCells.get(a).get(b).getStates()[0]==2)
+//	    				r++;
+//	    			if(gridCells.get(a).get(b).getStates()[0]==3)
+//	    				w++;
+//	    			if(gridCells.get(a).get(b).getStates()[0]==4)
+//	    				g++;
 	    			
 	    			shapes.get(a).get(b).setFill(gridCells.get(a).get(b).getColor());
 	    		}
@@ -200,5 +210,6 @@ public class ModelTester extends Application{
 	
 	
 	
-	
+	    
 }
+

@@ -1,8 +1,9 @@
-package cellsociety_team09;
+package simulations;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import cellsociety_team09.StateNode;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
@@ -27,6 +28,7 @@ public class LifeCell extends CellModel {
 	{
 		this(0);
 	}
+
 	public Color[] getPossibleStates(){
 		return colors;
 	}
@@ -75,6 +77,7 @@ public class LifeCell extends CellModel {
 	public StateNode getKind(){
 		return state;
 	}
+	
 	public void getNeighbors( int r, int c, ArrayList<ArrayList<CellModel>> grid)
 	{
 

@@ -1,9 +1,10 @@
-package cellsociety_team09;
+package simulations;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import cellsociety_team09.StateNode;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
