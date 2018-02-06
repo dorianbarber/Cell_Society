@@ -198,7 +198,7 @@ public class Menu extends Application{
 			input.setText("");
 		});
 		
-		return hb;
+		return new VBox();
 	}
 
 	private Slider getAnimationSpeedSlider(){
@@ -322,7 +322,7 @@ public class Menu extends Application{
 		happened = false;
 		myBox.setValue("Segregation");
 		animation.pause();
-		System.out.println(getFile(SEGDESCRIPTION));
+		//System.out.println(getFile(SEGDESCRIPTION));
 	}
 	private void getFire() {
 		myScene = initializeStart(WIDTH, HEIGHT, BACKGROUND, new Grid(1), getFile(FIREDESCRIPTION));
