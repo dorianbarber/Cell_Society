@@ -26,7 +26,8 @@ public class Grid {
 	
 	
 	private static final String[] xmlModel = {
-			"GliderLifeCell.xml"
+			"GliderLifeCell.xml",
+			"TestFireCell.xml"
 			//"BeaconLifeCell.xml"
 	};
 	
@@ -47,7 +48,7 @@ public class Grid {
 	
 	public Grid(int modelChoice) {
 		modelType = modelChoice;
-		ArrayList<ArrayList<Integer>> edits = this.getXMLFile(xmlModel[0]);
+		ArrayList<ArrayList<Integer>> edits = this.getXMLFile(xmlModel[modelChoice]);
 		gridSize = Integer.parseInt(modelDescription.get("Size"));
 				
 		gridCells = new  ArrayList<ArrayList<CellModel>>();
@@ -58,6 +59,7 @@ public class Grid {
 				gridCells.get(i).add(cell);
 			}
 		}
+		
 		
 		for(int i = 0; i < edits.size(); i++) {
 			int row = edits.get(i).get(0);
@@ -116,7 +118,8 @@ public class Grid {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		Grid tester = new Grid(0);
+		Grid tester = new Grid(1);
+		
 		tester.findCellNeighbors();
 		System.out.println();
 		for(int i = 0; i < 18; i++) {
