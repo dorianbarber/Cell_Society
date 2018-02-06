@@ -94,7 +94,7 @@ public class Menu extends Application{
 	}
 	
 	private Scene initializeStart(int screenwidth, int screenheight, Color paint){
-		grid = new Grid(0);
+		grid = new Grid(20, 2);
 		blocksize = GRIDSIZE / grid.getGridSize();
 		//System.out.println("blocksize = " + blocksize);
 		Group root = new Group();

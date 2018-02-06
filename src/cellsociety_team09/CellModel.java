@@ -4,6 +4,7 @@ package cellsociety_team09;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Shape;
 import java.util.ArrayList;
+import java.util.List;
 
 public abstract class CellModel extends Shape{
 	protected Shape shape;
@@ -26,7 +27,7 @@ public abstract class CellModel extends Shape{
 
 	public abstract void moveForward(ArrayList<ArrayList<CellModel>> cellgrid);
 	
-	public abstract void getInput(ArrayList<Integer> states);
+	public abstract void getInput(List<Integer> states);
 
 	public Color getColor(){
         return state.getColor();
