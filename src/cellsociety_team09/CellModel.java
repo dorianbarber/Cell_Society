@@ -33,7 +33,13 @@ public abstract class CellModel extends Shape{
         return state.getColor();
 	}
 	
+	public void moveBackward()
+	{
+		if(state.hasPrev())
+			state.moveBackward();
+	}
 	
+	protected abstract void setNextState(StateNode a);
 	@Override
 	public com.sun.javafx.geom.Shape impl_configShape() {
 		// TODO Auto-generated method stub
