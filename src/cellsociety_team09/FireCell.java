@@ -13,29 +13,30 @@ public class FireCell extends CellModel {
 	public static final int BURNINGCELL=1;
 	public static final int TREECELL=2;
 	public static final Color[] colors = {Color.GREY, Color.RED, Color.GREEN};
-	private double burnprb;
+	private int burnprb;
 	
-	public FireCell(int cellstate, double bprb)
+	public FireCell(int cellstate, int bprb)
 	{
 		burnprb=bprb;
 		//shape = new Rectangle(1,1);
 		color=colors[cellstate];
-		int[] states= {cellstate};
+		int[] states= {cellstate,burnprb};
 		state = new StateNode(color,states);
 		neighbors = new FireCell[]{null};
 	}
 	
 	public FireCell()
 	{
-		this(2,.7);
+		this(2,70);
 	}
 	
 	
+
 	@Override 
 	public void getInput(List<Integer> states)
 	{
-		burnprb=((double)states.get(1))/100;
-		int[] s = new int[]{states.get(0)};
+		burnprb=states.get(1);
+		int[] s = new int[]{states.get(0),burnprb};
 		state.setState(colors[states.get(0)], s);
 	}
 	
@@ -52,16 +53,21 @@ public class FireCell extends CellModel {
 	
 	public void findNextState()
 	{
+		int percentbrn=0;
 		boolean burning=false;
 		StateNode s;
 		for(int a=0; a<neighbors.length; a++)
 			if(neighbors[a]!=null && neighbors[a].getStates()[0]==BURNINGCELL)
-				burning=(Math.random()<burnprb);
+			{
+				percentbrn =neighbors[a].getStates()[1];
+				double prb=((double)percentbrn)/100;
+				burning=(Math.random()<prb);
+			}
 			
 		if(getStates()[0]==TREECELL && burning)
-			s = new StateNode(colors[BURNINGCELL], new int[] {BURNINGCELL});
+			s = new StateNode(colors[BURNINGCELL], new int[] {BURNINGCELL,percentbrn});
 		else if(getStates()[0]==BURNINGCELL)
-			s = new StateNode(colors[EMPTYCELL], new int[] {EMPTYCELL});
+			s = new StateNode(colors[EMPTYCELL], new int[] {EMPTYCELL, 0});
 		else
 			s = new StateNode(colors[getStates()[0]], getStates());
 		state.setNextState(s);

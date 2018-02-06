@@ -27,7 +27,8 @@ public class Grid {
 	
 	private static final String[] xmlModel = {
 			"GliderLifeCell.xml",
-			"BeaconLifeCell.xml"
+			"TestFireCell.xml"
+
 	};
 	
 	Map<String, String> modelDescription =  new HashMap<>();
@@ -58,6 +59,7 @@ public class Grid {
 				gridCells.get(i).add(cell);
 			}
 		}
+		
 		
 		for(int i = 0; i < edits.size(); i++) {
 			int row = edits.get(i).get(0);
@@ -116,7 +118,8 @@ public class Grid {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		Grid tester = new Grid(0);
+		Grid tester = new Grid(1);
+		
 		tester.findCellNeighbors();
 		System.out.println();
 		for(int i = 0; i < 18; i++) {
