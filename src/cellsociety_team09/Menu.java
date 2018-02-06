@@ -94,13 +94,14 @@ public class Menu extends Application{
 	}
 	
 	private Scene initializeStart(int screenwidth, int screenheight, Color paint){
-		blocksize = GRIDSIZE / gridsize;
+		grid = new Grid(0);
+		blocksize = GRIDSIZE / grid.getGridSize();
 		//System.out.println("blocksize = " + blocksize);
 		Group root = new Group();
 		myRoot = root;
 		myGrid = new SquareGridView(GRIDX, GRIDY, blocksize, GRIDSIZE);
 		//grid = new Grid(gridsize,0);
-		grid = new Grid(0);
+		
 		Scene scene = new Scene(root, screenwidth, screenheight, paint);
 		gridgroup = myGrid.drawGrid(grid, screenwidth, screenheight, blocksize);
 		root.getChildren().add(gridgroup);

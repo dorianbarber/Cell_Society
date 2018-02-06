@@ -27,8 +27,8 @@ public class Grid {
 	};
 	
 	private static final String[] xmlModel = {
-			"BeaconLifeCell.xml",
 			"GliderLifeCell.xml"
+			//"BeaconLifeCell.xml"
 	};
 	
 	Map<String, String> modelDescription =  new HashMap<>();
@@ -61,6 +61,8 @@ public class Grid {
 			int col = edits.get(i).get(1);
 			gridCells.get(row).set(col, new LifeCell(edits.get(i).get(2)));
 		}
+		
+		this.findCellNeighbors();
 	}
 	
 	//supposed to return the set of cells for the menu class to use
