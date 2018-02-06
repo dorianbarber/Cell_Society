@@ -8,15 +8,19 @@ import javafx.scene.shape.Rectangle;
 
 public class WatorCell extends CellModel {
 	
-	private static final Color[] colors= {Color.BLUE,Color.GREEN, Color.RED};
+	private static final Color[] colors= {Color.BLUE,Color.GREEN, Color.RED,Color.BLUE,Color.BLUE};
 	private static final int EMPTYCELL=0;
 	private static final int FISHCELL=1;
 	private static final int SHARKCELL=2;
+	private static final int FISHLEAVE=3;
+	private static final int SHARKLEAVE=4;
 	private int starverate;
 	private int reporate;
 	private int type;
 	private boolean inheat =false;
 	private boolean moved=false;
+	private boolean isalive=true;
+	
 	//state 0 is type is repo type 3 is starve type
 	public WatorCell(int[] states)
 	{
@@ -26,6 +30,7 @@ public class WatorCell extends CellModel {
 		type=states[0];
 		StateNode n = new StateNode(colors[type],new int[] {type,0,0});
 		state=n;
+		neighbors = new WatorCell[] {null};
 	}
 	
 	public void getNeighbors( int r, int c, ArrayList<ArrayList<CellModel>> grid)
@@ -95,8 +100,35 @@ public class WatorCell extends CellModel {
 	{
 		boolean die=false;
 		int next=-1;
+		StateNode thisnode=null;
+		StateNode movenode=null;
 		int[] states = getStates();
 		int[] nebs={0,1,2,3};
+		
+		if(states[0]==SHARKCELL)
+		{
+			nebs=shuffle(nebs);
+			for(int a=0; a<nebs.length; a++)
+			{
+				WatorCell c = (WatorCell)neighbors[nebs[a]];
+				if(c.getStates()[0]==FISHCELL && c.isAlive())
+				{
+					
+				}
+			}
+		}
+		
+		
+		
+		
+		
+		
+		public boolean isAlive()
+		{
+			return isalive;
+		}
+		
+		
 		if(states[0]==FISHCELL)
 		{
 			nebs=shuffle(nebs);
@@ -113,8 +145,23 @@ public class WatorCell extends CellModel {
 			}
 			if(!die && next!=-1)
 			{
-				state.setNextState(colors[FISHCELL], new int[] {FISHCELL,)
+				thisnode = new StateNode(colors[FISHLEAVE], new int[] {FISHLEAVE,0,0});
+				movenode = new StateNode(colors[FISHCELL],new int[] {FISHCELL,getStates()[1]+1,0});
+				moved=true;
+				neighbors[next].setNextState(movenode);
 			}
+			else if(die)
+			{
+				 thisnode = new StateNode(colors[EMPTYCELL], new int[] {EMPTYCELL,0,0});
+			}
+			else if(next==-1)
+			{
+				 thisnode = new StateNode(colors[FISHCELL], new int[] {FISHCELL,getStates()[1]+1,0});
+			}
+			state.setNextState(thisnode);
+
+			
+				
 		}
 		
 	}

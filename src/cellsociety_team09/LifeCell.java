@@ -62,6 +62,11 @@ public class LifeCell extends CellModel {
 	{
 		
 	}
+	
+	public void setNextState(StateNode b)
+	{
+		state.setNextState(b);
+	}
 
 
 	public void getNeighbors( int r, int c, ArrayList<ArrayList<CellModel>> grid)

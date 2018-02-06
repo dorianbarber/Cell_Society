@@ -26,16 +26,21 @@ public class FireCell extends CellModel {
 	
 	public FireCell()
 	{
-		this(0,.8);
+		this(2,.7);
 	}
 	
 	
 	
 	public void getInput(ArrayList<Integer> states)
 	{
-		burnprb=states.get(1);
+		burnprb=((double)states.get(1))/100;
 		int[] s = new int[]{states.get(0)};
-		state.setState(color,s);
+		state.setState(colors[states.get(0)], s);
+	}
+	
+	public void setNextState(StateNode b)
+	{
+		state.setNextState(b);
 	}
 	
 	

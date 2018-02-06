@@ -38,6 +38,7 @@ public abstract class CellModel extends Shape{
 			state.moveBackward();
 	}
 	
+	protected abstract void setNextState(StateNode a);
 	@Override
 	public com.sun.javafx.geom.Shape impl_configShape() {
 		// TODO Auto-generated method stub

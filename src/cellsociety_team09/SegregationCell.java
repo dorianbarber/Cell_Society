@@ -95,7 +95,7 @@ public class SegregationCell extends CellModel
 					(SegregationCell) grid.get(r-1).get(c-1)}; // top left
 		}
 	}
-	private void findNextState(StateNode n)
+	public void setNextState(StateNode n)
 	{
 		state.setNextState(n);
 	}
@@ -169,7 +169,7 @@ public class SegregationCell extends CellModel
 							temp.setState(colors[temp.getStates()[0]-2],new int[] {temp.getStates()[0]-2}); //for stepping backwards 
 
 						}
-						temp.findNextState(n);
+						temp.setNextState(n);
 						temp.state.moveForward();
 						temp.moved=true;
 						ismoving=false;

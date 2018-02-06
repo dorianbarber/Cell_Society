@@ -22,9 +22,9 @@ public class ModelTester extends Application{
 	private Stage myStage;
 	private Scene myScene;
     public static final int SIZE = 700;
-    public static final int GRIDSIZE= 100;
+    public static final int GRIDSIZE= 40;
     public static final int FRAMES_PER_SECOND = 60;
-    public static final int MILLISECOND_DELAY = 100;
+    public static final int MILLISECOND_DELAY = 300;
     public static final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
     public static final Paint BACKGROUND = Color.BLACK;
     private ArrayList<ArrayList<CellModel>> gridCells= new ArrayList<ArrayList<CellModel>>();
@@ -103,18 +103,20 @@ public class ModelTester extends Application{
 					shapes.add(new ArrayList<Rectangle>());
 					shapes.get(i).add(new Rectangle((ssize+1)*i,(ssize+1)*j,ssize,ssize));
 					gridCells.add(new ArrayList<CellModel>());
-					gridCells.get(i).add(new SegregationCell());
-					if(.98>Math.random())
+					gridCells.get(i).add(new FireCell());
+					if(.9>Math.random())
 					{
-						if(.5>Math.random())
-							gridCells.get(i).set(j,new SegregationCell(1,.5));
-						else
-							gridCells.get(i).set(j,new SegregationCell(2,.5));
+						if(.8>Math.random())
+							gridCells.get(i).set(j,new FireCell(2,.7));
 					}
-					else gridCells.get(i).set(j,new SegregationCell(0,.5));
+					else gridCells.get(i).set(j,new FireCell(0,.7));
+					
 						
 				}
 			}
+			gridCells.get(4).set(6, new FireCell(1,.7));
+			gridCells.get(12).set(20, new FireCell(1,.7));
+
 			
 			
 			
