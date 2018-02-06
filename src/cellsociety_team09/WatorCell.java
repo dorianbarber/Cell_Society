@@ -34,9 +34,9 @@ public class WatorCell extends CellModel {
 		else
 			type=2;
 		shape = new Rectangle(1,1);
-		starverate=death;
-		reporate1=repo1;
-		reporate2=repo2;
+		starverate=6;
+		reporate1=3;
+		reporate2=8;
 		StateNode n = new StateNode(colors[type],new int[] {type,0,0});
 		state=n;
 		neighbors = new WatorCell[] {null};
@@ -44,7 +44,7 @@ public class WatorCell extends CellModel {
 	
 	public WatorCell()
 	{
-		this((int)(Math.random()*8+1),4,8,10);
+		this((int)(Math.random()*8+1),3,8,6);
 	}
 	
 	
