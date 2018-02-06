@@ -15,6 +15,8 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import simulations.CellModel;
+import simulations.FireCell;
 
 public class ModelTester extends Application{
 	

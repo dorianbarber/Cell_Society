@@ -67,23 +67,15 @@ public class StateNode {
 		StateNode pointer = new StateNode(this);
 		if (nextState != null) {
 			this.setNode(nextState);
-			//System.out.println("GGGGG");
 		}
 		else{
-			//System.out.println("Null");
 		}
 		this.prevState = pointer;
 	}
 	
 	public void moveBackward() {
 		StateNode pointer = new StateNode(this);
-		if (prevState != null) {
-			this.setNode(prevState);
-			//System.out.println("GGGGG");
-		}
-		else{
-			//System.out.println("Null");
-		}
+		this.setNode(prevState);
 		this.nextState = pointer;
 	}
 	
