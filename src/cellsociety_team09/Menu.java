@@ -1,6 +1,9 @@
-   package cellsociety_team09;
+package cellsociety_team09;
 
-import java.util.Random;
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -14,12 +17,17 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -33,13 +41,19 @@ public class Menu extends Application{
 	
 	public static final int FRAMES_PER_SECOND = 1;
 	public static final int MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
+	private static final String GOLDESCRIPTION = "resources/gameoflife.txt";
+	private static final String FIREDESCRIPTION = "resources/fire.txt";
+	private static final String SEGDESCRIPTION = "resources/segregation.txt";
+	private static final String WATORDESCRIPTION = "resources/wator.txt";
+	private static final String LABELFIELD = "resources/labelfield.txt";
+	
 
 	//public static final double SECOND_DELAY = 6.0 / FRAMES_PER_SECOND;
 	private Timeline animation;
 	
 	private final int WIDTH = 700;
 	private final int HEIGHT = 600;
-	private final int GRIDSIZE = 500;
+	private final double GRIDSIZE = 500;
 	private final int GRIDX = WIDTH / 20; 
 	private final int GRIDY = HEIGHT / 20;
 	private final Color BACKGROUND = Color.ANTIQUEWHITE;
@@ -50,13 +64,16 @@ public class Menu extends Application{
 	private final int SLIDERSIZE = 300;
 	private final int BUTTONSIZE = 30;
 	private SquareGridView myGrid;
-	private int blocksize;
+	private double blocksize;
 	private double stepincrement = FRAMES_PER_SECOND;
 	private double sliderx;
 	private Group gridgroup;
 	private Grid grid;
 	private ComboBox<String> myBox;
 	private boolean happened = true;
+	private int gridsize = 20;
+	private boolean pressed;
+	private String currentbox = "Game of Life";
 	
     /**
      * Start the program.
@@ -64,15 +81,28 @@ public class Menu extends Application{
     public static void main (String[] args) {
         launch(args); 
     }
-
+    public String readFile(String path, Charset encoding) throws IOException {
+		  byte[] encoded = Files.readAllBytes(Paths.get(path));
+		  return new String(encoded, encoding);
+    }
 	@Override
 	public void start(Stage stage) {
-		myScene = initializeStart(WIDTH, HEIGHT, BACKGROUND);	
+		
+		myScene = initializeStart(WIDTH, HEIGHT, BACKGROUND, new Grid(0), getFile(GOLDESCRIPTION));	
 		myStage = stage;
 		myStage.setScene(myScene);
 		myStage.show();
 		
 		animate();
+	}
+	public String getFile(String s){
+		String labelfield = "";
+		try {
+			labelfield = readFile(s, Charset.defaultCharset());
+		} catch (IOException e) {
+			labelfield = "Sorry, file not found";
+		}
+		return labelfield;
 	}
 	public void animate(){
 		// attach "game loop" to timeline to play it
@@ -82,32 +112,95 @@ public class Menu extends Application{
 		animation.getKeyFrames().add(frame);
 	}
 	private void step(double elapsedTime) {
-		
+		grid.moveSimulationForward();
 		myRoot.getChildren().remove(gridgroup);
 		gridgroup = myGrid.drawGrid(grid, WIDTH, HEIGHT, blocksize);
 		myRoot.getChildren().add(gridgroup);
-		grid.moveSimulationForward();
+		
 	}
-	
-	private Scene initializeStart(int screenwidth, int screenheight, Color paint){
-		blocksize = GRIDSIZE / 10;
+
+	private void reset(){
+		//System.out.println(grid.getDescription());
+		myScene = initializeStart(WIDTH, HEIGHT, BACKGROUND, new Grid(grid.getKind()), grid.getDescription());
+		myStage.setScene(myScene);
+		myStage.show();
+	}
+	private Scene initializeStart(int screenwidth, int screenheight, Color paint, Grid g, String textbox){
+		grid = g;
+		grid.setDescription(textbox);
+		blocksize = GRIDSIZE / grid.getGridSize();
+		//System.out.println("blocksize = " + blocksize);
 		Group root = new Group();
 		myRoot = root;
 		myGrid = new SquareGridView(GRIDX, GRIDY, blocksize, GRIDSIZE);
-		grid = new Grid(10,0);
+		//grid = new Grid(gridsize,0);
+		
 		Scene scene = new Scene(root, screenwidth, screenheight, paint);
-		gridgroup = myGrid.drawBlankGrid(screenwidth, screenheight, blocksize);
+		gridgroup = myGrid.drawGrid(grid, screenwidth, screenheight, blocksize);
 		root.getChildren().add(gridgroup);
 		root.getChildren().add(getAnimationSpeedSlider());
 		root.getChildren().add(getPlayButton());
 		root.getChildren().add(getPauseButton());
 		root.getChildren().add(getStepForwardButton());
-		myBox = getMenu();
+		myBox = getMenu(currentbox);
 		root.getChildren().add(myBox);
-		root.getChildren().add(getText());
+		root.getChildren().add(getText(grid.getDescription()));
 		root.getChildren().add(getBackStepButton());
+		root.getChildren().add(getSizeField());
 		return scene;
 	}
+	private VBox getSizeField() {
+		Label label1 = new Label(getFile(LABELFIELD));
+		VBox hb = new VBox();
+		TextField input = new TextField();
+		label1.setWrapText(true);
+        label1.setTextAlignment(TextAlignment.JUSTIFY);
+		hb.getChildren().addAll(label1, input);
+		//hb.setStyle("-fx-background: green;");
+		hb.setSpacing(10);
+		hb.setLayoutX(GRIDSIZE + GRIDX + DROPOFFSET / 2);
+		hb.setLayoutY(420);
+		hb.setMaxWidth(WIDTH - hb.getLayoutX() - 5);
+		
+		input.setText(Integer.toString(gridsize));
+		input.textProperty().addListener((option, oldvalue, newvalue) -> {
+			if (!newvalue.matches("\\d*")) {
+	            input.setText(oldvalue);
+	        }
+			if (!newvalue.equals("")){
+				gridsize = Integer.parseInt(input.getText());
+			}
+			if (gridsize > 200){
+				gridsize = 200;
+			}
+			if (gridsize < 2){
+				gridsize = 2;
+			}
+			
+			
+		});
+		input.setOnKeyPressed((event) -> { if(event.getCode() == KeyCode.ENTER) { 
+			String text = input.getText();
+			//System.out.println(text);
+			//System.out.println(gridsize);
+			
+			myScene = initializeStart(WIDTH, HEIGHT, BACKGROUND, new Grid(grid.getKind()), grid.getDescription());
+			input.setText(text);
+			myStage.setScene(myScene);
+			myStage.show();
+			animation.stop();
+			pressed = false;
+			
+			//System.out.println(input.getText());
+			
+		}});
+		input.setOnMouseClicked((event) -> {
+			input.setText("");
+		});
+		
+		return new VBox();
+	}
+
 	private Slider getAnimationSpeedSlider(){
 		Slider speedtoggle = new Slider();
 		speedtoggle.setLayoutY(myGrid.getY() + myGrid.getDimensions() + SLIDEROFFSET); 
@@ -130,19 +223,17 @@ public class Menu extends Application{
 
 	private Button getBackStepButton(){
 		
-		Image play = new Image(getClass().getResourceAsStream("../pauseicon.png"), 30, 30, false, false);
+		Image play = new Image(getClass().getResourceAsStream("../stepbackward.png"), 30, 30, false, false);
 		Button pausebutton = new Button("", new ImageView(play));
 		pausebutton.setLayoutX(sliderx + 13.5);
 		pausebutton.setLayoutY(myGrid.getY() + myGrid.getDimensions() + BUTTONVERTOFFSET);
-		pausebutton.setOnAction(e -> getPauseAction());
+		pausebutton.setOnAction(e -> getReset());
 		return pausebutton;
 	}
-//	private void getBackStep() {
-//		animation.pause();
-//		animation.setRate(-1 * animation.getRate());
-//		animation.`	
-//		animation.setRate(-1 * animation.getRate());
-//	}
+	private void getReset() {
+		reset();
+		animation.pause();
+	}
 
 	private Button getPlayButton(){
 		Image play = new Image(getClass().getResourceAsStream("../playicon.png"), BUTTONSIZE, BUTTONSIZE, false, false);
@@ -162,7 +253,7 @@ public class Menu extends Application{
 		return pausebutton;
 	}
 	private Button getStepForwardButton() {
-		Image play = new Image(getClass().getResourceAsStream("../playicon.png"), BUTTONSIZE, BUTTONSIZE, false, false);
+		Image play = new Image(getClass().getResourceAsStream("../stepforward.png"), BUTTONSIZE, BUTTONSIZE, false, false);
 		Button stepforwardbutton = new Button("", new ImageView(play));
 		stepforwardbutton.setLayoutX(sliderx + 3 * BUTTONHOROFFSET + 3 * BUTTONSIZE + 13.5);
 		stepforwardbutton.setLayoutY(myGrid.getY() + myGrid.getDimensions() + BUTTONVERTOFFSET);
@@ -174,7 +265,7 @@ public class Menu extends Application{
 		animation.pause();
 		step(stepincrement);
 	}
-	private ComboBox<String> getMenu(){
+	private ComboBox<String> getMenu(String selected){
 		ObservableList<String> options = 
 			    FXCollections.observableArrayList(
 			        "Game of Life",
@@ -185,7 +276,7 @@ public class Menu extends Application{
 		ComboBox<String> combobox = new ComboBox<String>(options);
 		combobox.setLayoutX(GRIDSIZE + GRIDX + DROPOFFSET);
 		combobox.setLayoutY(2 * GRIDY);
-		//combobox.setValue("Game of Life");
+		combobox.setValue(selected);
 		combobox.valueProperty().addListener((option, oldvalue, newvalue) -> {
 			handleBoxInput(oldvalue, newvalue);
 		});
@@ -201,56 +292,70 @@ public class Menu extends Application{
 				return;
 			}
 			if (newvalue.equals("Game of Life")) {
-				myScene = initializeStart(WIDTH, HEIGHT, BACKGROUND);
-				myStage.setScene(myScene);
-				myStage.show();
-				happened = false;
-				myBox.setValue("Game of Life");
-			} else {
-				myScene = initializeSegregation(WIDTH, HEIGHT, BACKGROUND);
-				myStage.setScene(myScene);
-				myStage.show();
+				getGOL();
 			} 
+			else if (newvalue.equals("Spreading Fire")) {
+				getFire();
+			} else if (newvalue.equals("Segregation")) {
+				getSegregation();
+			} 
+			else {
+				getWator();
+			}
 		}
+		currentbox = myBox.getValue();
 		happened = true;
 	}
-
-	private Scene initializeSegregation(int screenwidth, int screenheight, Color background) {
-		blocksize = 10;
-		Group root = new Group();
-		myRoot = root;
-		myGrid = new SquareGridView(GRIDX, GRIDY, blocksize, GRIDSIZE);
-		grid = new Grid(125,0);
-		Scene scene = new Scene(root, screenwidth, screenheight, background);
-		gridgroup = myGrid.drawBlankGrid(screenwidth, screenheight, blocksize);
-		root.getChildren().add(gridgroup);
-		root.getChildren().add(getAnimationSpeedSlider());
-		root.getChildren().add(getPlayButton());
-		root.getChildren().add(getPauseButton());
-		root.getChildren().add(getStepForwardButton());
-		myBox = getMenu();
-		root.getChildren().add(myBox);
-		root.getChildren().add(getText());
-		root.getChildren().add(getBackStepButton());
-		
-		return scene;
+	
+	private void getWator() {
+		myScene = initializeStart(WIDTH, HEIGHT, BACKGROUND, new Grid(3), getFile(WATORDESCRIPTION));
+		myStage.setScene(myScene);
+		myStage.show();
+		happened = false;
+		myBox.setValue("Wa-Tor World");
+		animation.pause();
 	}
-
-	private Group getText(){
+	private void getSegregation() {
+		myScene = initializeStart(WIDTH, HEIGHT, BACKGROUND, new Grid(2), getFile(SEGDESCRIPTION));
+		myStage.setScene(myScene);
+		myStage.show();
+		happened = false;
+		myBox.setValue("Segregation");
+		animation.pause();
+		//System.out.println(getFile(SEGDESCRIPTION));
+	}
+	private void getFire() {
+		myScene = initializeStart(WIDTH, HEIGHT, BACKGROUND, new Grid(1), getFile(FIREDESCRIPTION));
+		myStage.setScene(myScene);
+		myStage.show();
+		happened = false;
+		myBox.setValue("Spreading Fire");
+		animation.pause();
+	}
+	private void getGOL() {
+		myScene = initializeStart(WIDTH, HEIGHT, BACKGROUND, new Grid(0), getFile(GOLDESCRIPTION));
+		myStage.setScene(myScene);
+		myStage.show();
+		happened = false;
+		myBox.setValue("Game of Life");
+		animation.pause();
+	}
+	private Group getText(String s){
 		Text description = new Text();
 		description.setLayoutX(GRIDSIZE + GRIDX + DROPOFFSET / 2);
 		description.setLayoutY(3.8 * GRIDY);
-		description.setText("Testing, testing, one two three"
-				+ "Still testing keep it up great job everyone here we will "
-				+ "store the incredible description of our game");
+		description.setText(s);
 		description.setWrappingWidth(WIDTH - description.getLayoutX() - 5);
 		description.setFill(Color.BLACK);
+		description.setStyle("-fx-font-family: garamond; -fx-font-size: 14;");
 		Rectangle background = new Rectangle(description.getLayoutX() - 3, description.getLayoutY() - 15, 158, 300);
 		background.setStroke(Color.BLACK);
-		background.setFill(Color.TRANSPARENT);
+		background.setFill(Color.BURLYWOOD);
+		background.toBack();
 		Group retroot = new Group();
 		retroot.getChildren().add(description);
 		retroot.getChildren().add(background);
+		description.toFront();
 		
 		return retroot;
 	}

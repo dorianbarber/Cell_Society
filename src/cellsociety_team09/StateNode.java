@@ -48,9 +48,16 @@ public class StateNode {
 	}
 	
 	public void setNextState(StateNode next) {
-		this.nextState = next;
+		nextState = next;
 	}
 	
+	public boolean hasNext(){
+		return (nextState!=null);
+	}
+	
+	public boolean hasPrev(){
+		return (prevState!=null);
+	}
 	/**
 	 * Makes this StateNode the next state node
 	 * and points the new prevState to the state
@@ -60,15 +67,23 @@ public class StateNode {
 		StateNode pointer = new StateNode(this);
 		if (nextState != null) {
 			this.setNode(nextState);
-			//System.out.println("GGGGG");
 		}
 		else{
-			//System.out.println("Null");
 		}
 		this.prevState = pointer;
 	}
 	
-	//refactored code for creating a pointer 
+	public void moveBackward() {
+		StateNode pointer = new StateNode(this);
+		this.setNode(prevState);
+		this.nextState = pointer;
+	}
+	
+	
+	public StateNode getNextState()
+	{
+		return nextState;
+	}
 	private void setNode(StateNode target) {
 		stateColor = target.stateColor;
 		states = target.states;

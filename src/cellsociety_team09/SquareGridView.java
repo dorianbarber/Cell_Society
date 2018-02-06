@@ -1,27 +1,32 @@
 package cellsociety_team09;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
 
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.Shape;
 
 public class SquareGridView {
 	private double gridXPosition;
 	private double gridYPosition;
-	private int gridBlockSize;
-	private int gridSize;
+	private double gridBlockSize;
+	private double gridSize;
 	
-	public SquareGridView(double x, double y, int blocksize, int gridsize){
+	public SquareGridView(double x, double y, double blocksize, double GRIDSIZE){
 		gridXPosition = x;
 		gridYPosition = y;
-		gridSize = gridsize;
+		gridSize = GRIDSIZE;
 		gridBlockSize = blocksize;
 	}
-	public Group drawBlankGrid(int screenwidth, int screenheight, int blocksize){
+	public Group drawBlankGrid(int screenwidth, int screenheight, double blocksize){
 		Group retgroup = new Group();
-		for (double i = gridXPosition; i < gridXPosition + gridSize; i += gridBlockSize){
-			for (double j = gridYPosition; j < gridYPosition + gridSize; j += gridBlockSize){
+		for (double i = gridXPosition; i < gridXPosition + gridSize; i += blocksize){
+			for (double j = gridYPosition; j < gridYPosition + gridSize; j += blocksize){
 				Rectangle toAdd = new Rectangle(i, j, blocksize, blocksize);
 				toAdd.setFill(Color.ANTIQUEWHITE);
 				toAdd.setStroke(Color.BLACK);
@@ -32,8 +37,8 @@ public class SquareGridView {
 	}
 	public Group drawRandomGrid(int screenwidth, int screenheight, int blocksize){
 		Group retgroup = new Group();
-		for (double i = gridXPosition; i < gridXPosition + gridSize; i += gridBlockSize){
-			for (double j = gridYPosition; j < gridYPosition + gridSize; j += gridBlockSize){
+		for (double i = gridXPosition; i < gridXPosition + gridSize; i += blocksize){
+			for (double j = gridYPosition; j < gridYPosition + gridSize; j += blocksize){
 				Rectangle toAdd = new Rectangle(i, j, blocksize, blocksize);
 				if (new Random().nextInt(3) == 0){
 					toAdd.setFill(Color.BLUE);
@@ -53,14 +58,19 @@ public class SquareGridView {
 		}
 		return retgroup;
 	}
-	public Group drawGrid(Grid g, int screenwidth, int screenheight, int blocksize){
+	public Group drawGrid(Grid g, int screenwidth, int screenheight, double blocksize){
 		Group retgroup = new Group();
 		int x = 0, y = 0;
-		for (double i = gridXPosition; i < gridXPosition + gridSize; i += gridBlockSize){
-			for (double j = gridYPosition; j < gridYPosition + gridSize; j += gridBlockSize){
+		for (double i = gridXPosition; i < gridXPosition + gridSize - .5; i += blocksize){
+			for (double j = gridYPosition; j < gridYPosition + gridSize - .5; j += blocksize){
 				Rectangle toAdd = new Rectangle(i, j, blocksize, blocksize);
+				//System.out.println("X: " + x + " Y: " + y);
+				//sSystem.out.println("I: " + i + " J: " + j);
 				toAdd.setFill(g.getCells().get(x).get(y).getColor());
 				toAdd.setStroke(Color.BLACK);
+				int xtemp = x;
+				int ytemp = y;
+				toAdd.setOnMouseClicked(e -> handleClick(xtemp,ytemp,g, toAdd));
 				retgroup.getChildren().add(toAdd);
 				y++;
 			}
@@ -69,13 +79,24 @@ public class SquareGridView {
 		}
 		return retgroup;
 	}
+	
+	private void handleClick(int x, int y, Grid g, Shape n) {
+		List<Integer> list = new ArrayList<Integer>();
+		list.add(1);
+		list.add(70);
+		g.getCells().get(x).get(y).getInput(list);
+		n.setFill(g.getCells().get(x).get(y).getKind().getColor());
+		g.findCellNeighbors();
+		//System.out.println("Clicked!");
+		
+	}
 	public double getX(){
 		return gridXPosition;
 	}
 	public double getY(){
 		return gridYPosition;
 	}
-	public int getDimensions(){
+	public double getDimensions(){
 		return gridSize;
 	}
 }

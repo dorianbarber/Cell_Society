@@ -1,9 +1,11 @@
 
-package cellsociety_team09;
+package simulations;
 
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Shape;
 import java.util.ArrayList;
+import java.util.List;
+import cellsociety_team09.StateNode;
 
 public abstract class CellModel extends Shape{
 	protected Shape shape;
@@ -17,33 +19,40 @@ public abstract class CellModel extends Shape{
 	
 	public CellModel(){}
 	
-	abstract void getNeighbors(int row, int col, ArrayList<ArrayList<CellModel>> grid );
+	public abstract void getNeighbors(int row, int col, ArrayList<ArrayList<CellModel>> grid );
+
 	
 	abstract int[] getStates();
 	
-	abstract void findNextState();
+	public abstract void findNextState();
 
 
 	public abstract void moveForward(ArrayList<ArrayList<CellModel>> cellgrid);
 	
-	public abstract void getInput(ArrayList<Integer> states);
+	public abstract void getInput(List<Integer> states);
 
 	public Color getColor(){
         return state.getColor();
 	}
+	public StateNode getKind(){
+		return state;
+	}
+	public void moveBackward()
+	{
+		if(state.hasPrev())
+			state.moveBackward();
+	}
 	
-	
+	protected abstract void setNextState(StateNode a);
 	@Override
 	public com.sun.javafx.geom.Shape impl_configShape() {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
 	//@Conrad this is a method so that I can test whether the grid
 	//class works well. I will delete this later. -Dorian
 	public String getState() {
 		return state.getStates()[0] + "";
 	}
-
 }
 
