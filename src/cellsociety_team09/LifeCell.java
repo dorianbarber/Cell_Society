@@ -11,11 +11,11 @@ public class LifeCell extends CellModel {
 	
 	public static final int DEADSTATE=0;
 	public static final int ALIVESTATE=1;
-	public static final Color[] colors = {Color.WHITE, Color.BLACK};
+	public static final Color[] colors = {Color.WHITE, Color.GREEN};
 	
 	public LifeCell(int cellstate)
 	{
-		shape = new Rectangle(1,1);
+		//shape = new Rectangle(1,1);
 		color = colors[cellstate];
 		int[] states= {cellstate};
 		state = new StateNode(color,states);
@@ -63,13 +63,14 @@ public class LifeCell extends CellModel {
 	{
 		state.setState(colors[states.get(0)],new int[] {states.get(0)});
 	}
-	
+
 	public void setNextState(StateNode b)
 	{
 		state.setNextState(b);
 	}
-
-
+	public StateNode getKind(){
+		return state;
+	}
 	public void getNeighbors( int r, int c, ArrayList<ArrayList<CellModel>> grid)
 	{
 

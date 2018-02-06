@@ -32,7 +32,9 @@ public abstract class CellModel extends Shape{
 	public Color getColor(){
         return state.getColor();
 	}
-	
+	public StateNode getKind(){
+		return state;
+	}
 	public void moveBackward()
 	{
 		if(state.hasPrev())

@@ -26,8 +26,8 @@ public class Grid {
 	
 	
 	private static final String[] xmlModel = {
-			"GliderLifeCell.xml"
-			//"BeaconLifeCell.xml"
+			"GliderLifeCell.xml",
+			"BeaconLifeCell.xml"
 	};
 	
 	Map<String, String> modelDescription =  new HashMap<>();
@@ -47,7 +47,7 @@ public class Grid {
 	
 	public Grid(int modelChoice) {
 		modelType = modelChoice;
-		ArrayList<ArrayList<Integer>> edits = this.getXMLFile(xmlModel[0]);
+		ArrayList<ArrayList<Integer>> edits = this.getXMLFile(xmlModel[modelChoice]);
 		gridSize = Integer.parseInt(modelDescription.get("Size"));
 				
 		gridCells = new  ArrayList<ArrayList<CellModel>>();
