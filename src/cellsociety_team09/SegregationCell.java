@@ -181,6 +181,10 @@ public class SegregationCell extends CellModel
 		return grid;
 	}
 	
+	public Color getColor(){
+		return color;
+	}
+	
 	private double nPercent(int mecount, int notmecount)
 	{
 		return((double)(mecount))/(notmecount+mecount);
