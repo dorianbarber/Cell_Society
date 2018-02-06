@@ -27,11 +27,13 @@ public class Grid {
 	
 	
 	private static final String[] xmlModel = {
-			"GliderLifeCell.xml",
+			"AcornLifeCell.xml",
+			//"GliderLifeCell.xml",
 			"TestFireCell.xml",
 			"Wa-TorCell.xml",
 			"TestSegregationCell.xml"
-			//"BeaconLifeCell.xml"
+			//"PulsarLifeCell.xml"
+			//"AcornLifeCell.xml",
 	};
 	
 	Map<String, String> modelDescription =  new HashMap<>();
