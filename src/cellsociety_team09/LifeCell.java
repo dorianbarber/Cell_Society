@@ -63,11 +63,16 @@ public class LifeCell extends CellModel {
 	{
 		state.setState(colors[states.get(0)],new int[] {states.get(0)});
 	}
+	
+	public void setNextState(StateNode b)
+	{
+		state.setNextState(b);
+	}
 
 
 	public void getNeighbors( int r, int c, ArrayList<ArrayList<CellModel>> grid)
 	{
-		//(LifeCell)
+
 		int length=grid.get(0).size();
 		int height=grid.get(0).size();
 		if(c==0 && r==0){
