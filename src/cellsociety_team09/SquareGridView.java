@@ -1,6 +1,8 @@
 package cellsociety_team09;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
 
 import javafx.scene.Group;
@@ -79,10 +81,14 @@ public class SquareGridView {
 	}
 	
 	private void handleClick(int x, int y, Grid g, Shape n) {
-		g.getCells().get(x).get(y).getInput(Arrays.asList(g.getCells().get(x).get(y).getStates()[0]));
+		List<Integer> list = new ArrayList<Integer>();
+		list.add(1);
+		list.add(70);
+		g.getCells().get(x).get(y).getInput(list);
 		n.setFill(g.getCells().get(x).get(y).getKind().getColor());
-		System.out.println("Clicked!");
-		System.out.println(n.getFill());
+		g.findCellNeighbors();
+		//System.out.println("Clicked!");
+		
 	}
 	public double getX(){
 		return gridXPosition;

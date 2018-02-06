@@ -20,6 +20,7 @@ public class LifeCell extends CellModel {
 		int[] states= {cellstate};
 		state = new StateNode(color,states);
 		neighbors = new LifeCell[]{null};
+		//int[] possiblestates = {0,1};
 	}
 	
 	public LifeCell()
@@ -27,7 +28,9 @@ public class LifeCell extends CellModel {
 		this(0);
 	}
 	
-	
+	public Color[] getPossibleStates(){
+		return colors;
+	}
 	
 	
 	public int[] getStates()

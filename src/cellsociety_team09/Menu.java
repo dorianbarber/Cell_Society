@@ -41,6 +41,12 @@ public class Menu extends Application{
 	
 	public static final int FRAMES_PER_SECOND = 1;
 	public static final int MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
+	private static final String GOLDESCRIPTION = "resources/gameoflife.txt";
+	private static final String FIREDESCRIPTION = "resources/fire.txt";
+	private static final String SEGDESCRIPTION = "resources/segregation.txt";
+	private static final String WATORDESCRIPTION = "resources/wator.txt";
+	private static final String LABELFIELD = "resources/labelfield.txt";
+	
 
 	//public static final double SECOND_DELAY = 6.0 / FRAMES_PER_SECOND;
 	private Timeline animation;
@@ -67,6 +73,7 @@ public class Menu extends Application{
 	private boolean happened = true;
 	private int gridsize = 20;
 	private boolean pressed;
+	
     /**
      * Start the program.
      */
@@ -79,12 +86,22 @@ public class Menu extends Application{
     }
 	@Override
 	public void start(Stage stage) {
-		myScene = initializeStart(WIDTH, HEIGHT, BACKGROUND, new Grid(0));	
+		
+		myScene = initializeStart(WIDTH, HEIGHT, BACKGROUND, new Grid(0), getFile(GOLDESCRIPTION));	
 		myStage = stage;
 		myStage.setScene(myScene);
 		myStage.show();
 		
 		animate();
+	}
+	public String getFile(String s){
+		String labelfield = "";
+		try {
+			labelfield = readFile(s, Charset.defaultCharset());
+		} catch (IOException e) {
+			labelfield = "Sorry, file not found";
+		}
+		return labelfield;
 	}
 	public void animate(){
 		// attach "game loop" to timeline to play it
@@ -102,13 +119,13 @@ public class Menu extends Application{
 	}
 
 	private void reset(){
-		myScene = initializeStart(WIDTH, HEIGHT, BACKGROUND, new Grid(0));
+		myScene = initializeStart(WIDTH, HEIGHT, BACKGROUND, new Grid(grid.getKind()), grid.getDescription());
 		myStage.setScene(myScene);
 		myStage.show();
 	}
-	private Scene initializeStart(int screenwidth, int screenheight, Color paint, Grid g){
+	private Scene initializeStart(int screenwidth, int screenheight, Color paint, Grid g, String textbox){
 		grid = g;
-
+		grid.setDescription(textbox);
 		blocksize = GRIDSIZE / grid.getGridSize();
 		//System.out.println("blocksize = " + blocksize);
 		Group root = new Group();
@@ -125,20 +142,13 @@ public class Menu extends Application{
 		root.getChildren().add(getStepForwardButton());
 		myBox = getMenu();
 		root.getChildren().add(myBox);
-		root.getChildren().add(getText("resources/gameoflife.txt"));
+		root.getChildren().add(getText(grid.getDescription()));
 		root.getChildren().add(getBackStepButton());
 		root.getChildren().add(getSizeField());
 		return scene;
 	}
 	private VBox getSizeField() {
-		String labelfield = "";
-		try {
-			labelfield = readFile("resources/labelfield.txt", Charset.defaultCharset());
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		Label label1 = new Label(labelfield);
+		Label label1 = new Label(getFile(LABELFIELD));
 		VBox hb = new VBox();
 		TextField input = new TextField();
 		label1.setWrapText(true);
@@ -172,7 +182,7 @@ public class Menu extends Application{
 			//System.out.println(text);
 			//System.out.println(gridsize);
 			
-			myScene = initializeStart(WIDTH, HEIGHT, BACKGROUND, new Grid(/*grid.getKind()*/0));
+			myScene = initializeStart(WIDTH, HEIGHT, BACKGROUND, new Grid(grid.getKind()), grid.getDescription());
 			input.setText(text);
 			myStage.setScene(myScene);
 			myStage.show();
@@ -280,69 +290,59 @@ public class Menu extends Application{
 				return;
 			}
 			if (newvalue.equals("Game of Life")) {
-				myScene = initializeStart(WIDTH, HEIGHT, BACKGROUND, new Grid(0));
-				myStage.setScene(myScene);
-				myStage.show();
-				happened = false;
-				myBox.setValue("Game of Life");
+				getGOL();
 			} 
 			else if (newvalue.equals("Spreading Fire")) {
-				myScene = initializeStart(WIDTH, HEIGHT, BACKGROUND, new Grid(1));
-				myStage.setScene(myScene);
-				myStage.show();
-				happened = false;
-				myBox.setValue("Spreading Fire");
+				getFire();
 			} else if (newvalue.equals("Segregation")) {
-				myScene = initializeStart(WIDTH, HEIGHT, BACKGROUND, new Grid(2));
-				myStage.setScene(myScene);
-				myStage.show();
-				happened = false;
-				myBox.setValue("Segregation");
+				getSegregation();
 			} 
 			else {
-				myScene = initializeStart(WIDTH, HEIGHT, BACKGROUND, new Grid(3));
-				myStage.setScene(myScene);
-				myStage.show();
-				happened = false;
-				myBox.setValue("Wa-Tor World");
+				getWator();
 			}
 		}
 		
 		happened = true;
 	}
-
-	private Scene initializeSegregation(int screenwidth, int screenheight, Color background) {
-		blocksize = GRIDSIZE / gridsize;
-		//System.out.println("blocksize = " + blocksize);
-		Group root = new Group();
-		myRoot = root;
-		myGrid = new SquareGridView(GRIDX, GRIDY, blocksize, GRIDSIZE);
-		grid = new Grid(gridsize,0);
-		Scene scene = new Scene(root, screenwidth, screenheight, background);
-		gridgroup = myGrid.drawGrid(grid, screenwidth, screenheight, blocksize);
-		root.getChildren().add(gridgroup);
-		root.getChildren().add(getAnimationSpeedSlider());
-		root.getChildren().add(getPlayButton());
-		root.getChildren().add(getPauseButton());
-		root.getChildren().add(getStepForwardButton());
-		myBox = getMenu();
-		root.getChildren().add(myBox);
-		root.getChildren().add(getText("resources/gameoflife.txt"));
-		root.getChildren().add(getBackStepButton());
-		root.getChildren().add(getSizeField());
-		return scene;
+	
+	private void getWator() {
+		myScene = initializeStart(WIDTH, HEIGHT, BACKGROUND, new Grid(3), getFile(WATORDESCRIPTION));
+		myStage.setScene(myScene);
+		myStage.show();
+		happened = false;
+		myBox.setValue("Wa-Tor World");
+		animation.pause();
 	}
-
+	private void getSegregation() {
+		myScene = initializeStart(WIDTH, HEIGHT, BACKGROUND, new Grid(2), getFile(SEGDESCRIPTION));
+		myStage.setScene(myScene);
+		myStage.show();
+		happened = false;
+		myBox.setValue("Segregation");
+		animation.pause();
+		System.out.println(getFile(SEGDESCRIPTION));
+	}
+	private void getFire() {
+		myScene = initializeStart(WIDTH, HEIGHT, BACKGROUND, new Grid(1), getFile(FIREDESCRIPTION));
+		myStage.setScene(myScene);
+		myStage.show();
+		happened = false;
+		myBox.setValue("Spreading Fire");
+		animation.pause();
+	}
+	private void getGOL() {
+		myScene = initializeStart(WIDTH, HEIGHT, BACKGROUND, new Grid(0), getFile(GOLDESCRIPTION));
+		myStage.setScene(myScene);
+		myStage.show();
+		happened = false;
+		myBox.setValue("Game of Life");
+		animation.pause();
+	}
 	private Group getText(String s){
 		Text description = new Text();
 		description.setLayoutX(GRIDSIZE + GRIDX + DROPOFFSET / 2);
 		description.setLayoutY(3.8 * GRIDY);
-		try {
-		description.setText(readFile(s, Charset.defaultCharset()));
-		
-		} catch (IOException e){
-			description.setText("File not found");
-		}
+		description.setText(s);
 		description.setWrappingWidth(WIDTH - description.getLayoutX() - 5);
 		description.setFill(Color.BLACK);
 		description.setStyle("-fx-font-family: garamond; -fx-font-size: 14;");

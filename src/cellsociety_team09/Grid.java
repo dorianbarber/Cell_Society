@@ -18,6 +18,7 @@ public class Grid {
 	private static ArrayList<ArrayList<CellModel>> gridCells; 
 	private int gridSize;
 	private int modelType;
+	private String description = "";
 //	private static final CellModel[] possibleModels= {
 //			new LifeCell(),
 //			new FireCell(),
@@ -45,7 +46,12 @@ public class Grid {
 			}
 		}
 	}
-	
+	public void setDescription(String s){
+		description = s;
+	}
+	public String getDescription(){
+		return description;
+	}
 	public Grid(int modelChoice) {
 		modelType = modelChoice;
 		ArrayList<ArrayList<Integer>> edits = this.getXMLFile(xmlModel[modelChoice]);

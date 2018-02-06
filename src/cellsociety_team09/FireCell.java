@@ -15,9 +15,9 @@ public class FireCell extends CellModel {
 	public static final Color[] colors = {Color.GREY, Color.RED, Color.GREEN};
 	private int burnprb;
 	
-	public FireCell(int cellstate, int bprb)
+	public FireCell(int cellstate, int d)
 	{
-		burnprb=bprb;
+		burnprb=d;
 		//shape = new Rectangle(1,1);
 		color=colors[cellstate];
 		int[] states= {cellstate,burnprb};
