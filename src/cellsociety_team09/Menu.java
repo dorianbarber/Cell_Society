@@ -99,6 +99,7 @@ public class Menu extends Application{
 		myRoot.getChildren().add(gridgroup);
 		
 	}
+
 	private void reset(){
 		myScene = initializeStart(WIDTH, HEIGHT, BACKGROUND, new Grid(0));
 		myStage.setScene(myScene);
@@ -106,6 +107,7 @@ public class Menu extends Application{
 	}
 	private Scene initializeStart(int screenwidth, int screenheight, Color paint, Grid g){
 		grid = g;
+
 		blocksize = GRIDSIZE / grid.getGridSize();
 		//System.out.println("blocksize = " + blocksize);
 		Group root = new Group();

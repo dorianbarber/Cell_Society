@@ -6,9 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.swing.JFileChooser;
-
-import javafx.scene.Node;
 
 
 /**
@@ -20,11 +17,13 @@ import javafx.scene.Node;
 public class Grid {
 	private static ArrayList<ArrayList<CellModel>> gridCells; 
 	private int gridSize;
-	private static final CellModel[] possibleModels= {
-			new LifeCell(),
-			new FireCell(),
-			new SegregationCell()
-	};
+	private int modelType;
+//	private static final CellModel[] possibleModels= {
+//			new LifeCell(),
+//			new FireCell(),
+//			new SegregationCell()
+//	};
+	
 	
 	private static final String[] xmlModel = {
 			"GliderLifeCell.xml"
@@ -34,17 +33,20 @@ public class Grid {
 	Map<String, String> modelDescription =  new HashMap<>();
 	
 	public Grid(int size, int modelChoice) {
+		modelType = modelChoice;
 		gridSize = size;
 		gridCells = new  ArrayList<ArrayList<CellModel>>();
 		for(int i = 0; i < gridSize; i++) {
 			for(int j = 0; j < gridSize; j++) {
 				gridCells.add(new ArrayList<CellModel>());
-				gridCells.get(i).add(new LifeCell());
+				CellModel cell = getCell(modelChoice);
+				gridCells.get(i).add(cell);
 			}
 		}
 	}
 	
 	public Grid(int modelChoice) {
+		modelType = modelChoice;
 		ArrayList<ArrayList<Integer>> edits = this.getXMLFile(xmlModel[0]);
 		gridSize = Integer.parseInt(modelDescription.get("Size"));
 				
@@ -52,16 +54,17 @@ public class Grid {
 		for(int i = 0; i < gridSize; i++) {
 			for(int j = 0; j < gridSize; j++) {
 				gridCells.add(new ArrayList<CellModel>());
-				gridCells.get(i).add(new LifeCell());
+				CellModel cell = getCell(modelChoice);
+				gridCells.get(i).add(cell);
 			}
 		}
 		
 		for(int i = 0; i < edits.size(); i++) {
 			int row = edits.get(i).get(0);
 			int col = edits.get(i).get(1);
-			gridCells.get(row).set(col, new LifeCell(edits.get(i).get(2)));
+			List<Integer> listOfCellEdits = edits.get(i).subList(2, edits.get(i).size());
+			gridCells.get(row).get(col).getInput(listOfCellEdits);
 		}
-		
 		this.findCellNeighbors();
 	}
 	
@@ -148,6 +151,23 @@ public class Grid {
 		modelDescription = xml.getModel(file);
 		
 		return xml.getEdits();
+	}
+	
+	private CellModel getCell(int i) {
+		if(i == 0) {
+			return new LifeCell();
+		} else if (i == 1) {
+			return new FireCell();
+		} else if(i == 2) {
+			return new SegregationCell();
+		} else {
+			return null;
+		}
+		
+	}
+	
+	public int getKind() {
+		return modelType;
 	}
 }
 
