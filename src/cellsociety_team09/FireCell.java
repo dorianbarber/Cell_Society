@@ -1,6 +1,7 @@
 package cellsociety_team09;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -31,7 +32,7 @@ public class FireCell extends CellModel {
 	
 	
 	
-	public void getInput(ArrayList<Integer> states)
+	public void getInput(List<Integer> states)
 	{
 		burnprb=states.get(1);
 		int[] s = new int[]{states.get(0),burnprb};
