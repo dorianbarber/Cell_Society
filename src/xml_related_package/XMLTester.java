@@ -1,7 +1,6 @@
-package cellsociety_team09;
+package xml_related_package;
 
 import java.io.File;
-import java.util.Map;
 
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -11,6 +10,12 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.FileChooser.ExtensionFilter;
 
+/**
+ * Tester class for the XMLParser.
+ * 
+ * @author Dorian
+ *
+ */
 public class XMLTester extends Application{
 	//Choosing the proper file
     public static final String DATA_FILE_EXTENSION = "*.xml";
@@ -26,7 +31,7 @@ public class XMLTester extends Application{
         if (dataFile != null) {
             try {
                 XMLParser xml = new XMLParser("type");
-            	Map<String, String> map = xml.getModel(dataFile);
+            	xml.getModel(dataFile);
             }
             catch (XMLException e) {
                 Alert a = new Alert(AlertType.ERROR);

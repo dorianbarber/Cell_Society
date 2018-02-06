@@ -1,4 +1,4 @@
-package cellsociety_team09;
+package xml_related_package;
 
 import java.io.File;
 import java.io.IOException;
@@ -14,9 +14,10 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
+
+import simulations.CellModel;
 
 /**
  * Parses XML files to get exactly what is necessary
@@ -55,9 +56,11 @@ public class XMLParser {
     /**
      * This method gets the data in the XML file as an extension
      * @param dataFile
-     * @return
+     * @return the related information to the file
+     * 			this includes the kind of simulation, 
+     * 			title, author, and global configuration
+     * 			of the simulation. 
      */
-    //public CellModel getModel(File dataFile){
     public Map<String, String> getModel(File dataFile){
     	Element root = getRootElement(dataFile);
     	if(!isValidFile(root, CellModel.DATA_TYPE)) {
@@ -119,18 +122,13 @@ public class XMLParser {
         return getAttribute(root, TYPE_ATTRIBUTE).equals(type);
     }
     
-    
-
-    
-//FIX THE FIX ME!!!!!!!!!!!!!!!!!!!!!!!!!!!    
-// Get value of Element's text
+    // Get value of Element's text
     private String getTextValue (Element e, String tagName) {
         NodeList nodeList = e.getElementsByTagName(tagName);
         if (nodeList != null && nodeList.getLength() > 0) {
             return nodeList.item(0).getTextContent();
         }
         else {
-            // FIXME: empty string or null, is it an error to not find the text value?
             return "";
         }
     }

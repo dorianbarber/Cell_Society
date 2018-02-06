@@ -1,4 +1,4 @@
-package cellsociety_team09;
+package xml_related_package;
 
 /**
  * This class represents the what may go wrong

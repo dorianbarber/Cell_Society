@@ -1,8 +1,9 @@
-package cellsociety_team09;
+package simulations;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import cellsociety_team09.StateNode;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
@@ -15,10 +16,10 @@ public class FireCell extends CellModel {
 	public static final Color[] colors = {Color.GREY, Color.RED, Color.GREEN};
 	private int burnprb;
 	
-	public FireCell(int cellstate, int bprb)
+	public FireCell(int cellstate, int d)
 	{
-		burnprb=bprb;
-		shape = new Rectangle(1,1);
+		burnprb=d;
+		//shape = new Rectangle(1,1);
 		color=colors[cellstate];
 		int[] states= {cellstate,burnprb};
 		state = new StateNode(color,states);
@@ -30,9 +31,26 @@ public class FireCell extends CellModel {
 		this(2,70);
 	}
 	
+
+	@Override 
+	public void getInput(List<Integer> states)
+	{
+		burnprb=states.get(1);
+		int[] s = new int[]{states.get(0),burnprb};
+		state.setState(colors[states.get(0)], s);
+	}
+	
+	public void setNextState(StateNode b)
+	{
+		state.setNextState(b);
+	}
 	
 	
-	
+	public int[] getStates()
+	{
+		return state.getStates();
+	}
+
 	public void findNextState()
 	{
 		int percentbrn=0;
@@ -60,23 +78,6 @@ public class FireCell extends CellModel {
 	
 	public void moveForward(ArrayList<ArrayList<CellModel>> grid) {
 		state.moveForward();
-	}
-
-	public void getInput(List<Integer> states)
-	{
-		burnprb=states.get(1);
-		int[] s = new int[]{states.get(0),burnprb};
-		state.setState(colors[states.get(0)], s);
-	}
-	
-	public void setNextState(StateNode b)
-	{
-		state.setNextState(b);
-	}
-	
-	public int[] getStates()
-	{
-		return state.getStates();
 	}
 	
 	
@@ -130,6 +131,8 @@ public class FireCell extends CellModel {
 										null}; // top left
 		}
 	}
+
+	
 
 
 }

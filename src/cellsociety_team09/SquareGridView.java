@@ -1,10 +1,15 @@
 package cellsociety_team09;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
 
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.Shape;
 
 public class SquareGridView {
 	private double gridXPosition;
@@ -63,6 +68,9 @@ public class SquareGridView {
 				//sSystem.out.println("I: " + i + " J: " + j);
 				toAdd.setFill(g.getCells().get(x).get(y).getColor());
 				toAdd.setStroke(Color.BLACK);
+				int xtemp = x;
+				int ytemp = y;
+				toAdd.setOnMouseClicked(e -> handleClick(xtemp,ytemp,g, toAdd));
 				retgroup.getChildren().add(toAdd);
 				y++;
 			}
@@ -70,6 +78,17 @@ public class SquareGridView {
 			y = 0;
 		}
 		return retgroup;
+	}
+	
+	private void handleClick(int x, int y, Grid g, Shape n) {
+		List<Integer> list = new ArrayList<Integer>();
+		list.add(1);
+		list.add(70);
+		g.getCells().get(x).get(y).getInput(list);
+		n.setFill(g.getCells().get(x).get(y).getKind().getColor());
+		g.findCellNeighbors();
+		//System.out.println("Clicked!");
+		
 	}
 	public double getX(){
 		return gridXPosition;

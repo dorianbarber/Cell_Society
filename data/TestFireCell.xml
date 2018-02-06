@@ -2,8 +2,9 @@
 	<Simulation>Spreading Fire</Simulation>
 	<SimulationNumber>1</SimulationNumber>
 	<Author>Conrad Mitchell</Author>
-	<Size>10</Size>
+	<Size>40</Size>
 	<gridEdits>
-		<point>5 5 1</point>
+		<point>9 9 1 70</point>
+		<point>30 21 1 60</point>
 	</gridEdits>
 </data>
