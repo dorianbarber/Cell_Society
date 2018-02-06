@@ -10,6 +10,7 @@ import simulations.CellModel;
 import simulations.FireCell;
 import simulations.LifeCell;
 import simulations.SegregationCell;
+import simulations.WatorCell;
 import xml_related_package.XMLParser;
 
 
@@ -86,7 +87,12 @@ public class Grid {
 			int row = edits.get(i).get(0);
 			int col = edits.get(i).get(1);
 			List<Integer> listOfCellEdits = edits.get(i).subList(2, edits.get(i).size());
-			gridCells.get(row).get(col).getInput(listOfCellEdits);
+			try {
+				gridCells.get(row).get(col).getInput(listOfCellEdits);
+			}
+			catch(NullPointerException e) {
+				System.out.println(i);
+			}
 		}
 		this.findCellNeighbors();
 	}
@@ -168,6 +174,8 @@ public class Grid {
 			return new FireCell();
 		} else if(i == 2) {
 			return new SegregationCell();
+		} else if(i == 3){
+			return new WatorCell();
 		} else {
 			return null;
 		}
