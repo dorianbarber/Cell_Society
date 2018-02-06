@@ -1,0 +1,65 @@
+<data type="Model">
+	<Simulation>Schelling's Model of Segregation</Simulation>
+	<SimulationNumber>0</SimulationNumber>
+	<Author>Conrad Mitchell</Author>
+	<Size>17</Size>
+	<gridEdits>
+		<point>2 4 1</point>
+		<point>2 5 1</point>
+		<point>2 6 1</point>
+		<point>2 10 1</point>
+		<point>2 11 1</point>
+		<point>2 12 1</point>
+		
+		<point>4 2 1</point>
+		<point>4 7 1</point>
+		<point>4 9 1</point>
+		<point>4 14 1</point>
+		
+		<point>5 2 1</point>
+		<point>5 7 1</point>
+		<point>5 9 1</point>
+		<point>5 14 1</point>
+		
+		<point>6 2 1</point>
+		<point>6 7 1</point>
+		<point>6 9 1</point>
+		<point>6 14 1</point>
+		
+		<point>7 4 1</point>
+		<point>7 5 1</point>
+		<point>7 6 1</point>
+		<point>7 10 1</point>
+		<point>7 11 1</point>
+		<point>7 12 1</point>
+		
+		<point>9 4 1</point>
+		<point>9 5 1</point>
+		<point>9 6 1</point>
+		<point>9 10 1</point>
+		<point>9 11 1</point>
+		<point>9 12 1</point>
+		
+		<point>10 2 1</point>
+		<point>10 7 1</point>
+		<point>10 9 1</point>
+		<point>10 14 1</point>
+		
+		<point>11 2 1</point>
+		<point>11 7 1</point>
+		<point>11 9 1</point>
+		<point>11 14 1</point>
+		
+		<point>12 2 1</point>
+		<point>12 7 1</point>
+		<point>12 9 1</point>
+		<point>12 14 1</point>
+		
+		<point>14 4 1</point>
+		<point>14 5 1</point>
+		<point>14 6 1</point>
+		<point>14 10 1</point>
+		<point>14 11 1</point>
+		<point>14 12 1</point>
+	</gridEdits>
+</data>

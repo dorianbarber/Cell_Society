@@ -1,0 +1,9 @@
+<data type="Model">
+	<Simulation>Spreading Fire</Simulation>
+	<SimulationNumber>1</SimulationNumber>
+	<Author>Conrad Mitchell</Author>
+	<Size>10</Size>
+	<gridEdits>
+		<point>5 5 1</point>
+	</gridEdits>
+</data>

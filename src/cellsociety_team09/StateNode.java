@@ -48,7 +48,7 @@ public class StateNode {
 	}
 	
 	public void setNextState(StateNode next) {
-		this.nextState = next;
+		nextState = next;
 	}
 	
 	public boolean hasNext(){
