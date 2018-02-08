@@ -2,6 +2,7 @@ package cellsociety_team09;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,6 +10,7 @@ import java.util.Map;
 import simulations.CellModel;
 import simulations.FireCell;
 import simulations.LifeCell;
+import simulations.NullCell;
 import simulations.SegregationCell;
 import simulations.WatorCell;
 import xml_related_package.XMLParser;
@@ -22,7 +24,7 @@ import xml_related_package.XMLParser;
  *
  */
 public class Grid {
-	private static ArrayList<ArrayList<CellModel>> gridCells; 
+	private static List<List<CellModel>> gridCells; 
 	private int gridSize;
 	private int modelType;
 	private String description = "";
@@ -42,7 +44,9 @@ public class Grid {
 
 	};
 	
-	Map<String, String> modelDescription =  new HashMap<>();
+	Map<Integer, CellModel> possibleModels;
+	
+	Map<String, String> modelDescription;
 	
 	/**
 	 * Constructs a grid with @param size and the specific @param modelChoice.
@@ -52,7 +56,7 @@ public class Grid {
 	public Grid(int size, int modelChoice) {
 		modelType = modelChoice;
 		gridSize = size;
-		gridCells = new  ArrayList<ArrayList<CellModel>>();
+		gridCells = new  ArrayList<List<CellModel>>();
 		for(int i = 0; i < gridSize; i++) {
 			for(int j = 0; j < gridSize; j++) {
 				gridCells.add(new ArrayList<CellModel>());
@@ -70,22 +74,35 @@ public class Grid {
 	public Grid(int modelChoice) {
 		modelType = modelChoice;
 		ArrayList<ArrayList<Integer>> edits = this.getXMLFile(xmlModel[modelChoice]);
-		gridSize = Integer.parseInt(modelDescription.get("Size"));
+		
+		try {
+			gridSize = Integer.parseInt(modelDescription.get("Size")) + 2;
+		}
+		catch(NumberFormatException e) {
+			gridSize = 52;
+		}
+		
 				
-		gridCells = new  ArrayList<ArrayList<CellModel>>();
+		gridCells = new  ArrayList<List<CellModel>>();
 		for(int i = 0; i < gridSize; i++) {
 			for(int j = 0; j < gridSize; j++) {
 				gridCells.add(new ArrayList<CellModel>());
-				CellModel cell = getCell(modelChoice);
+				CellModel cell;
+				if(i == 0 || j == 0 || i == gridSize || j == gridSize) {
+					cell = new NullCell();
+				} else {
+					cell = getCell(modelChoice);
+				}
 				gridCells.get(i).add(cell);
 			}
 		}
 		
 		//Applies the specific constraints from the XML file being read in
 		for(int i = 0; i < edits.size(); i++) {
-			int row = edits.get(i).get(0);
-			int col = edits.get(i).get(1);
+			int row = edits.get(i).get(0) + 1;
+			int col = edits.get(i).get(1) + 1;
 			List<Integer> listOfCellEdits = edits.get(i).subList(2, edits.get(i).size());
+//REVISIT THIS TRY/CATCH
 			try {
 				gridCells.get(row).get(col).getInput(listOfCellEdits);
 			}
@@ -106,8 +123,8 @@ public class Grid {
 	
 	
 	//return the set of cells for the menu class to use
-	public ArrayList<ArrayList<CellModel>> getCells() {
-		return gridCells;
+	public List<List<CellModel>> getCells() {
+		return deepCopy(gridCells);
 	}
 	
 	//returns the dimension of the grid
@@ -115,14 +132,20 @@ public class Grid {
 		return gridSize;
 	}
 	
+	
+	public int getKind() {
+		return modelType;
+	}
+	
+	
 	/**
 	 * Loops through the cells to let them find their
 	 * neighbors and also get their next state
 	 */
 	public void findCellNeighbors() {
-		for(int i = 0; i < gridSize; i++) {
-			for(int j = 0; j < gridSize; j++) {
-				gridCells.get(i).get(j).getNeighbors(i, j, gridCells);
+		for(int i = 1; i < gridSize - 1; i++) {
+			for(int j = 1; j < gridSize - 1; j++) {
+				gridCells.get(i).get(j).getNeighbors(i, j, getCells());
 				gridCells.get(i).get(j).findNextState();
 			}
 		}
@@ -132,10 +155,9 @@ public class Grid {
 	 * Loops through cells to move each one to their next state
 	 */
 	public void moveSimulationForward() {
-		
 		for(int i = 0; i < gridSize; i++) {
 			for(int j = 0; j < gridSize; j++) {
-				gridCells.get(i).get(j).moveForward(gridCells);
+				gridCells.get(i).get(j).moveForward(getCells());
 				
 			}
 		}
@@ -178,12 +200,14 @@ public class Grid {
 		} else {
 			return null;
 		}
-		
 	}
 	
-	public int getKind() {
-		return modelType;
+	
+	private List<List<CellModel>> deepCopy (List<List<CellModel>> original){
+		return Collections.unmodifiableList(original);
 	}
+	
+	
 	
 	//NEXT METHODS ARE FOR TESTING THE GRID CLASS
 	

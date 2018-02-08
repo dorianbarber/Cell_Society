@@ -19,7 +19,7 @@ public abstract class CellModel extends Shape{
 	
 	public CellModel(){}
 	
-	public abstract void getNeighbors(int row, int col, ArrayList<ArrayList<CellModel>> grid );
+	public abstract void getNeighbors(int row, int col, List<List<CellModel>> gridCells );
 
 	
 	abstract int[] getStates();
@@ -27,7 +27,7 @@ public abstract class CellModel extends Shape{
 	public abstract void findNextState();
 
 
-	public abstract void moveForward(ArrayList<ArrayList<CellModel>> cellgrid);
+	public abstract void moveForward(List<List<CellModel>> gridCells);
 	
 	public abstract void getInput(List<Integer> states);
 
