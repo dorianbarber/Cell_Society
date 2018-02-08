@@ -46,6 +46,10 @@ public class Menu extends Application{
 	private static final String SEGDESCRIPTION = "resources/segregation.txt";
 	private static final String WATORDESCRIPTION = "resources/wator.txt";
 	private static final String LABELFIELD = "resources/labelfield.txt";
+	private static final  int GOLTYPE = 0;
+    private static final int FIRETYPE = 1;
+    private static final int SEGTYPE = 2;
+    private static final int WATORTYPE = 3;
 	
 
 	//public static final double SECOND_DELAY = 6.0 / FRAMES_PER_SECOND;
@@ -75,6 +79,7 @@ public class Menu extends Application{
 	private boolean pressed;
 	private String currentbox = "Game of Life";
 	
+	
     /**
      * Start the program.
      */
@@ -88,7 +93,7 @@ public class Menu extends Application{
 	@Override
 	public void start(Stage stage) {
 		
-		myScene = initializeStart(WIDTH, HEIGHT, BACKGROUND, new Grid(0), getFile(GOLDESCRIPTION));	
+		myScene = initializeStart(WIDTH, HEIGHT, BACKGROUND, new Grid(GOLTYPE), getFile(GOLDESCRIPTION));	
 		myStage = stage;
 		myStage.setScene(myScene);
 		myStage.show();
@@ -308,7 +313,7 @@ public class Menu extends Application{
 	}
 	
 	private void getWator() {
-		myScene = initializeStart(WIDTH, HEIGHT, BACKGROUND, new Grid(3), getFile(WATORDESCRIPTION));
+		myScene = initializeStart(WIDTH, HEIGHT, BACKGROUND, new Grid(WATORTYPE), getFile(WATORDESCRIPTION));
 		myStage.setScene(myScene);
 		myStage.show();
 		happened = false;
@@ -316,7 +321,7 @@ public class Menu extends Application{
 		animation.pause();
 	}
 	private void getSegregation() {
-		myScene = initializeStart(WIDTH, HEIGHT, BACKGROUND, new Grid(2), getFile(SEGDESCRIPTION));
+		myScene = initializeStart(WIDTH, HEIGHT, BACKGROUND, new Grid(SEGTYPE), getFile(SEGDESCRIPTION));
 		myStage.setScene(myScene);
 		myStage.show();
 		happened = false;
@@ -325,7 +330,7 @@ public class Menu extends Application{
 		//System.out.println(getFile(SEGDESCRIPTION));
 	}
 	private void getFire() {
-		myScene = initializeStart(WIDTH, HEIGHT, BACKGROUND, new Grid(1), getFile(FIREDESCRIPTION));
+		myScene = initializeStart(WIDTH, HEIGHT, BACKGROUND, new Grid(FIRETYPE), getFile(FIREDESCRIPTION));
 		myStage.setScene(myScene);
 		myStage.show();
 		happened = false;
@@ -333,7 +338,7 @@ public class Menu extends Application{
 		animation.pause();
 	}
 	private void getGOL() {
-		myScene = initializeStart(WIDTH, HEIGHT, BACKGROUND, new Grid(0), getFile(GOLDESCRIPTION));
+		myScene = initializeStart(WIDTH, HEIGHT, BACKGROUND, new Grid(GOLTYPE), getFile(GOLDESCRIPTION));
 		myStage.setScene(myScene);
 		myStage.show();
 		happened = false;
