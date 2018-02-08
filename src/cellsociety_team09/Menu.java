@@ -171,7 +171,7 @@ public class Menu extends Application{
 				gridsize = Integer.parseInt(input.getText());
 			}
 			if (gridsize > 200){
-				gridsize = 200;
+				//gridsize = 200;
 			}
 			if (gridsize < 2){
 				gridsize = 2;
@@ -198,7 +198,7 @@ public class Menu extends Application{
 			input.setText("");
 		});
 		
-		return new VBox();
+		return hb;
 	}
 
 	private Slider getAnimationSpeedSlider(){
