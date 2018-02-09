@@ -46,6 +46,13 @@ public class Menu extends Application{
 	private static final String SEGDESCRIPTION = "resources/segregation.txt";
 	private static final String WATORDESCRIPTION = "resources/wator.txt";
 	private static final String LABELFIELD = "resources/labelfield.txt";
+	private static final  int GOLTYPE = 0;
+    private static final int FIRETYPE = 1;
+    private static final int SEGTYPE = 2;
+    private static final int WATORTYPE = 3;
+    private static final int MAXGRIDSIZE = 200;
+    private static final int MINGRIDSIZE = 2;
+    private static final int BUTTONSIZE = 30;
 	
 
 	//public static final double SECOND_DELAY = 6.0 / FRAMES_PER_SECOND;
@@ -62,7 +69,6 @@ public class Menu extends Application{
 	private final double BUTTONHOROFFSET = 45;
 	private final int DROPOFFSET = 15;
 	private final int SLIDERSIZE = 300;
-	private final int BUTTONSIZE = 30;
 	private SquareGridView myGrid;
 	private double blocksize;
 	private double stepincrement = FRAMES_PER_SECOND;
@@ -74,6 +80,7 @@ public class Menu extends Application{
 	private int gridsize = 20;
 	private boolean pressed;
 	private String currentbox = "Game of Life";
+	
 	
     /**
      * Start the program.
@@ -88,7 +95,7 @@ public class Menu extends Application{
 	@Override
 	public void start(Stage stage) {
 		
-		myScene = initializeStart(WIDTH, HEIGHT, BACKGROUND, new Grid(0), getFile(GOLDESCRIPTION));	
+		myScene = initializeStart(WIDTH, HEIGHT, BACKGROUND, new Grid(GOLTYPE), getFile(GOLDESCRIPTION));	
 		myStage = stage;
 		myStage.setScene(myScene);
 		myStage.show();
@@ -170,11 +177,12 @@ public class Menu extends Application{
 			if (!newvalue.equals("")){
 				gridsize = Integer.parseInt(input.getText());
 			}
-			if (gridsize > 200){
-				//gridsize = 200;
+			if (gridsize > MAXGRIDSIZE){
+				gridsize = MAXGRIDSIZE;
 			}
-			if (gridsize < 2){
-				gridsize = 2;
+			
+			if (gridsize < MINGRIDSIZE){
+				gridsize = MINGRIDSIZE;
 			}
 			
 			
@@ -223,7 +231,7 @@ public class Menu extends Application{
 
 	private Button getBackStepButton(){
 		
-		Image play = new Image(getClass().getResourceAsStream("../stepbackward.png"), 30, 30, false, false);
+		Image play = new Image(getClass().getResourceAsStream("../stepbackward.png"), BUTTONSIZE, BUTTONSIZE, false, false);
 		Button pausebutton = new Button("", new ImageView(play));
 		pausebutton.setLayoutX(sliderx + 13.5);
 		pausebutton.setLayoutY(myGrid.getY() + myGrid.getDimensions() + BUTTONVERTOFFSET);
@@ -245,7 +253,7 @@ public class Menu extends Application{
 	}
 	private Button getPauseButton(){
 		
-		Image play = new Image(getClass().getResourceAsStream("../pauseicon.png"), 30, 30, false, false);
+		Image play = new Image(getClass().getResourceAsStream("../pauseicon.png"), BUTTONSIZE, BUTTONSIZE, false, false);
 		Button pausebutton = new Button("", new ImageView(play));
 		pausebutton.setLayoutX(sliderx + 2 * BUTTONHOROFFSET + 2 * BUTTONSIZE + 13.5);
 		pausebutton.setLayoutY(myGrid.getY() + myGrid.getDimensions() + BUTTONVERTOFFSET);
@@ -273,7 +281,7 @@ public class Menu extends Application{
 			        "Segregation",
 			        "Wa-Tor World"
 			    );
-		ComboBox<String> combobox = new ComboBox<String>(options);
+		ComboBox<String> combobox = new ComboBox<>(options);
 		combobox.setLayoutX(GRIDSIZE + GRIDX + DROPOFFSET);
 		combobox.setLayoutY(2 * GRIDY);
 		combobox.setValue(selected);
@@ -308,7 +316,7 @@ public class Menu extends Application{
 	}
 	
 	private void getWator() {
-		myScene = initializeStart(WIDTH, HEIGHT, BACKGROUND, new Grid(3), getFile(WATORDESCRIPTION));
+		myScene = initializeStart(WIDTH, HEIGHT, BACKGROUND, new Grid(WATORTYPE), getFile(WATORDESCRIPTION));
 		myStage.setScene(myScene);
 		myStage.show();
 		happened = false;
@@ -316,7 +324,7 @@ public class Menu extends Application{
 		animation.pause();
 	}
 	private void getSegregation() {
-		myScene = initializeStart(WIDTH, HEIGHT, BACKGROUND, new Grid(2), getFile(SEGDESCRIPTION));
+		myScene = initializeStart(WIDTH, HEIGHT, BACKGROUND, new Grid(SEGTYPE), getFile(SEGDESCRIPTION));
 		myStage.setScene(myScene);
 		myStage.show();
 		happened = false;
@@ -325,7 +333,7 @@ public class Menu extends Application{
 		//System.out.println(getFile(SEGDESCRIPTION));
 	}
 	private void getFire() {
-		myScene = initializeStart(WIDTH, HEIGHT, BACKGROUND, new Grid(1), getFile(FIREDESCRIPTION));
+		myScene = initializeStart(WIDTH, HEIGHT, BACKGROUND, new Grid(FIRETYPE), getFile(FIREDESCRIPTION));
 		myStage.setScene(myScene);
 		myStage.show();
 		happened = false;
@@ -333,7 +341,7 @@ public class Menu extends Application{
 		animation.pause();
 	}
 	private void getGOL() {
-		myScene = initializeStart(WIDTH, HEIGHT, BACKGROUND, new Grid(0), getFile(GOLDESCRIPTION));
+		myScene = initializeStart(WIDTH, HEIGHT, BACKGROUND, new Grid(GOLTYPE), getFile(GOLDESCRIPTION));
 		myStage.setScene(myScene);
 		myStage.show();
 		happened = false;
