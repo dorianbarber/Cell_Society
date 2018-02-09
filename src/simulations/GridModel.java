@@ -14,9 +14,9 @@ public abstract class GridModel {
 		return Collections.unmodifiableList(gridCells);
 	}
 	
-	
-	
-	
+	public int getSize() {
+		return size;
+	}
 	
 	public abstract void update();
 	
