@@ -10,12 +10,12 @@ import javafx.scene.shape.Shape;
 
 public class SegregationCell extends CellModel 
 {
-	public static final int EMPTYCELL = 0;
-	public static final int TYPE1 = 1;
-	public static final int TYPE2 = 2;
-	public static final int MOVING1 = 3;
-	public static final int MOVING2 = 4;
-	public static final Color[] colors = {Color.WHITE, Color.BLUE, Color.RED, Color.WHITE, Color.WHITE};
+	private static final int EMPTYCELL = 0;
+	private static final int TYPE1 = 1;
+	private static final int TYPE2 = 2;
+	private static final int MOVING1 = 3;
+	private static final int MOVING2 = 4;
+	private static final Color[] colors = {Color.WHITE, Color.BLUE, Color.RED, Color.WHITE, Color.WHITE};
 
 	private double t;
 	private boolean ismoving=false;
@@ -27,9 +27,9 @@ public class SegregationCell extends CellModel
 		t=moveprb;
 		shape = new Rectangle(1,1);
 		color = colors[cellstates];
-		int[] states= {cellstates};
+		int[] states = {cellstates};
 		state = new StateNode(color,states);
-		neighbors = new SegregationCell[]{null};
+		neighbors = null;
 	}
 	
 	public SegregationCell()
@@ -49,11 +49,11 @@ public class SegregationCell extends CellModel
 			int temp;
 			int mecount=0; 
 			int notmecount=0;
-			for(int a=0; a< neighbors.length; a++)
+			for(int a=0; a< neighbors.size(); a++)
 			{
-				if(neighbors[a]!=null)
+				if(neighbors.get(a).getStates()[0]!=-1)
 				{
-					temp=neighbors[a].getStates()[0];
+					temp=neighbors.get(a).getStates()[0];
 					if(me==temp)
 						mecount++;
 					if(temp==notme)
@@ -81,7 +81,7 @@ public class SegregationCell extends CellModel
 		
 	
 	@Override
-	public void moveForward(ArrayList<ArrayList<CellModel>> grid)
+	public void moveForward(List<List<CellModel>> grid)
 	{
 		
 		
@@ -96,11 +96,11 @@ public class SegregationCell extends CellModel
 					{
 						SegregationCell temp = (SegregationCell)grid.get(r).get(c);
 						StateNode n = new StateNode(colors[getStates()[0]],getStates());
-						if(cellstate!=0)
-						{
-							temp.setState(colors[temp.getStates()[0]-2],new int[] {temp.getStates()[0]-2}); //for stepping backwards 
-
-						}
+//						if(cellstate!=0)
+//						{
+//							temp.setState(colors[temp.getStates()[0]-2],new int[] {temp.getStates()[0]-2}); //for stepping backwards 
+//
+//						}
 						temp.findNextState(n);
 						temp.state.moveForward();
 						temp.moved=true;
@@ -143,56 +143,56 @@ public class SegregationCell extends CellModel
 		state.setNextState(a);// TODO Auto-generated method stub
 		
 	}
-	@Override
-	public void getNeighbors( int r, int c, ArrayList<ArrayList<CellModel>> grid)
-	{
-		
-		
-		int length=grid.get(0).size();
-		int height=grid.get(0).size();
-		if(c==0 && r==0){
-			neighbors = new SegregationCell[] {null, null,(SegregationCell)grid.get(r).get(c+1),(SegregationCell) grid.get(r+1).get(c+1), (SegregationCell)grid.get(r+1).get(c),
-					null, null, null, null};
-		}
-		else if(c==(length-1) && r==0){
-			neighbors= new SegregationCell[] {null, null, null, null, (SegregationCell)grid.get(r+1).get(c), (SegregationCell)grid.get(r+1).get(c-1),
-					(SegregationCell)grid.get(r).get(c-1), null};// 6 left
-		}
-		else if(r==(height-1) && c==0){
-			neighbors= new SegregationCell[] {(SegregationCell)grid.get(r-1).get(c), (SegregationCell)grid.get(r-1).get(c+1),(SegregationCell) grid.get(r).get(c+1), null, null,
-					null, null, null};	
-		}
-		else if(r==(height-1) && c==(length-1)){
-			neighbors= new SegregationCell[] {(SegregationCell)grid.get(r-1).get(c), null, null, null, null, null, (SegregationCell)grid.get(r).get(c-1), 
-					(SegregationCell) grid.get(r-1).get(c-1)};
-		}
-		else if(r==0) { //top edge check
-			neighbors = new SegregationCell[] {null, null, (SegregationCell) grid.get(r).get(c+1),  (SegregationCell)grid.get(r+1).get(c+1), (SegregationCell) grid.get(r+1).get(c), 
-					(SegregationCell)grid.get(r+1).get(c-1), (SegregationCell)grid.get(r).get(c-1), null}; 		
-		}
-		else if(r==(height-1)) { // bottom edge check
-			neighbors = new SegregationCell[] {(SegregationCell)grid.get(r-1).get(c), (SegregationCell)grid.get(r-1).get(c+1), (SegregationCell)grid.get(r).get(c+1),null,null, 
-					null, (SegregationCell)grid.get(r).get(c-1) ,(SegregationCell) grid.get(r-1).get(c-1)};		
-		}
-		else if(c==0){ //left edge check
-			neighbors = new SegregationCell[] {(SegregationCell)grid.get(r-1).get(c), (SegregationCell)grid.get(r-1).get(c+1),(SegregationCell) grid.get(r).get(c+1),
-					(SegregationCell)  grid.get(r+1).get(c+1), (SegregationCell)grid.get(r+1).get(c), null, null, null};  
-		}
-		else if( c==(length-1)) { // right edge check
-			neighbors = new SegregationCell[] { (SegregationCell)grid.get(r-1).get(c) ,null,null,null,(SegregationCell) grid.get(r+1).get(c),(SegregationCell)grid.get(r+1).get(c-1),  
-					(SegregationCell)grid.get(r).get(c-1),  (SegregationCell)grid.get(r-1).get(c-1)};
-		}
-		else // checking for middle cell
-		{
-			neighbors = new SegregationCell[] {(SegregationCell)grid.get(r-1).get(c), //0 top 
-					(SegregationCell) grid.get(r-1).get(c+1), //1 top right
-					(SegregationCell) grid.get(r).get(c+1), //2 right
-					(SegregationCell) grid.get(r+1).get(c+1), // 3 bottom right
-		  		    (SegregationCell)grid.get(r+1).get(c),  // 4 bottom 
-				    (SegregationCell) grid.get(r+1).get(c-1), // 5 bottom left
-				    (SegregationCell) grid.get(r).get(c-1), // 6 left
-					(SegregationCell) grid.get(r-1).get(c-1)}; // top left
-		}
-	}
+//	@Override
+//	public void getNeighbors( int r, int c, ArrayList<ArrayList<CellModel>> grid)
+//	{
+//		
+//		
+//		int length=grid.get(0).size();
+//		int height=grid.get(0).size();
+//		if(c==0 && r==0){
+//			neighbors = new SegregationCell[] {null, null,(SegregationCell)grid.get(r).get(c+1),(SegregationCell) grid.get(r+1).get(c+1), (SegregationCell)grid.get(r+1).get(c),
+//					null, null, null, null};
+//		}
+//		else if(c==(length-1) && r==0){
+//			neighbors= new SegregationCell[] {null, null, null, null, (SegregationCell)grid.get(r+1).get(c), (SegregationCell)grid.get(r+1).get(c-1),
+//					(SegregationCell)grid.get(r).get(c-1), null};// 6 left
+//		}
+//		else if(r==(height-1) && c==0){
+//			neighbors= new SegregationCell[] {(SegregationCell)grid.get(r-1).get(c), (SegregationCell)grid.get(r-1).get(c+1),(SegregationCell) grid.get(r).get(c+1), null, null,
+//					null, null, null};	
+//		}
+//		else if(r==(height-1) && c==(length-1)){
+//			neighbors= new SegregationCell[] {(SegregationCell)grid.get(r-1).get(c), null, null, null, null, null, (SegregationCell)grid.get(r).get(c-1), 
+//					(SegregationCell) grid.get(r-1).get(c-1)};
+//		}
+//		else if(r==0) { //top edge check
+//			neighbors = new SegregationCell[] {null, null, (SegregationCell) grid.get(r).get(c+1),  (SegregationCell)grid.get(r+1).get(c+1), (SegregationCell) grid.get(r+1).get(c), 
+//					(SegregationCell)grid.get(r+1).get(c-1), (SegregationCell)grid.get(r).get(c-1), null}; 		
+//		}
+//		else if(r==(height-1)) { // bottom edge check
+//			neighbors = new SegregationCell[] {(SegregationCell)grid.get(r-1).get(c), (SegregationCell)grid.get(r-1).get(c+1), (SegregationCell)grid.get(r).get(c+1),null,null, 
+//					null, (SegregationCell)grid.get(r).get(c-1) ,(SegregationCell) grid.get(r-1).get(c-1)};		
+//		}
+//		else if(c==0){ //left edge check
+//			neighbors = new SegregationCell[] {(SegregationCell)grid.get(r-1).get(c), (SegregationCell)grid.get(r-1).get(c+1),(SegregationCell) grid.get(r).get(c+1),
+//					(SegregationCell)  grid.get(r+1).get(c+1), (SegregationCell)grid.get(r+1).get(c), null, null, null};  
+//		}
+//		else if( c==(length-1)) { // right edge check
+//			neighbors = new SegregationCell[] { (SegregationCell)grid.get(r-1).get(c) ,null,null,null,(SegregationCell) grid.get(r+1).get(c),(SegregationCell)grid.get(r+1).get(c-1),  
+//					(SegregationCell)grid.get(r).get(c-1),  (SegregationCell)grid.get(r-1).get(c-1)};
+//		}
+//		else // checking for middle cell
+//		{
+//			neighbors = new SegregationCell[] {(SegregationCell)grid.get(r-1).get(c), //0 top 
+//					(SegregationCell) grid.get(r-1).get(c+1), //1 top right
+//					(SegregationCell) grid.get(r).get(c+1), //2 right
+//					(SegregationCell) grid.get(r+1).get(c+1), // 3 bottom right
+//		  		    (SegregationCell)grid.get(r+1).get(c),  // 4 bottom 
+//				    (SegregationCell) grid.get(r+1).get(c-1), // 5 bottom left
+//				    (SegregationCell) grid.get(r).get(c-1), // 6 left
+//					(SegregationCell) grid.get(r-1).get(c-1)}; // top left
+//		}
+//	}
 
 }

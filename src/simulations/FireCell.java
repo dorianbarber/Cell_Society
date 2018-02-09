@@ -10,10 +10,10 @@ import javafx.scene.shape.Rectangle;
 public class FireCell extends CellModel {
 	
 	
-	public static final int EMPTYCELL=0;
-	public static final int BURNINGCELL=1;
-	public static final int TREECELL=2;
-	public static final Color[] colors = {Color.GREY, Color.RED, Color.GREEN};
+	private static final int EMPTYCELL=0;
+	private static final int BURNINGCELL=1;
+	private static final int TREECELL=2;
+	private static final Color[] colors = {Color.GREY, Color.RED, Color.GREEN};
 	private int burnprb;
 	
 	public FireCell(int cellstate, int d)
@@ -50,16 +50,17 @@ public class FireCell extends CellModel {
 	{
 		return state.getStates();
 	}
-
+	
+	@Override
 	public void findNextState()
 	{
 		int percentbrn=0;
 		boolean burning=false;
 		StateNode s;
-		for(int a=0; a<neighbors.length; a++)
-			if(neighbors[a]!=null && neighbors[a].getStates()[0]==BURNINGCELL)
+		for(int a=0; a<neighbors.size(); a++)
+			if(neighbors.get(a)!=null && neighbors.get(a).getStates()[0]==BURNINGCELL)
 			{
-				percentbrn =neighbors[a].getStates()[1];
+				percentbrn =neighbors.get(a).getStates()[1];
 				double prb=((double)percentbrn)/100;
 				burning=(Math.random()<prb);
 			}
@@ -75,12 +76,10 @@ public class FireCell extends CellModel {
 		
 		
 		
-	
-	public void moveForward(ArrayList<ArrayList<CellModel>> grid) {
+	@Override
+	public void moveForward(List<List<CellModel>> grid) {
 		state.moveForward();
 	}
-	
-	
 
 	
 

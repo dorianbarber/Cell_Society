@@ -10,9 +10,9 @@ import javafx.scene.shape.Rectangle;
 public class LifeCell extends CellModel {
 	
 	
-	public static final int DEADSTATE=0;
-	public static final int ALIVESTATE=1;
-	public static final Color[] colors = {Color.WHITE, Color.GREEN};
+	private static final int DEADSTATE=0;
+	private static final int ALIVESTATE=1;
+	private static final Color[] colors = {Color.WHITE, Color.GREEN};
 	
 	public LifeCell(int cellstate)
 	{
@@ -62,7 +62,7 @@ public class LifeCell extends CellModel {
 		
 	}
 	
-	public void moveForward(ArrayList<ArrayList<CellModel>> grid) {
+	public void moveForward(List<List<CellModel>> grid) {
 		state.moveForward();
 	}
 	
