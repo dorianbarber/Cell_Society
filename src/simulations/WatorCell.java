@@ -35,12 +35,12 @@ public class WatorCell extends CellModel {
 		else
 			type=2;
 		shape = new Rectangle(1,1);
-		starverate=death;
-		reporate1=repo1;
-		reporate2=repo2;
+		starverate=6;
+		reporate1=3;
+		reporate2=8;
 		StateNode n = new StateNode(colors[type],new int[] {type,0,0});
 		state=n;
-		neighbors = new WatorCell[] {null};
+		neighbors = null;
 	}
 	
 	public WatorCell()
@@ -138,7 +138,6 @@ public class WatorCell extends CellModel {
 		int reproduce=0;
 		StateNode baby=null;
 		StateNode empty= new StateNode(colors[EMPTYCELL],new int[] {EMPTYCELL,0,0});
-		int[] nebs={0,2,4,6};
 		if(!(getStates()[2]>=starverate))
 		{
 			int hunger=getStates()[2]+1;
@@ -150,56 +149,28 @@ public class WatorCell extends CellModel {
 			}
 			else
 				reproduce=getStates()[1]+1;
-			nebs=shuffle(nebs);
-			for(int a=0; a<nebs.length; a++){
-				if(neighbors[nebs[a]]!=null)
-				{
-					WatorCell c = (WatorCell)neighbors[nebs[a]];
-					if(c.getStates()[0]==FISHCELL && c.isAlive() && (!c.moving ||(c.inheat && c.getStates()[0]==FISHCELL))){
-						c.setNextState(new StateNode(colors[SHARKCELL], new int[] {SHARKCELL,reproduce,0}));
-
-						if(inheat) {
-							setNextState(baby);
-							moved=true;
-						}
-						else {
-							setNextState(empty);
-						}
-						c.setAlive(false);
-						c.moved=true;
-						moving=true;
-						hunger=0;
-						break;
-					}
-					
+			
+			if(isEating(reproduce)) {
+				if(inheat) {
+					setNextState(baby);
+					moved=true;
 				}
-				
+			
+				else
+					setNextState(empty);
 			}
-			if(!moving){
-				nebs=shuffle(nebs);
-				for(int a=0; a<nebs.length; a++){
-					if(neighbors[nebs[a]]!=null)
-					{
-						WatorCell c=(WatorCell)neighbors[nebs[a]];
-						if((c.moving||c.getStates()[0]==EMPTYCELL) && !c.moved){
-							if(inheat) {
-								setNextState(baby);
-								moved=true;
-							}
-							else
-								setNextState(empty);
-							c.setNextState(new StateNode(colors[SHARKCELL], new int[] {SHARKCELL,reproduce,hunger}));
-							moving=true;
-							c.moved=true;
-							break;
-						}
-					}
+			else if(isMoving(reproduce, hunger, SHARKCELL)) {
+				if(inheat) {
+					setNextState(baby);
+					moved=true;
 				}
+				else
+					setNextState(empty);
 			}
-			if(!moving){	
+			
+			else {
 				if(inheat)
 					reproduce=800;
-
 				setNextState(new StateNode(colors[SHARKCELL],new int[] {SHARKCELL,reproduce,hunger}));
 			}
 		}
@@ -208,98 +179,139 @@ public class WatorCell extends CellModel {
 			setAlive(false);
 		}
 	}
+	
+	
+	public boolean isEating(int reproduce)
+	{
+		Collections.shuffle(neighbors);
+		for(int a=0; a<neighbors.size(); a++){
+			if(neighbors.get(a).getStates()[0]!=-1)
+			{
+				WatorCell c = (WatorCell)neighbors.get(a);
+				if(c.getStates()[0]==FISHCELL && c.isAlive() && (!c.moving ||(c.inHeat() && c.getStates()[0]==FISHCELL))){
+					c.setNextState(new StateNode(colors[SHARKCELL], new int[] {SHARKCELL,reproduce+1,0}));
+					c.setAlive(false);
+					c.moved=true;
+					moving=true;
+					return true;
+				}
+				
+			}
+			
+		}
+		return false;
+	}
 	public void handleFish()
 	{
 		int reproduce=0;
-		StateNode baby=null;
+		StateNode baby = new StateNode(colors[FISHCELL], new int[] {FISHCELL,0,0});
 		StateNode empty= new StateNode(colors[EMPTYCELL],new int[] {EMPTYCELL,0,0});
-		int[] nebs={0,2,4,6};
 		if(isAlive())
 		{
 			if(getStates()[1]>=reporate1){
-				inheat=true;
+				setHeat(true);
 				reproduce=0;
-				baby = new StateNode(colors[FISHCELL], new int[] {FISHCELL,0,0});
 			}
 			else
 				reproduce=getStates()[1]+1;
-			nebs=shuffle(nebs);
-			if(!moving){
-				for(int a=0; a<nebs.length; a++){
-				//	System.out.print(nebs[a]);
-					if(neighbors[nebs[a]]!=null)
-					{
-						WatorCell c=(WatorCell)neighbors[nebs[a]];
-						if((c.getStates()[0]==EMPTYCELL) && !c.moved){
-							if(inheat)
-								setNextState(baby);
-							else
-								setNextState(empty);
-							c.setNextState(new StateNode(colors[FISHCELL], new int[] {FISHCELL,reproduce,0}));
-							moving=true;
-							c.moved=true;
-							break;
-						}
-					}
-				}
+			if(isMoving(reproduce, 0, FISHCELL)){
+				if(inHeat())
+					setNextState(baby);
+				else
+					setNextState(empty);
 			}
 			if(!moving){			
 				setNextState(new StateNode(getColor(),new int[] {FISHCELL,reproduce,0}));
 			}
 		}
 	}
+	
+<<<<<<< HEAD
+	public void getNeighbors( int r, int c, List<List<CellModel>> grid)
+=======
+	private boolean isMoving(int r, int h, int type)
+>>>>>>> e6f8fe730e217ceccd2e6ea8e55de3a26ed2ef76
+	{
+		Collections.shuffle(neighbors);
+		for(int a=0; a<neighbors.size(); a++){
+			if(neighbors.get(a).getStates()[0]!=-1)
+			{
+				WatorCell c=(WatorCell)neighbors.get(a);
+				if((c.moving||c.getStates()[0]==EMPTYCELL) && !c.moved){
+					c.setNextState(new StateNode(colors[type], new int[] {type,r+1,h+1}));
+					moving=true;
+					c.moved=true;
+					return true;
+				}
+			}
+		}
+		return false;
+		
+	}
+	
+	private void setHeat(boolean t)
+	{
+		inheat=t;
+	}
+	private boolean inHeat()
+	{
+		return inheat;
+	}
+	
+	
 
 	
-	public void getNeighbors( int r, int c, List<List<CellModel>> grid)
-	{
-		
-		
-		int length=grid.get(0).size();
-		int height=grid.get(0).size();
-		if(c==0 && r==0){
-			neighbors = new WatorCell[] {(WatorCell)grid.get(height-1).get(c), null,(WatorCell)grid.get(r).get(c+1), null, (WatorCell)grid.get(r+1).get(c),
-					null, (WatorCell) grid.get(r).get(length-1), null};
-		}
-		else if(c==(length-1) && r==0){
-			neighbors= new WatorCell[] {(WatorCell) grid.get(height-1).get(c), null, (WatorCell) grid.get(r).get(0), null, (WatorCell)grid.get(r+1).get(c), null,
-					(WatorCell)grid.get(r).get(c-1), null};// 6 left
-		}
-		else if(r==(height-1) && c==0){
-			neighbors= new WatorCell[] {(WatorCell)grid.get(r-1).get(c), null,(WatorCell) grid.get(r).get(c+1), null, (WatorCell) grid.get(0).get(c),
-					null, (WatorCell) grid.get(r).get(length-1), null};	
-		}
-		else if(r==(height-1) && c==(length-1)){
-			neighbors= new WatorCell[] {(WatorCell)grid.get(r-1).get(c), null, (WatorCell) grid.get(r).get(0), null, (WatorCell) grid.get(0).get(length-1), null, (WatorCell)grid.get(r).get(c-1), 
-					null};
-		}
-		else if(r==0) { //top edge check
-			neighbors = new WatorCell[] {(WatorCell) grid.get(height-1).get(c), null, (WatorCell) grid.get(r).get(c+1),  null,  (WatorCell)grid.get(r+1).get(c), 
-					null, (WatorCell)grid.get(r).get(c-1), null}; 		
-		}
-		else if(r==(height-1)) { // bottom edge check
-			neighbors = new WatorCell[] {(WatorCell)grid.get(r-1).get(c), null,(WatorCell) grid.get(r).get(c+1),null,(WatorCell) grid.get(0).get(c), 
-					null,(WatorCell) grid.get(r).get(c-1) ,null};			
-		}
-		else if(c==0){ //left edge check
-			neighbors = new WatorCell[] {(WatorCell)grid.get(r-1).get(c), null,(WatorCell) grid.get(r).get(c+1),  null, 
-					(WatorCell)grid.get(r+1).get(c), null, (WatorCell) grid.get(r).get(length-1), null};  
-		}
-		else if( c==(length-1)) { // right edge check
-			neighbors = new WatorCell[] { (WatorCell)grid.get(r-1).get(c) ,null,(WatorCell) grid.get(r).get(0),null,(WatorCell) grid.get(r+1).get(c),null,  
-					(WatorCell)	grid.get(r).get(c-1), null};
-		}
-		else // checking for middle cell
-		{
-			neighbors = new WatorCell[] {(WatorCell)grid.get(r-1).get(c), //0 top 
-										 null, //1 top right
-										 (WatorCell) grid.get(r).get(c+1), //2 right
-										 null, // 3 bottom right
-										 (WatorCell) grid.get(r+1).get(c),  // 4 bottom 
-										 null, // 5 bottom left
-										 (WatorCell) grid.get(r).get(c-1), // 6 left
-										null}; // top left
-		}
-	}
+	
+//	public void getNeighbors( int r, int c, ArrayList<ArrayList<CellModel>> grid)
+//	{
+//		
+//		
+//		int length=grid.get(0).size();
+//		int height=grid.get(0).size();
+//		if(c==0 && r==0){
+//			neighbors = new WatorCell[] {(WatorCell)grid.get(height-1).get(c), null,(WatorCell)grid.get(r).get(c+1), null, (WatorCell)grid.get(r+1).get(c),
+//					null, (WatorCell) grid.get(r).get(length-1), null};
+//		}
+//		else if(c==(length-1) && r==0){
+//			neighbors= new WatorCell[] {(WatorCell) grid.get(height-1).get(c), null, (WatorCell) grid.get(r).get(0), null, (WatorCell)grid.get(r+1).get(c), null,
+//					(WatorCell)grid.get(r).get(c-1), null};// 6 left
+//		}
+//		else if(r==(height-1) && c==0){
+//			neighbors= new WatorCell[] {(WatorCell)grid.get(r-1).get(c), null,(WatorCell) grid.get(r).get(c+1), null, (WatorCell) grid.get(0).get(c),
+//					null, (WatorCell) grid.get(r).get(length-1), null};	
+//		}
+//		else if(r==(height-1) && c==(length-1)){
+//			neighbors= new WatorCell[] {(WatorCell)grid.get(r-1).get(c), null, (WatorCell) grid.get(r).get(0), null, (WatorCell) grid.get(0).get(length-1), null, (WatorCell)grid.get(r).get(c-1), 
+//					null};
+//		}
+//		else if(r==0) { //top edge check
+//			neighbors = new WatorCell[] {(WatorCell) grid.get(height-1).get(c), null, (WatorCell) grid.get(r).get(c+1),  null,  (WatorCell)grid.get(r+1).get(c), 
+//					null, (WatorCell)grid.get(r).get(c-1), null}; 		
+//		}
+//		else if(r==(height-1)) { // bottom edge check
+//			neighbors = new WatorCell[] {(WatorCell)grid.get(r-1).get(c), null,(WatorCell) grid.get(r).get(c+1),null,(WatorCell) grid.get(0).get(c), 
+//					null,(WatorCell) grid.get(r).get(c-1) ,null};			
+//		}
+//		else if(c==0){ //left edge check
+//			neighbors = new WatorCell[] {(WatorCell)grid.get(r-1).get(c), null,(WatorCell) grid.get(r).get(c+1),  null, 
+//					(WatorCell)grid.get(r+1).get(c), null, (WatorCell) grid.get(r).get(length-1), null};  
+//		}
+//		else if( c==(length-1)) { // right edge check
+//			neighbors = new WatorCell[] { (WatorCell)grid.get(r-1).get(c) ,null,(WatorCell) grid.get(r).get(0),null,(WatorCell) grid.get(r+1).get(c),null,  
+//					(WatorCell)	grid.get(r).get(c-1), null};
+//		}
+//		else // checking for middle cell
+//		{
+//			neighbors = new WatorCell[] {(WatorCell)grid.get(r-1).get(c), //0 top 
+//										 null, //1 top right
+//										 (WatorCell) grid.get(r).get(c+1), //2 right
+//										 null, // 3 bottom right
+//										 (WatorCell) grid.get(r+1).get(c),  // 4 bottom 
+//										 null, // 5 bottom left
+//										 (WatorCell) grid.get(r).get(c-1), // 6 left
+//										null}; // top left
+//		}
+//	}
 
 	@Override
 	protected void setNextState(StateNode a) {

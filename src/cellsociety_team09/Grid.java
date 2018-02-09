@@ -7,10 +7,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javafx.scene.shape.Rectangle;
 import simulations.CellModel;
 import simulations.FireCell;
 import simulations.LifeCell;
-//import simulations.NullCell;
+import simulations.NeighborFinder;
 import simulations.SegregationCell;
 import simulations.WatorCell;
 import xml_related_package.XMLParser;
@@ -158,12 +159,9 @@ public class Grid {
 	 * neighbors and also get their next state
 	 */
 	public void findCellNeighbors() {
-		for(int i = 0; i < gridSize - 2; i++) {
-			for(int j = 0; j < gridSize - 2; j++) {
-				smallerGrid.get(i).get(j).getNeighbors(i, j, getCells());
-				gridCells.get(i+1).get(j+1).findNextState();
-			}
-		}
+		NeighborFinder finder = new NeighborFinder();
+		finder.getNeighbors(this.getCells(), new Rectangle(1,1), getCell(modelType));
+
 	}
 	
 	/**
@@ -211,11 +209,24 @@ public class Grid {
 	 * @return the new instance of the CellModel subclass
 	 */
 	private CellModel getCell(int i) {
+<<<<<<< HEAD
 		CellModel result = possibleModels.get(i);
 		try {
 			return result.getClass().newInstance();
 		} catch (InstantiationException | IllegalAccessException e) {
 			System.out.println("Error in picking the proper cell model. Defaulting to LifeCell.");
+=======
+		if(i == GOLTYPE) {
+			return new LifeCell();
+		} else if (i == FIRETYPE) {
+			return new FireCell();
+		} else if(i == SEGTYPE) {
+			return new SegregationCell();
+		} else if(i == WATORTYPE){
+			return new WatorCell();
+		} else {
+			return null;
+>>>>>>> e6f8fe730e217ceccd2e6ea8e55de3a26ed2ef76
 		}
 		return new LifeCell();
 	}

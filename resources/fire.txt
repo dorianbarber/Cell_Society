@@ -4,4 +4,4 @@ outside factors (default of 70%). A neighboring
 cell is one directly North, East, South,
 or West of the cell. Once a cell has been 
 on fire for a round, it is burned out (grey)
-and can not be relit.
+and can not be re-lit.
