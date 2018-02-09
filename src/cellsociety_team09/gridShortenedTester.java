@@ -5,11 +5,10 @@ import java.util.Collections;
 import java.util.List;
 
 public class gridShortenedTester {
-	
+	private static int size;
 	
 	
 	private static List<List<Integer>> shorten(List<List<Integer>> original){
-		int size = original.size();
 		
 		List<List<Integer>> temp = original.subList(1, size - 1);
 		
@@ -28,24 +27,32 @@ public class gridShortenedTester {
 	 * PROBLEM STATEMENT IS THAT WHEN SHORTEN IS CALLED MORE THAN ONCE
 	 * (HERE IT IS CALLED TWICE) IT AFFECTS THE SIZE OF TEMPORARY SUBLIST 
 	 * EXPLICITLY IN LINE 16. THE QUESTION IS HOW TO MAINTAIN THE SIZE
-	 * BUT BEING ABLE TO PASS THESE SUBLISTS. 
+	 * BUT BEING ABLE TO PASS THESE SUBLISTS.
+	 * 
+	 *  
+	 *  SOLUTION:
+	 *  DO NOT USE SUBLISTS IN ANY SORT OF LOOPING CONTEXT, TENDS TO THROW BUGS
+	 *  AND EXCEPTIONS THAT ARE ANNOYING TO HANDLE. INSTEAD, CREATE A NEW 2D
+	 *  ARRAY AND ADD ONLY THE ELEMENTS FROM 1 TO SIZE - 1.
 	 * @param args
 	 */
 	
 	public static void main(String[] args) {
 		List<List<Integer>> example = new ArrayList<List<Integer>>();
-		for(int i = 0; i < 42; i++) {
+		size = 42;
+		for(int i = 0; i < size; i++) {
 			example.add(new ArrayList<Integer>());
-			for(int j = 0; j < 42; j++) {
+			for(int j = 0; j < size; j++) {
 				example.get(i).add(j);
 			}
 		}
-		List<List<Integer>> boom = shorten(example);
-		List<List<Integer>> boom2 = shorten(example);
+		List<List<Integer>> boom = new ArrayList<List<Integer>>(example);
 		
-		List<List<Integer>> testCase = shorten(example);
+		boom = shorten(boom);
 		
-		for(List<Integer> lists : testCase) {
+		List<List<Integer>> testCase = new ArrayList<List<Integer>>(example);
+		
+		for(List<Integer> lists : boom) {
 			for(int numb : lists) {
 				System.out.print(numb + " ");
 			}

@@ -24,7 +24,8 @@ import xml_related_package.XMLParser;
  *
  */
 public class Grid {
-	private static List<List<CellModel>> gridCells; 
+	private List<List<CellModel>> gridCells = new ArrayList<List<CellModel>>();
+	private List<List<CellModel>> smallerGrid;
 	private int gridSize;
 	private int modelType;
 	private String description = "";
@@ -106,6 +107,7 @@ public class Grid {
 				System.out.println(i);
 			}
 		}
+		this.shortenOnce();
 		this.findCellNeighbors();
 	}
 	
@@ -122,23 +124,22 @@ public class Grid {
 	
 	//return the set of cells for the menu class to use
 	public List<List<CellModel>> getCells() {
-		return deepCopy(gridCells);
+		return deepCopy();
 	}
 	
 	//returns the unmodifiable list
-	private List<List<CellModel>> deepCopy (List<List<CellModel>> original){
-		int size = original.size();
-		
-		List<List<CellModel>> shortened = original.subList(1, size - 1);
-
-		System.out.println(shortened.get(1).size());
-		System.out.println(size);
-		for(int i = 0; i < size - 2; i++) {
-			List<CellModel> row = shortened.get(i).subList(1, size);
-			shortened.set(i, row);
+	private List<List<CellModel>> deepCopy (){
+		return Collections.unmodifiableList(smallerGrid);
+	}
+	
+	private void shortenOnce() {
+		smallerGrid = new ArrayList<List<CellModel>>();
+		for(int i = 1; i < gridSize - 1; i++) {
+			smallerGrid.add(new ArrayList<CellModel>());
+			for(int j = 1; j < gridSize - 1; j++) {
+				smallerGrid.get(i - 1).add(gridCells.get(i).get(j));
+			}
 		}
-		
-		return Collections.unmodifiableList(shortened);
 	}
 	
 	//returns the dimension of the grid
@@ -157,10 +158,10 @@ public class Grid {
 	 * neighbors and also get their next state
 	 */
 	public void findCellNeighbors() {
-		for(int i = 1; i < gridSize - 1; i++) {
-			for(int j = 1; j < gridSize - 1; j++) {
-				gridCells.get(i).get(j).getNeighbors(i, j, getCells());
-				gridCells.get(i).get(j).findNextState();
+		for(int i = 0; i < gridSize - 2; i++) {
+			for(int j = 0; j < gridSize - 2; j++) {
+				smallerGrid.get(i).get(j).getNeighbors(i, j, getCells());
+				gridCells.get(i+1).get(j+1).findNextState();
 			}
 		}
 	}
@@ -169,14 +170,14 @@ public class Grid {
 	 * Loops through cells to move each one to their next state
 	 */
 	public void moveSimulationForward() {
-		for(int i = 0; i < gridSize; i++) {
-			for(int j = 0; j < gridSize; j++) {
+		for(int i = 1; i < gridSize - 1; i++) {
+			for(int j = 1; j < gridSize - 1; j++) {
 				gridCells.get(i).get(j).moveForward(getCells());
 				
 			}
 		}
-		for(int i = 0; i < gridSize; i++) {
-			for(int j = 0; j < gridSize; j++) {
+		for(int i = 1; i < gridSize - 1; i++) {
+			for(int j = 1; j < gridSize - 1; j++) {
 				gridCells.get(i).get(j).findNextState();
 			}
 		}
@@ -233,7 +234,7 @@ public class Grid {
 	 */
 	public static void main(String[] args) {
 		//input can either be a 0,1,2,3
-		Grid tester = new Grid(3);
+		Grid tester = new Grid(0);
 		
 		tester.findCellNeighbors();
 		System.out.println();
@@ -250,8 +251,8 @@ public class Grid {
 	 * Prints the state of each cell.
 	 */
 	private void printGrid() {
-		for(int i = 0; i < gridSize; i++) {
-			for(int j = 0; j < gridSize; j++) {
+		for(int i = 0; i < gridSize - 2; i++) {
+			for(int j = 0; j < gridSize - 2; j++) {
 				System.out.print(gridCells.get(i).get(j).getState() + " ");
 				System.out.flush();  
 			}
