@@ -50,6 +50,9 @@ public class Menu extends Application{
     private static final int FIRETYPE = 1;
     private static final int SEGTYPE = 2;
     private static final int WATORTYPE = 3;
+    private static final int MAXGRIDSIZE = 200;
+    private static final int MINGRIDSIZE = 2;
+    private static final int BUTTONSIZE = 30;
 	
 
 	//public static final double SECOND_DELAY = 6.0 / FRAMES_PER_SECOND;
@@ -66,7 +69,6 @@ public class Menu extends Application{
 	private final double BUTTONHOROFFSET = 45;
 	private final int DROPOFFSET = 15;
 	private final int SLIDERSIZE = 300;
-	private final int BUTTONSIZE = 30;
 	private SquareGridView myGrid;
 	private double blocksize;
 	private double stepincrement = FRAMES_PER_SECOND;
@@ -175,11 +177,12 @@ public class Menu extends Application{
 			if (!newvalue.equals("")){
 				gridsize = Integer.parseInt(input.getText());
 			}
-			if (gridsize > 200){
-				//gridsize = 200;
+			if (gridsize > MAXGRIDSIZE){
+				gridsize = MAXGRIDSIZE;
 			}
-			if (gridsize < 2){
-				gridsize = 2;
+			
+			if (gridsize < MINGRIDSIZE){
+				gridsize = MINGRIDSIZE;
 			}
 			
 			
@@ -228,7 +231,7 @@ public class Menu extends Application{
 
 	private Button getBackStepButton(){
 		
-		Image play = new Image(getClass().getResourceAsStream("../stepbackward.png"), 30, 30, false, false);
+		Image play = new Image(getClass().getResourceAsStream("../stepbackward.png"), BUTTONSIZE, BUTTONSIZE, false, false);
 		Button pausebutton = new Button("", new ImageView(play));
 		pausebutton.setLayoutX(sliderx + 13.5);
 		pausebutton.setLayoutY(myGrid.getY() + myGrid.getDimensions() + BUTTONVERTOFFSET);
@@ -250,7 +253,7 @@ public class Menu extends Application{
 	}
 	private Button getPauseButton(){
 		
-		Image play = new Image(getClass().getResourceAsStream("../pauseicon.png"), 30, 30, false, false);
+		Image play = new Image(getClass().getResourceAsStream("../pauseicon.png"), BUTTONSIZE, BUTTONSIZE, false, false);
 		Button pausebutton = new Button("", new ImageView(play));
 		pausebutton.setLayoutX(sliderx + 2 * BUTTONHOROFFSET + 2 * BUTTONSIZE + 13.5);
 		pausebutton.setLayoutY(myGrid.getY() + myGrid.getDimensions() + BUTTONVERTOFFSET);
@@ -278,7 +281,7 @@ public class Menu extends Application{
 			        "Segregation",
 			        "Wa-Tor World"
 			    );
-		ComboBox<String> combobox = new ComboBox<String>(options);
+		ComboBox<String> combobox = new ComboBox<>(options);
 		combobox.setLayoutX(GRIDSIZE + GRIDX + DROPOFFSET);
 		combobox.setLayoutY(2 * GRIDY);
 		combobox.setValue(selected);

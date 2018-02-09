@@ -11,7 +11,7 @@ public abstract class CellModel extends Shape{
 	protected Shape shape;
 	protected Color color;
 	protected StateNode state;
-	protected CellModel[] neighbors;
+	protected List<CellModel> neighbors;
 	
 	//For XMLFile identification purposes
 	public static final String DATA_TYPE = "Model";
@@ -53,6 +53,10 @@ public abstract class CellModel extends Shape{
 	//class works well. I will delete this later. -Dorian
 	public String getState() {
 		return state.getStates()[0] + "";
+	}
+
+	public void addNeighbor(CellModel cellModel) {
+		this.neighbors.add(cellModel);
 	}
 }
 
