@@ -81,7 +81,7 @@ public class SquareGridView {
 	}
 	
 	private void handleClick(int x, int y, Grid g, Shape n) {
-		List<Integer> list = new ArrayList<Integer>();
+		List<Integer> list = new ArrayList<>();
 		list.add(1);
 		list.add(70);
 		g.getCells().get(x).get(y).getInput(list);
