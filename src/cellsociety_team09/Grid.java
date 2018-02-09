@@ -53,8 +53,8 @@ public class Grid {
 		gridSize = size;
 		gridCells = new  ArrayList<List<CellModel>>();
 		for(int i = 0; i < gridSize; i++) {
+			gridCells.add(new ArrayList<CellModel>());
 			for(int j = 0; j < gridSize; j++) {
-				gridCells.add(new ArrayList<CellModel>());
 				CellModel cell = getCell(modelChoice);
 				gridCells.get(i).add(cell);
 			}
@@ -81,8 +81,8 @@ public class Grid {
 				
 		gridCells = new  ArrayList<List<CellModel>>();
 		for(int i = 0; i < gridSize; i++) {
+			gridCells.add(new ArrayList<CellModel>());
 			for(int j = 0; j < gridSize; j++) {
-				gridCells.add(new ArrayList<CellModel>());
 				CellModel cell;
 				if(i == 0 || j == 0 || i == gridSize || j == gridSize) {
 					cell = getCell(modelChoice);
@@ -127,11 +127,18 @@ public class Grid {
 	
 	//returns the unmodifiable list
 	private List<List<CellModel>> deepCopy (List<List<CellModel>> original){
-		original = original.subList(1, original.size()-1);
-		for(int i = 0; i < original.size(); i++) {
-			original.set(i, original.get(i).subList(1, original.get(i).size()-1));
+		int size = original.size();
+		
+		List<List<CellModel>> shortened = original.subList(1, size - 1);
+
+		System.out.println(shortened.get(1).size());
+		System.out.println(size);
+		for(int i = 0; i < size - 2; i++) {
+			List<CellModel> row = shortened.get(i).subList(1, size);
+			shortened.set(i, row);
 		}
-		return Collections.unmodifiableList(original);
+		
+		return Collections.unmodifiableList(shortened);
 	}
 	
 	//returns the dimension of the grid
@@ -235,6 +242,7 @@ public class Grid {
 			System.out.println();
 			tester.moveSimulationForward();
 		}
+		
 	}
 	
 	/**
