@@ -20,7 +20,21 @@ public abstract class GridModel {
 	
 	public abstract void update();
 	
-	public abstract void moveForward();
+	public void moveForward() {
+		for(List<CellModel> row : gridCells) {
+			for(CellModel cell: row) {
+				cell.moveForward();
+			}
+		}
+	}
 	
-	public abstract void getInput();
+	public void getInput(List<List<Integer>> edits) {
+		for(int i = 0; i < edits.size(); i++) {
+			int row = edits.get(i).get(0);
+			int col = edits.get(i).get(1);
+			List<Integer> listOfCellEdits = edits.get(i).subList(2, edits.get(i).size());
+			gridCells.get(row).get(col).getInput(listOfCellEdits);
+		}
+	}
+	
 }

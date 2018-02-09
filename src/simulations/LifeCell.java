@@ -62,7 +62,7 @@ public class LifeCell extends CellModel {
 		
 	}
 	
-	public void moveForward(List<List<CellModel>> grid) {
+	public void moveForward() {
 		state.moveForward();
 	}
 	
