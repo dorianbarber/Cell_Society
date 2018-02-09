@@ -112,7 +112,7 @@ public class WatorCell extends CellModel {
 	}
 	
 	
-	public void moveForward(ArrayList<ArrayList<CellModel>> grid)
+	public void moveForward(List<List<CellModel>> grid)
 	{
 		this.moved=false;
 		this.moving=false;
@@ -250,7 +250,7 @@ public class WatorCell extends CellModel {
 	}
 
 	
-	public void getNeighbors( int r, int c, ArrayList<ArrayList<CellModel>> grid)
+	public void getNeighbors( int r, int c, List<List<CellModel>> grid)
 	{
 		
 		

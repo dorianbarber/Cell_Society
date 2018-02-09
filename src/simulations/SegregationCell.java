@@ -81,7 +81,7 @@ public class SegregationCell extends CellModel
 		
 	
 	@Override
-	public void moveForward(ArrayList<ArrayList<CellModel>> grid)
+	public void moveForward(List<List<CellModel>> grid)
 	{
 		
 		
@@ -144,7 +144,7 @@ public class SegregationCell extends CellModel
 		
 	}
 	@Override
-	public void getNeighbors( int r, int c, ArrayList<ArrayList<CellModel>> grid)
+	public void getNeighbors( int r, int c, List<List<CellModel>> grid)
 	{
 		
 		

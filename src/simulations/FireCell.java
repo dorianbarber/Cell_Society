@@ -76,13 +76,13 @@ public class FireCell extends CellModel {
 		
 		
 	
-	public void moveForward(ArrayList<ArrayList<CellModel>> grid) {
+	public void moveForward(List<List<CellModel>> grid) {
 		state.moveForward();
 	}
 	
 	
 
-	public void getNeighbors( int r, int c, ArrayList<ArrayList<CellModel>> grid)
+	public void getNeighbors( int r, int c, List<List<CellModel>> grid)
 	{
 		
 		int length=grid.get(0).size();

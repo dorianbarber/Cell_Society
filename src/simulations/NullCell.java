@@ -44,4 +44,16 @@ public class NullCell extends CellModel{
 	@Override
 	protected void setNextState(StateNode a) {}
 
+	@Override
+	public void getNeighbors(int row, int col, List<List<CellModel>> gridCells) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void moveForward(List<List<CellModel>> gridCells) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

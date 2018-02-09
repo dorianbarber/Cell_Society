@@ -10,7 +10,7 @@ import java.util.Map;
 import simulations.CellModel;
 import simulations.FireCell;
 import simulations.LifeCell;
-import simulations.NullCell;
+//import simulations.NullCell;
 import simulations.SegregationCell;
 import simulations.WatorCell;
 import xml_related_package.XMLParser;
@@ -85,7 +85,7 @@ public class Grid {
 				gridCells.add(new ArrayList<CellModel>());
 				CellModel cell;
 				if(i == 0 || j == 0 || i == gridSize || j == gridSize) {
-					cell = new NullCell();
+					cell = getCell(modelChoice);
 				} else {
 					cell = getCell(modelChoice);
 				}
@@ -127,12 +127,16 @@ public class Grid {
 	
 	//returns the unmodifiable list
 	private List<List<CellModel>> deepCopy (List<List<CellModel>> original){
+		original = original.subList(1, original.size()-1);
+		for(int i = 0; i < original.size(); i++) {
+			original.set(i, original.get(i).subList(1, original.get(i).size()-1));
+		}
 		return Collections.unmodifiableList(original);
 	}
 	
 	//returns the dimension of the grid
 	public int getGridSize() {
-		return gridSize;
+		return gridSize - 2;
 	}
 	
 	
