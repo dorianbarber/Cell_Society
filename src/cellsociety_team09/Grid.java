@@ -28,12 +28,6 @@ public class Grid {
 	private int gridSize;
 	private int modelType;
 	private String description = "";
-//	private static final CellModel[] possibleModels= {
-//			new LifeCell(),
-//			new FireCell(),
-//			new SegregationCell(),
-//			new WatorCell()
-//	};
 	
 	
 	private static final String[] xmlModel = {
@@ -54,6 +48,7 @@ public class Grid {
 	 * the size of the grid. 
 	 */
 	public Grid(int size, int modelChoice) {
+		setMapOfModels();
 		modelType = modelChoice;
 		gridSize = size;
 		gridCells = new  ArrayList<List<CellModel>>();
@@ -72,6 +67,7 @@ public class Grid {
 	 * @param modelChoice
 	 */
 	public Grid(int modelChoice) {
+		setMapOfModels();
 		modelType = modelChoice;
 		ArrayList<ArrayList<Integer>> edits = this.getXMLFile(xmlModel[modelChoice]);
 		
@@ -114,6 +110,8 @@ public class Grid {
 	}
 	
 	
+	
+	
 	public void setDescription(String s){
 		description = s;
 	}
@@ -125,6 +123,11 @@ public class Grid {
 	//return the set of cells for the menu class to use
 	public List<List<CellModel>> getCells() {
 		return deepCopy(gridCells);
+	}
+	
+	//returns the unmodifiable list
+	private List<List<CellModel>> deepCopy (List<List<CellModel>> original){
+		return Collections.unmodifiableList(original);
 	}
 	
 	//returns the dimension of the grid
@@ -182,30 +185,31 @@ public class Grid {
 		return xml.getEdits();
 	}
 	
-	
+	private void setMapOfModels() {
+		possibleModels = new HashMap<Integer, CellModel>();
+		possibleModels.put(0, new LifeCell());
+		possibleModels.put(1, new FireCell());
+		possibleModels.put(2, new SegregationCell());
+		possibleModels.put(3, new WatorCell());
+		
+	}
 	/**
 	 * ASK TA ABOUT THIS CONCEPT
 	 * ...does not seem like good Java OOP convention
 	 * @return the new instance of the CellModel subclass
 	 */
 	private CellModel getCell(int i) {
-		if(i == 0) {
-			return new LifeCell();
-		} else if (i == 1) {
-			return new FireCell();
-		} else if(i == 2) {
-			return new SegregationCell();
-		} else if(i == 3){
-			return new WatorCell();
-		} else {
-			return null;
+		CellModel result = possibleModels.get(i);
+		try {
+			return result.getClass().newInstance();
+		} catch (InstantiationException | IllegalAccessException e) {
+			System.out.println("Error in picking the proper cell model. Defaulting to LifeCell.");
 		}
+		return new LifeCell();
 	}
+		
 	
 	
-	private List<List<CellModel>> deepCopy (List<List<CellModel>> original){
-		return Collections.unmodifiableList(original);
-	}
 	
 	
 	
