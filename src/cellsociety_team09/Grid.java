@@ -6,9 +6,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javafx.scene.shape.Rectangle;
 import simulations.CellModel;
 import simulations.FireCell;
 import simulations.LifeCell;
+import simulations.NeighborFinder;
 import simulations.SegregationCell;
 import simulations.WatorCell;
 import xml_related_package.XMLParser;
@@ -22,10 +24,15 @@ import xml_related_package.XMLParser;
  *
  */
 public class Grid {
-	private static ArrayList<ArrayList<CellModel>> gridCells; 
+	private static List<List<CellModel>> gridCells; 
 	private int gridSize;
 	private int modelType;
 	private String description = "";
+	private static final  int GOLTYPE = 0;
+    private static final int FIRETYPE = 1;
+    private static final int SEGTYPE = 2;
+    private static final int WATORTYPE = 3;
+	
 //	private static final CellModel[] possibleModels= {
 //			new LifeCell(),
 //			new FireCell(),
@@ -52,7 +59,7 @@ public class Grid {
 	public Grid(int size, int modelChoice) {
 		modelType = modelChoice;
 		gridSize = size;
-		gridCells = new  ArrayList<ArrayList<CellModel>>();
+		gridCells = new  ArrayList<List<CellModel>>();
 		for(int i = 0; i < gridSize; i++) {
 			for(int j = 0; j < gridSize; j++) {
 				gridCells.add(new ArrayList<CellModel>());
@@ -72,7 +79,7 @@ public class Grid {
 		ArrayList<ArrayList<Integer>> edits = this.getXMLFile(xmlModel[modelChoice]);
 		gridSize = Integer.parseInt(modelDescription.get("Size"));
 				
-		gridCells = new  ArrayList<ArrayList<CellModel>>();
+		gridCells = new  ArrayList<List<CellModel>>();
 		for(int i = 0; i < gridSize; i++) {
 			for(int j = 0; j < gridSize; j++) {
 				gridCells.add(new ArrayList<CellModel>());
@@ -106,7 +113,7 @@ public class Grid {
 	
 	
 	//return the set of cells for the menu class to use
-	public ArrayList<ArrayList<CellModel>> getCells() {
+	public List<List<CellModel>> getCells() {
 		return gridCells;
 	}
 	
@@ -120,12 +127,8 @@ public class Grid {
 	 * neighbors and also get their next state
 	 */
 	public void findCellNeighbors() {
-		for(int i = 0; i < gridSize; i++) {
-			for(int j = 0; j < gridSize; j++) {
-				gridCells.get(i).get(j).getNeighbors(i, j, gridCells);
-				gridCells.get(i).get(j).findNextState();
-			}
-		}
+		NeighborFinder finder = new NeighborFinder();
+		finder.getNeighbors(this.getCells(), new Rectangle(1,1), getCell(modelType));
 	}
 	
 	/**
@@ -167,13 +170,13 @@ public class Grid {
 	 * @return the new instance of the CellModel subclass
 	 */
 	private CellModel getCell(int i) {
-		if(i == 0) {
+		if(i == GOLTYPE) {
 			return new LifeCell();
-		} else if (i == 1) {
+		} else if (i == FIRETYPE) {
 			return new FireCell();
-		} else if(i == 2) {
+		} else if(i == SEGTYPE) {
 			return new SegregationCell();
-		} else if(i == 3){
+		} else if(i == WATORTYPE){
 			return new WatorCell();
 		} else {
 			return null;

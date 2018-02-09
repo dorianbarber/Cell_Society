@@ -23,7 +23,7 @@ public class FireCell extends CellModel {
 		color=colors[cellstate];
 		int[] states= {cellstate,burnprb};
 		state = new StateNode(color,states);
-		neighbors =  null;
+		List<FireCell> neighbors = new ArrayList<FireCell>();
 	}
 	
 	public FireCell()
@@ -80,57 +80,6 @@ public class FireCell extends CellModel {
 	public void moveForward(List<List<CellModel>> grid) {
 		state.moveForward();
 	}
-
-
-//	public void getNeighbors( int r, int c, ArrayList<ArrayList<CellModel>> grid)
-//	{
-//		
-//		int length=grid.get(0).size();
-//		int height=grid.get(0).size();
-//		if(c==0 && r==0){
-//			neighbors = new FireCell[] {null, null,(FireCell)grid.get(r).get(c+1), null, (FireCell)grid.get(r+1).get(c),
-//					null, null, null, null};
-//		}
-//		else if(c==(length-1) && r==0){
-//			neighbors= new FireCell[] {null, null, null, null, (FireCell)grid.get(r+1).get(c), null,
-//					(FireCell)grid.get(r).get(c-1), null};// 6 left
-//		}
-//		else if(r==(height-1) && c==0){
-//			neighbors= new FireCell[] {(FireCell)grid.get(r-1).get(c), null,(FireCell) grid.get(r).get(c+1), null, null,
-//					null, null, null};	
-//		}
-//		else if(r==(height-1) && c==(length-1)){
-//			neighbors= new FireCell[] {(FireCell)grid.get(r-1).get(c), null, null, null, null, null, (FireCell)grid.get(r).get(c-1), 
-//					null};
-//		}
-//		else if(r==0) { //top edge check
-//			neighbors = new FireCell[] {null, null, (FireCell) grid.get(r).get(c+1),  null,  (FireCell)grid.get(r+1).get(c), 
-//					null, (FireCell)grid.get(r).get(c-1), null}; 		
-//		}
-//		else if(r==(height-1)) { // bottom edge check
-//			neighbors = new FireCell[] {(FireCell)grid.get(r-1).get(c), null,(FireCell) grid.get(r).get(c+1),null,null, 
-//					null,(FireCell) grid.get(r).get(c-1) ,null};			
-//		}
-//		else if(c==0){ //left edge check
-//			neighbors = new FireCell[] {(FireCell)grid.get(r-1).get(c), null,(FireCell) grid.get(r).get(c+1),  null, 
-//					(FireCell)grid.get(r+1).get(c), null, null, null};  
-//		}
-//		else if( c==(length-1)) { // right edge check
-//			neighbors = new FireCell[] { (FireCell)grid.get(r-1).get(c) ,null,null,null,(FireCell) grid.get(r+1).get(c),null,  
-//					(FireCell)	grid.get(r).get(c-1), null};
-//		}
-//		else // checking for middle cell
-//		{
-//			neighbors = new FireCell[] {(FireCell)grid.get(r-1).get(c), //0 top 
-//										 null, //1 top right
-//										 (FireCell) grid.get(r).get(c+1), //2 right
-//										 null, // 3 bottom right
-//										 (FireCell) grid.get(r+1).get(c),  // 4 bottom 
-//										 null, // 5 bottom left
-//										 (FireCell) grid.get(r).get(c-1), // 6 left
-//										null}; // top left
-//		}
-//	}
 
 	
 

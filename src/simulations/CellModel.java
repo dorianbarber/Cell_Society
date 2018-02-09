@@ -54,5 +54,9 @@ public abstract class CellModel extends Shape{
 	public String getState() {
 		return state.getStates()[0] + "";
 	}
+
+	public void addNeighbor(CellModel cellModel) {
+		this.neighbors.add(cellModel);
+	}
 }
 
