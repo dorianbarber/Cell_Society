@@ -11,7 +11,7 @@ public abstract class CellModel extends Shape{
 	protected Shape shape;
 	protected Color color;
 	protected StateNode state;
-	protected CellModel[] neighbors;
+	protected List<CellModel> neighbors;
 	
 	//For XMLFile identification purposes
 	public static final String DATA_TYPE = "Model";
@@ -19,7 +19,7 @@ public abstract class CellModel extends Shape{
 	
 	public CellModel(){}
 	
-	public abstract void getNeighbors(int row, int col, ArrayList<ArrayList<CellModel>> grid );
+	//public abstract void getNeighbors(int row, int col, ArrayList<ArrayList<CellModel>> grid );
 
 	
 	abstract int[] getStates();
@@ -27,7 +27,7 @@ public abstract class CellModel extends Shape{
 	public abstract void findNextState();
 
 
-	public abstract void moveForward(ArrayList<ArrayList<CellModel>> cellgrid);
+	public abstract void moveForward(List<List<CellModel>> cellgrid);
 	
 	public abstract void getInput(List<Integer> states);
 
