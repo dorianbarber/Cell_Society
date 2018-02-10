@@ -25,6 +25,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
@@ -69,7 +70,7 @@ public class Menu extends Application{
 	private final double BUTTONHOROFFSET = 45;
 	private final int DROPOFFSET = 15;
 	private final int SLIDERSIZE = 300;
-	private SquareGridView myGrid;
+	private TriangleGridView myGrid;
 	private double blocksize;
 	private double stepincrement = FRAMES_PER_SECOND;
 	private double sliderx;
@@ -139,7 +140,7 @@ public class Menu extends Application{
 		//System.out.println("blocksize = " + blocksize);
 		Group root = new Group();
 		myRoot = root;
-		myGrid = new SquareGridView(GRIDX, GRIDY, blocksize, GRIDSIZE);
+		myGrid = new TriangleGridView(GRIDX, GRIDY, blocksize, GRIDSIZE);
 		//grid = new Grid(gridsize,0);
 		
 		Scene scene = new Scene(root, screenwidth, screenheight, paint);
