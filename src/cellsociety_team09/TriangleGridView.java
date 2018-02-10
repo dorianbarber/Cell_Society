@@ -20,10 +20,18 @@ public class TriangleGridView extends GridView {
 	public Group drawGrid(Grid g, int screenwidth, int screenheight, double blocksize){
 		Group retgroup = new Group();
 		int x = 0, y = 0;
-		boolean bool = true;
-		for (double i = gridXPosition; i < (gridXPosition + gridSize - 2 * blocksize); i += 2 * blocksize){
-			bool = i % 0 != 0;
-			for (double j = gridYPosition; j < gridYPosition + gridSize - .5; j += blocksize){
+		boolean bool = false;
+		blocksize *= 2;
+		int counter = 0;
+		for (double i = gridXPosition; i < gridXPosition + gridSize; i += blocksize){
+			
+			if (counter == 1){
+				i -= blocksize;
+			}
+			else if (counter == 2){
+				counter = 0;
+			}
+			for (double j = gridYPosition - 30; j < gridYPosition + gridSize - .5 - 30; j += blocksize){
 				Polygon toAdd = new Triangle(i, j, blocksize, bool).getTriangle();
 				
 				//System.out.println("X: " + x + " Y: " + y);
@@ -36,10 +44,11 @@ public class TriangleGridView extends GridView {
 				//toAdd.setOnMouseClicked(e -> handleClick(xtemp,ytemp,g, toAdd));
 				retgroup.getChildren().add(toAdd);
 				y++;
-				bool = !bool;
 			}
+			counter++;
 			x++;
 			y = 0;
+			bool = !bool;
 		}
 		return retgroup;
 	}

@@ -7,9 +7,9 @@ public class PointDownTriangle{
 	public PointDownTriangle(double x, double y, double size){
 		shape = new Polygon();
 		shape.getPoints().addAll(new Double[]{
-				x, y + size/2,
-				x + size/2, y - size/2,
-				x - size/2, y - size/2
+				x + size / 2, y + size,
+				x, y,
+				x + size, y
 		});
 	}
 	public Polygon getTriangle(){

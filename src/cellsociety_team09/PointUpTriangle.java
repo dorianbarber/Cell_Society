@@ -7,9 +7,9 @@ public class PointUpTriangle{
 	public PointUpTriangle(double x, double y, double size){
 		shape = new Polygon();
 		shape.getPoints().addAll(new Double[]{
-				x + size / 2,y,
-				x + size, y + size,
-				x, y + size
+				x,y,
+				x - size / 2, y + size,
+				x + size / 2, y + size
 				
 		});
 	}
