@@ -9,80 +9,69 @@ import javafx.scene.shape.Rectangle;
 
 public class LifeCell extends CellModel {
 	
-	
-	private static final int DEADSTATE=0;
-	private static final int ALIVESTATE=1;
+	private int state;
+	private static final int DEADCELL=0;
+	private static final int ALIVECELL=1;
 	private static final Color[] colors = {Color.WHITE, Color.GREEN};
+	private ArrayList<LifeCell> neighbors = new ArrayList<LifeCell>();
+	private LifeCell next;
+	
 	
 	public LifeCell(int cellstate)
 	{
 		//shape = new Rectangle(1,1);
+		state=cellstate;
 		color = colors[cellstate];
-		int[] states= {cellstate};
-		state = new StateNode(color,states);
-		neighbors = new ArrayList<CellModel>();
-		//int[] possiblestates = {0,1};
 	}
 	
 	public LifeCell()
 	{
 		this(0);
 	}
-
-	public Color[] getPossibleStates(){
-		return colors;
-	}
 	
-	
-	public int[] getStates()
+	public int getState()
 	{
-		return state.getStates();
+		return state;
 	}
 	public void addNeighbor(CellModel cell){
-		neighbors.add(cell);
+		neighbors.add((LifeCell) cell);
+	}
+	public LifeCell getNext()
+	{
+		return next;
 	}
 	public void findNextState()
 	{
 		
 		int alivecount=0;
 		for(int a=0; a<neighbors.size(); a++){
-			if(neighbors.get(a) != null && neighbors.get(a).getStates()[0]==1){
+			if(neighbors.get(a).getState()==ALIVECELL)
 				alivecount++;
-			}
 		}
 				
-		if(getStates()[0]==ALIVESTATE && (alivecount==2) || alivecount==3){
-			StateNode s = new StateNode(colors[ALIVESTATE],new int[]{ALIVESTATE});
-			 state.setNextState(s);
+		if((state==ALIVECELL && (alivecount==2)) || alivecount==3){
+			setNextState(ALIVECELL);
 		}
 		else{
-			StateNode s = new StateNode(colors[DEADSTATE],new int[]{DEADSTATE});
-			 state.setNextState(s);
+			setNextState(DEADCELL);
 		}
 		
 	}
 	
-	public void moveForward(List<List<CellModel>> grid) {
-		state.moveForward();
-	}
-	
-	public void setNextState(StateNode b)
+	private void setNextState(int t)
 	{
-		state.setNextState(b);
+		next = new LifeCell(t);
 	}
+
 	
 	public void getInput(List<Integer> states)
 	{
-		state.setState(colors[states.get(0)], new int[] {states.get(0)});
+		state=states.get(0);
+		
 
 	}
 
-	public StateNode getKind(){
-		return state;
-	}
 
-	@Override
-	public void getNeighbors(int row, int col, ArrayList<ArrayList<CellModel>> grid) {
-	}
+	
 
 }

@@ -10,38 +10,37 @@ import javafx.scene.shape.Rectangle;
 
 public class NeighborFinder {
 	
-	private int[] rs= {};
-	private int[] cs= {};
-	private int[] rowindexu = {};
-	private int[] rowindexd = {};
-	private int[] colindexu = {};
-	private int[] colindexd = {};
+	private static int[] rs= {};
+	private static int[] cs= {};
+	private static int[] rowindexu = {};
+	private static int[] rowindexd = {};
+	private static int[] colindexu = {};
+	private static int[] colindexd = {};
 	
 	
-	private static int[] triangle_down_row_full = {-1,-1,-1,-1,-1, 0, 0, 0, 0, 0, 1, 1, 1};
-	private static int[] triangle_up_row_full = {-1,-1,-1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1};									  
-	private static int[] triangle_down_col_full  = {-2,-1, 0, 1, 2,-2,-1, 0, 1, 2,-1, 0, 1};
-	private static int[] triangle_up_col_full = {-1, 0, 1,-2,-1, 0, 1, 2,-2,-1, 0, 1, 2};
+	private static final int[] triangle_down_row_full = {-1,-1,-1,-1,-1, 0, 0, 0, 0, 0, 1, 1, 1};
+	private static final int[] triangle_up_row_full = {-1,-1,-1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1};									  
+	private static final int[] triangle_down_col_full  = {-2,-1, 0, 1, 2,-2,-1, 0, 1, 2,-1, 0, 1};
+	private static final int[] triangle_up_col_full = {-1, 0, 1,-2,-1, 0, 1, 2,-2,-1, 0, 1, 2};
 
-	private static int[] triangle_down_row_pyr = {-1, 0, 0};
-	private static int[] triangle_up_row_pyr = {0, 1, 1};									  
-	private static int[] triangle_down_col_pyr  = {0,-1, 1};
-	private static int[] triangle_up_col_pyr = {-1, 1, 0};
+	private static final int[] triangle_down_row_pyr = {-1, 0, 0};
+	private static final int[] triangle_up_row_pyr = {0, 1, 1};									  
+	private static final int[] triangle_down_col_pyr  = {0,-1, 1};
+	private static final int[] triangle_up_col_pyr = {-1, 1, 0};
 	
-	private static int[] hexagon_up_row = {-1,-1,-1, 0, 0, 0, 1};
-	private static int[] hexagon_down_row = {-1, 0, 0, 0, 1, 1, 1};
-	private static int[] hexago_col = {-1, 0, 1, -1, 0, 1, 0};
+	private static final int[] hexagon_up_row = {-1,-1,-1, 0, 0, 0, 1};
+	private static final int[] hexagon_down_row = {-1, 0, 0, 0, 1, 1, 1};
+	private static final int[] hexago_col = {-1, 0, 1, -1, 0, 1, 0};
 	
-	private static int[] rectangle_row_standard = {-1,-1,-1, 1, 1, 1, 0, 0, 0};
-	private static int[] rectangle_col_standard = {-1, 0, 1,-1, 0, 1,-1, 0, 1};
+	private static final int[] rectangle_row_standard = {-1,-1,-1, 1, 1, 1, 0, 0, 0};
+	private static final int[] rectangle_col_standard = {-1, 0, 1,-1, 0, 1,-1, 0, 1};
 	
-	private static int[] rectangle_row_cross = {-1, 0, 0, 1};
-	private static int[] rectangle_col_cross = { 0,-1, 1, 0};
+	private static final int[] rectangle_row_cross = {-1, 0, 0, 1};
+	private static final int[] rectangle_col_cross = { 0,-1, 1, 0};
 	
 	
-
-	// Triangle main 
-	public void getNeighbors(List<List<CellModel>> grid, Triangle t, String nebtype, String gridtype)	
+	//Triangle main 
+	public static void getNeighbors(List<List<CellModel>> grid, Triangle t, String nebtype, String gridtype)	
 	{			
 		decideNebs(nebtype, t);
 		if(gridtype.equals("toroidal"))
@@ -50,7 +49,7 @@ public class NeighborFinder {
 			getNeighborsRegular(grid,t);
 	}
 	//sub method for toroidal grid																									
-	public void getNeighborsToroidal(List<List<CellModel>> grid, Triangle t)
+	public static void getNeighborsToroidal(List<List<CellModel>> grid, Triangle t)
 	{
 		int size=grid.get(0).size();
 		for(int r=0; r<grid.get(0).size(); r++)
@@ -86,7 +85,7 @@ public class NeighborFinder {
 			}
 	}
 	//sub method for standard grid
-	public void getNeighborsRegular(List<List<CellModel>> grid, Triangle t)
+	public static void getNeighborsRegular(List<List<CellModel>> grid, Triangle t)
 	{
 		int size=grid.get(0).size();
 		for(int r=0; r<grid.get(0).size(); r++)
@@ -112,7 +111,7 @@ public class NeighborFinder {
 			}
 	}
 	//sub method for deciding between pyramid and standard neighbors
-	private void decideNebs(String nebtype, Triangle t)
+	private static void decideNebs(String nebtype, Triangle t)
 	{
 
 		if(nebtype.equals("standard")) {
@@ -129,13 +128,13 @@ public class NeighborFinder {
 		}
 	}
 	//sub method for assessing orientation
-	private boolean upside(int r, int c)
+	private static boolean upside(int r, int c)
 	{
 		return ((r%2 == 0 && c%2 == 0) || (r%2 != 0 && c%2 != 0));
 	}
 		
 	//Rectangle main
-	public void getNeighbors(List<List<CellModel>> grid, Rectangle r, String nebtype, String gridtype)
+	public static void getNeighbors(List<List<CellModel>> grid, Rectangle r, String nebtype, String gridtype)
 	{
 		decideNebs(nebtype, r);
 		if(gridtype.equals("toroidal"))
@@ -144,7 +143,7 @@ public class NeighborFinder {
 			getNeighborsRegular(grid, r);
 	}
 	// sub method for toroidal
-	public void getNeighborsToroidal(List<List<CellModel>> grid, Rectangle rec)
+	public static void getNeighborsToroidal(List<List<CellModel>> grid, Rectangle rec)
 	{
 		int size=grid.get(0).size();
 		for(int r=0; r<grid.get(0).size(); r++)
@@ -170,7 +169,7 @@ public class NeighborFinder {
 							}
 	}
 	// sub method for standard
-	public void getNeighborsRegular(List<List<CellModel>> grid, Rectangle rec)
+	public static void getNeighborsRegular(List<List<CellModel>> grid, Rectangle rec)
 	{
 		int size=grid.get(0).size();
 		for(int r=0; r<grid.get(0).size(); r++)
@@ -186,7 +185,7 @@ public class NeighborFinder {
 							}
 	}
 	// sub method to decide between cross and standard orientations
-	private void decideNebs(String nebtype, Rectangle rec)
+	private static void decideNebs(String nebtype, Rectangle rec)
 	{
 
 		if(nebtype.equals("standard")) {
@@ -200,7 +199,7 @@ public class NeighborFinder {
 	}
 	
 	//hexagon main
-	public void getNeighbors(List<List<CellModel>> grid, Hexagon h, String nebtype, String gridtype)
+	public static void getNeighbors(List<List<CellModel>> grid, Hexagon h, String nebtype, String gridtype)
 	{
 		cs = hexago_col;
 		rowindexu = hexagon_up_row;
@@ -211,7 +210,7 @@ public class NeighborFinder {
 			getNeighborsRegular(grid, h);
 	}
 	// sub method for toroidal
-	public void getNeighborsToroidal(List<List<CellModel>> grid, Hexagon h)
+	public static void getNeighborsToroidal(List<List<CellModel>> grid, Hexagon h)
 	{
 		int size=grid.get(0).size();
 		for(int r=0; r<grid.get(0).size(); r++)
@@ -243,7 +242,7 @@ public class NeighborFinder {
 			}
 	}
 	// sub method for standard
-	public void getNeighborsRegular(List<List<CellModel>> grid, Hexagon h)
+	public static void getNeighborsRegular(List<List<CellModel>> grid, Hexagon h)
 	{
 		int size=grid.get(0).size();
 		for(int r=0; r<grid.get(0).size(); r++)
@@ -266,30 +265,12 @@ public class NeighborFinder {
 			}
 	}
 	// sub method to decide between cross and standard orientations
-	public boolean topCell(int r, int c)
+	public static boolean topCell(int r, int c)
 	{
 		return (c%2 == 0);
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	//
+}
 //	public void decidenebs(String nebtype, Rectangle r)
 //	{
 //		if()
