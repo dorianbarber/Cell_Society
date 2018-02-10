@@ -1,56 +1,340 @@
 package simulations;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import com.sun.javafx.geom.Shape;
 
 import cellsociety_team09.Grid;
 import javafx.scene.shape.Rectangle;
 
 public class NeighborFinder {
 	
+	private int[] rs= {};
+	private int[] cs= {};
+	private int[] rowindexu = {};
+	private int[] rowindexd = {};
+	private int[] colindexu = {};
+	private int[] colindexd = {};
 	
-	public NeighborFinder(){
-		
+	
+	private static int[] triangle_down_row_full = {-1,-1,-1,-1,-1, 0, 0, 0, 0, 0, 1, 1, 1};
+	private static int[] triangle_up_row_full = {-1,-1,-1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1};									  
+	private static int[] triangle_down_col_full  = {-2,-1, 0, 1, 2,-2,-1, 0, 1, 2,-1, 0, 1};
+	private static int[] triangle_up_col_full = {-1, 0, 1,-2,-1, 0, 1, 2,-2,-1, 0, 1, 2};
+
+	private static int[] triangle_down_row_pyr = {-1, 0, 0};
+	private static int[] triangle_up_row_pyr = {0, 1, 1};									  
+	private static int[] triangle_down_col_pyr  = {0,-1, 1};
+	private static int[] triangle_up_col_pyr = {-1, 1, 0};
+	
+	private static int[] hexagon_up_row = {-1,-1,-1, 0, 0, 0, 1};
+	private static int[] hexagon_down_row = {-1, 0, 0, 0, 1, 1, 1};
+	private static int[] hexago_col = {-1, 0, 1, -1, 0, 1, 0};
+	
+	private static int[] rectangle_row_standard = {-1,-1,-1, 1, 1, 1, 0, 0, 0};
+	private static int[] rectangle_col_standard = {-1, 0, 1,-1, 0, 1,-1, 0, 1};
+	
+	private static int[] rectangle_row_cross = {-1, 0, 0, 1};
+	private static int[] rectangle_col_cross = { 0,-1, 1, 0};
+	
+	
+
+	// Triangle main 
+	public void getNeighbors(List<List<CellModel>> grid, Triangle t, String nebtype, String gridtype)	
+	{			
+		decideNebs(nebtype, t);
+		if(gridtype.equals("toroidal"))
+			getNeighborsToroidal(grid, t);
+		else
+			getNeighborsRegular(grid,t);
 	}
-	public void getNeighbors(List<List<CellModel>> grid, Rectangle rectangle, CellModel model){
-		for(int i = 1; i < grid.get(0).size() - 1; i++){
-			for (int j = 1; j < grid.get(0).size() - 1; j++){
-				for (int k = i - 1; k <= i + 1; k++){
-					for (int l = j - 1; l <= j + 1; l++){
-						if (!grid.get(i).get(j).equals(grid.get(k).get(l))){
-							grid.get(i).get(j).addNeighbor(grid.get(k).get(l));
-						}
-					}
+	//sub method for toroidal grid																									
+	public void getNeighborsToroidal(List<List<CellModel>> grid, Triangle t)
+	{
+		int size=grid.get(0).size();
+		for(int r=0; r<grid.get(0).size(); r++)
+			for(int c=0; c<grid.get(0).size(); c++)
+			{
+				if(upside(r,c)){
+					rs=rowindexu;
+					cs=colindexu;
 				}
+				else{
+					rs=rowindexd;
+					cs=colindexd;
+				}
+				for(int a=0; a<rs.length; a++)
+					for(int b=0; b<cs.length; b++)
+						if(rs[a]!=0||cs[b]!=0)
+							try{
+								grid.get(r).get(c).addNeighbor(grid.get((r+rs[a])).get(c+cs[b]));
+							}
+							catch(ArrayIndexOutOfBoundsException obobrow) {
+								try {
+									grid.get(r).get(c).addNeighbor(grid.get(size-(r+rs[a])).get(c+cs[b]));
+								}
+								catch(ArrayIndexOutOfBoundsException obobcol) {								
+									try {
+										grid.get(r).get(c).addNeighbor(grid.get((r+rs[a])).get(size-(c+cs[b])));
+									}
+										catch(ArrayIndexOutOfBoundsException obobcolrow) {
+											grid.get(r).get(c).addNeighbor(grid.get(size-(r+rs[a])).get(size-(c+cs[b])));
+										}
+								}
+							}
 			}
+	}
+	//sub method for standard grid
+	public void getNeighborsRegular(List<List<CellModel>> grid, Triangle t)
+	{
+		int size=grid.get(0).size();
+		for(int r=0; r<grid.get(0).size(); r++)
+			for(int c=0; c<grid.get(0).size(); c++)
+			{
+				if(upside(r,c)){
+					rs=rowindexu;
+					cs=colindexu;
+				}
+				else{
+					rs=rowindexd;
+					cs=colindexd;
+				}
+				for(int a=0; a<rs.length; a++)
+					for(int b=0; b<cs.length; b++)
+						if(rs[a]!=0||cs[b]!=0)
+							try{
+								grid.get(r).get(c).addNeighbor(grid.get((r+rs[a])).get(c+cs[b]));
+							}
+							catch(ArrayIndexOutOfBoundsException obobrowcol) {
+								//what do i do here we are just supposed to not add the neighbor
+							}
+			}
+	}
+	//sub method for deciding between pyramid and standard neighbors
+	private void decideNebs(String nebtype, Triangle t)
+	{
+
+		if(nebtype.equals("standard")) {
+			 rowindexu = triangle_up_row_full;
+			 rowindexd = triangle_down_row_full;
+			 colindexu = triangle_up_col_full;
+			 colindexd = triangle_down_col_full;
+		}
+		else {
+			 rowindexu = triangle_up_row_pyr;
+			 rowindexd = triangle_down_row_pyr;
+			 colindexu = triangle_up_col_pyr;
+			 colindexd = triangle_down_col_pyr;
 		}
 	}
-	public void getNeighbors(List<List<CellModel>> grid, Rectangle rectangle, LifeCell cell){
-		this.getNeighbors(grid, rectangle, cell);
+	//sub method for assessing orientation
+	private boolean upside(int r, int c)
+	{
+		return ((r%2 == 0 && c%2 == 0) || (r%2 != 0 && c%2 != 0));
 	}
-	public static void getNeighbors(List<List<CellModel>> grid, Rectangle rectangle, FireCell cell){
-		for(int i = 1; i < grid.get(0).size() - 1; i++){
-			for (int j = 1; j < grid.get(0).size() - 1; j++){
-				System.out.print("boom");
-				grid.get(i).get(j).addNeighbor(grid.get(i - 1).get(j));
-				grid.get(i).get(j).addNeighbor(grid.get(i).get(j - 1));
-				grid.get(i).get(j).addNeighbor(grid.get(i).get(j + 1));
-				grid.get(i).get(j).addNeighbor(grid.get(i + 1).get(j));
-			}
+		
+	//Rectangle main
+	public void getNeighbors(List<List<CellModel>> grid, Rectangle r, String nebtype, String gridtype)
+	{
+		decideNebs(nebtype, r);
+		if(gridtype.equals("toroidal"))
+			getNeighborsToroidal(grid, r);
+		else
+			getNeighborsRegular(grid, r);
+	}
+	// sub method for toroidal
+	public void getNeighborsToroidal(List<List<CellModel>> grid, Rectangle rec)
+	{
+		int size=grid.get(0).size();
+		for(int r=0; r<grid.get(0).size(); r++)
+			for(int c=0; c<grid.get(0).size(); c++)
+				for(int a=0; a<rs.length; a++)
+					for(int b=0; b<cs.length; b++)
+						if(rs[a]!=0||cs[b]!=0)
+							try{
+								grid.get(r).get(c).addNeighbor(grid.get((r+rs[a])).get(c+cs[b]));
+							}
+							catch(ArrayIndexOutOfBoundsException obobrow) {
+								try {
+									grid.get(r).get(c).addNeighbor(grid.get(size-(r+rs[a])).get(c+cs[b]));
+								}
+								catch(ArrayIndexOutOfBoundsException obobcol) {								
+									try {
+										grid.get(r).get(c).addNeighbor(grid.get((r+rs[a])).get(size-(c+cs[b])));
+									}
+									catch(ArrayIndexOutOfBoundsException obobcolrow) {
+											grid.get(r).get(c).addNeighbor(grid.get(size-(r+rs[a])).get(size-(c+cs[b])));
+									}
+								}
+							}
+	}
+	// sub method for standard
+	public void getNeighborsRegular(List<List<CellModel>> grid, Rectangle rec)
+	{
+		int size=grid.get(0).size();
+		for(int r=0; r<grid.get(0).size(); r++)
+			for(int c=0; c<grid.get(0).size(); c++)
+				for(int a=0; a<rs.length; a++)
+					for(int b=0; b<cs.length; b++)
+						if(rs[a]!=0||cs[b]!=0)
+							try{
+								grid.get(r).get(c).addNeighbor(grid.get((r+rs[a])).get(c+cs[b]));
+							}
+							catch(ArrayIndexOutOfBoundsException obobrowcol) {
+								//what do i do here we are just supposed to not add the neighbor
+							}
+	}
+	// sub method to decide between cross and standard orientations
+	private void decideNebs(String nebtype, Rectangle rec)
+	{
+
+		if(nebtype.equals("standard")) {
+			 rs = rectangle_row_standard;
+			 cs = rectangle_col_standard;
 		}
-	}
-	public void getNeighbors(List<List<CellModel>> grid, Rectangle rectangle, SegregationCell cell){
-		this.getNeighbors(grid, rectangle, cell);
-	}
-	public void getNeighbors(List<List<CellModel>> grid, Rectangle rectangle, WatorCell cell){
-		this.getNeighbors(grid, rectangle, cell);
+		else {
+			rs = rectangle_row_cross;
+			cs = rectangle_col_cross;
+		}
 	}
 	
-	public static void main(String[] args){
-		Grid grid = new Grid(1);
-		getNeighbors(grid.getCells(), new Rectangle(), new FireCell());
-		
-		
-		
-		
+	//hexagon main
+	public void getNeighbors(List<List<CellModel>> grid, Hexagon h, String nebtype, String gridtype)
+	{
+		cs = hexago_col;
+		rowindexu = hexagon_up_row;
+		rowindexd = hexagon_down_row;
+		if(gridtype.equals("toroidal"))
+			getNeighborsToroidal(grid, h);
+		else
+			getNeighborsRegular(grid, h);
 	}
-}
+	// sub method for toroidal
+	public void getNeighborsToroidal(List<List<CellModel>> grid, Hexagon h)
+	{
+		int size=grid.get(0).size();
+		for(int r=0; r<grid.get(0).size(); r++)
+			for(int c=0; c<grid.get(0).size(); c++)
+			{
+				if(topCell(r,c))
+					rs=rowindexu;
+				else
+					rs=rowindexd;
+				for(int a=0; a<rs.length; a++)
+					for(int b=0; b<cs.length; b++)
+						if(rs[a]!=0||cs[b]!=0)
+							try{
+								grid.get(r).get(c).addNeighbor(grid.get((r+rs[a])).get(c+cs[b]));
+							}
+							catch(ArrayIndexOutOfBoundsException obobrow) {
+								try {
+									grid.get(r).get(c).addNeighbor(grid.get(size-(r+rs[a])).get(c+cs[b]));
+								}
+								catch(ArrayIndexOutOfBoundsException obobcol) {								
+									try {
+										grid.get(r).get(c).addNeighbor(grid.get((r+rs[a])).get(size-(c+cs[b])));
+									}
+										catch(ArrayIndexOutOfBoundsException obobcolrow) {
+											grid.get(r).get(c).addNeighbor(grid.get(size-(r+rs[a])).get(size-(c+cs[b])));
+										}
+								}
+							}
+			}
+	}
+	// sub method for standard
+	public void getNeighborsRegular(List<List<CellModel>> grid, Hexagon h)
+	{
+		int size=grid.get(0).size();
+		for(int r=0; r<grid.get(0).size(); r++)
+			for(int c=0; c<grid.get(0).size(); c++)
+			{
+				if(topCell(r,c))
+					rs=rowindexu;
+				else
+					rs=rowindexd;
+				
+				for(int a=0; a<rs.length; a++)
+					for(int b=0; b<cs.length; b++)
+						if(rs[a]!=0||cs[b]!=0)
+							try{
+								grid.get(r).get(c).addNeighbor(grid.get((r+rs[a])).get(c+cs[b]));
+							}
+							catch(ArrayIndexOutOfBoundsException obobrowcol) {
+								//what do i do here we are just supposed to not add the neighbor
+							}
+			}
+	}
+	// sub method to decide between cross and standard orientations
+	public boolean topCell(int r, int c)
+	{
+		return (c%2 == 0);
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	//
+//	public void decidenebs(String nebtype, Rectangle r)
+//	{
+//		if()
+//	}
+//
+//	public List<CellModel> getNeighbors(List<List<CellModel>> grid, Rectangle r){
+//		
+//		ArrayList<CellModel> nebs = new ArrayList<CellModel>();
+//		for(int i = 1; i < grid.get(0).size() - 1; i++){
+//			for (int j = 1; j < grid.get(0).size() - 1; j++){
+//				for (int k = i - 1; k <= i + 1; k++){
+//					for (int l = j - 1; l <= j + 1; l++){
+//						if (!grid.get(i).get(j).equals(grid.get(k).get(l))){
+//							nebs.add(grid.get(k).get(l));
+//						}
+//					}
+//				}
+//			}
+//		}
+//		return nebs;
+//	}
+//	public void getNeighbors(List<List<CellModel>> grid, Rectangle rectangle, LifeCell cell){
+//		this.getNeighbors(grid, rectangle, cell);
+//	}
+//	public static void getNeighbors(List<List<CellModel>> grid, Rectangle rectangle){
+//		for(int i = 1; i < grid.get(0).size() - 1; i++){
+//			for (int j = 1; j < grid.get(0).size() - 1; j++){
+//				System.out.print("boom");
+//				grid.get(i).get(j).addNeighbor(grid.get(i - 1).get(j));
+//				grid.get(i).get(j).addNeighbor(grid.get(i).get(j - 1));
+//				grid.get(i).get(j).addNeighbor(grid.get(i).get(j + 1));
+//				grid.get(i).get(j).addNeighbor(grid.get(i + 1).get(j));
+//			}
+//		}
+//	}
+//	public void getNeighbors(List<List<CellModel>> grid, Rectangle rectangle, SegregationCell cell){
+//		this.getNeighbors(grid, rectangle, cell);
+//	}
+//	public void getNeighbors(List<List<CellModel>> grid, Rectangle rectangle, WatorCell cell){
+//		this.getNeighbors(grid, rectangle, cell);
+//	}
+//	
+//	
+//	public static void main(String[] args){
+//		Grid grid = new Grid(1);
+//		getNeighbors(grid.getCells(), new Rectangle(), new FireCell());
+//	}
+//}
