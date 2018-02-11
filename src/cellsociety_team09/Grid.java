@@ -209,24 +209,11 @@ public class Grid {
 	 * @return the new instance of the CellModel subclass
 	 */
 	private CellModel getCell(int i) {
-<<<<<<< HEAD
 		CellModel result = possibleModels.get(i);
 		try {
 			return result.getClass().newInstance();
 		} catch (InstantiationException | IllegalAccessException e) {
 			System.out.println("Error in picking the proper cell model. Defaulting to LifeCell.");
-=======
-		if(i == GOLTYPE) {
-			return new LifeCell();
-		} else if (i == FIRETYPE) {
-			return new FireCell();
-		} else if(i == SEGTYPE) {
-			return new SegregationCell();
-		} else if(i == WATORTYPE){
-			return new WatorCell();
-		} else {
-			return null;
->>>>>>> e6f8fe730e217ceccd2e6ea8e55de3a26ed2ef76
 		}
 		return new LifeCell();
 	}

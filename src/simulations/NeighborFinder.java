@@ -6,6 +6,7 @@ import java.util.List;
 import com.sun.javafx.geom.Shape;
 
 import cellsociety_team09.Grid;
+import cellsociety_team09.Hexagon;
 import javafx.scene.shape.Rectangle;
 
 public class NeighborFinder {

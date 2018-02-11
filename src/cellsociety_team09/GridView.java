@@ -26,7 +26,11 @@ public abstract class GridView {
 	public double getY(){
 		return gridYPosition;
 	}
-	public int getDimensions(){
+	public double getDimensions(){
 		return gridSize;
+	}
+	public Group drawGrid(GridModel grid, int wIDTH, int hEIGHT, double blocksize) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

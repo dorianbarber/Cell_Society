@@ -1,7 +1,9 @@
 package simulations;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import cellsociety_team09.GridModel;
 import javafx.scene.shape.Rectangle;
 
 public class WatorGrid extends GridModel
@@ -12,19 +14,29 @@ public class WatorGrid extends GridModel
 	
 	public WatorGrid(int gridSize)
 	{
+		gridCells = new ArrayList<List<CellModel>>();
 		size = gridSize;
 		for(int a=0; a < size; a++)
 		{
+			gridCells.add(new ArrayList<CellModel>());
 			for(int b=0; b<size; b++)
 			{
-				WatorCell r = (WatorCell) gridCells.get(a).get(b);
-				gridCells.get(a).set(b,r);
+//				WatorCell r = (WatorCell) gridCells.get(a).get(b);
+//				gridCells.get(a).set(b,r);
+				gridCells.get(a).add(new WatorCell());
 			}
 		}
 		NeighborFinder.getNeighbors(gridCells, new Rectangle(), "standard", "standard");
 	}
+	public WatorGrid()
+	{
+		this(100);
+	}
 	
-
+	public int getKind(){
+		return 3;
+	}
+	
 	@Override
 	public void moveForward()
 	{
