@@ -35,6 +35,7 @@ import simulations.AntGrid;
 import simulations.FireGrid;
 import simulations.GridModel;
 import simulations.LifeGrid;
+import simulations.NeighborFinder;
 import simulations.RPSGrid;
 import simulations.SegregationGrid;
 import simulations.WatorGrid;
@@ -155,18 +156,32 @@ public class Menu extends Application{
 		animation.setCycleCount(Timeline.INDEFINITE);
 		animation.getKeyFrames().add(frame);
 	}
-	
+	public Rectangle getShape(String shapename){
+		if (shapename.equals("Square")){
+			return new Rectangle();
+		}
+		
+		return new Rectangle();
+//		else if (shapename.equals("Triangle")){
+//			return new Triangle(1,1,1,true);
+//		}
+//		else{
+//			return new Hexagon(3,3,4,false);
+//		}
+	}
 	/**
 	 * Moves the simulation forward by updating and redrawing Grid
 	 * @param elapsedTime how much time between each step
 	 */
 	private void step(double elapsedTime) {
-		
+		//NeighborFinder finder = new NeighborFinder();
+		//NeighborFinder.getNeighbors(grid.getCells(), getShape(currentshape), "standard", "standard");
 		grid.update();
 		grid.moveForward();
 		myRoot.getChildren().remove(gridgroup);
 		gridgroup = myGrid.drawGrid(grid, WIDTH, HEIGHT, blocksize);
 		myRoot.getChildren().add(gridgroup);
+		//System.out.println("Step");
 		
 	}
 

@@ -3,6 +3,8 @@ package simulations;
 import java.util.ArrayList;
 import java.util.List;
 
+import javafx.scene.shape.Rectangle;
+
 public class LifeGrid extends GridModel{
 
 	public LifeGrid(int gridSize) {
@@ -23,8 +25,9 @@ public class LifeGrid extends GridModel{
 	public void update() {
 		for(List<CellModel> row : gridCells) {
 			for(CellModel cell: row) {
-				LifeCell temp = (LifeCell) cell;
-				temp.findNextState();
+//				LifeCell temp = (LifeCell) cell;
+//				temp.findNextState();
+				cell.findNextState();
 			}
 		}
 	}
@@ -44,10 +47,13 @@ public class LifeGrid extends GridModel{
 	public void moveForward() {
 		for(List<CellModel> row : gridCells) {
 			for(CellModel cell: row) {
-				LifeCell temp = (LifeCell) cell;
-				temp = temp.getNext();
+//				LifeCell temp = (LifeCell) cell;
+//				temp = temp.getNext();
+				cell = cell.getNext();
 			}
 		}
+
+		NeighborFinder.getNeighbors(this.getCells(), new Rectangle(), "standard", "standard");
 	}
 
 	@Override
