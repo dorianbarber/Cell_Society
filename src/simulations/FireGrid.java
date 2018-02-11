@@ -1,13 +1,13 @@
 package simulations;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javafx.scene.shape.Rectangle;
 
-public class RPSGrid extends GridModel
-{
-	
-	public RPSGrid(int gridSize)
+public class FireGrid extends GridModel{
+
+	public FireGrid(int gridSize)
 	{
 		size = gridSize;
 		for(int a=0; a < size; a++)
@@ -21,6 +21,15 @@ public class RPSGrid extends GridModel
 		NeighborFinder.getNeighbors(gridCells, new Rectangle(), "standard", "standard");
 	}
 	
+	@Override
+	public void update() {
+		for(List<CellModel> row : gridCells) {
+			for(CellModel cell: row) {
+				FireCell temp = (FireCell) cell;
+				temp.findNextState();
+			}
+		}
+	}
 
 	@Override
 	public void moveForward()
@@ -28,31 +37,21 @@ public class RPSGrid extends GridModel
 		for(int r=0; r<size; r++)
 			for(int c=0; c<size; c++)
 			{
-				RPSCell temp = (RPSCell) gridCells.get(r).get(c);
+				FireCell temp = (FireCell) gridCells.get(r).get(c);
 				gridCells.get(r).set(c, temp.getNext());
 			}
 	}
-	
-	@Override
-	public void update()
-	{
-		for(int r=0; r<size; r++)
-			for(int c=0; c<size; c++) {
-				RPSCell temp = (RPSCell) gridCells.get(r).get(c);
-				temp.nextState();
-			}
-	}
-
 
 	@Override
 	public void getInputGlobal(List<Integer> s) {
-		// TODO Auto-generated method stub
-		
+		int firechance=s.get(0);
+		for(int r=0; r<size; r++)
+			for(int c=0; c<size; c++)
+			{
+				FireCell temp = (FireCell) gridCells.get(r).get(c);
+				temp.setFire(firechance);
+			}	
 	}
 	
 	
 }
-	
-
-	
-	
