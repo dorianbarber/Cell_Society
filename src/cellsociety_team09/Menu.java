@@ -179,18 +179,9 @@ public class Menu extends Application{
 		//NeighborFinder.getNeighbors(grid.getCells(), getShape(currentshape), "standard", "standard");
 		grid.update();
 		grid.moveForward();
-		for(int i = 0; i < 17; i++) {
-			for(int j = 0; j < 17; j++) {
-				System.out.print(grid.getCells().get(i).get(j).getNext().getState() + " ");
-			}
-			System.out.println();
-		}
-		System.out.println();
 		myRoot.getChildren().remove(gridgroup);
 		gridgroup = myGrid.drawGrid(grid, WIDTH, HEIGHT, blocksize);
 		myRoot.getChildren().add(gridgroup);
-		//System.out.println("Step");
-		
 	}
 
 	/**
