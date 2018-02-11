@@ -1,17 +1,14 @@
-package cellsociety_team09;
+package simulations;
 
 import java.util.Collections;
 import java.util.List;
-
-import simulations.CellModel;
 
 public abstract class GridModel {
 	protected List<List<CellModel>> gridCells;
 	protected int size;
 	
 	//To be overridden by each subclass
-	public GridModel() {
-	}
+	public GridModel() {}
 	
 	public List<List<CellModel>> getCells() {
 		return Collections.unmodifiableList(gridCells);
@@ -36,18 +33,12 @@ public abstract class GridModel {
 		}
 	}
 	
-	public void getUserInput(List<Integer> clicked)
+	public void getUserInput(List<Integer> update)
 	{
-		int row = clicked.get(0);
-		int col = clicked.get(1);
-		gridCells.get(row).get(col).getClicked();
-	}
-	public double getGridSize(){
-		return (double) size;
-	}
-
-	public int getKind(){
-		return 0;
+		int row = update.get(0);
+		int col = update.get(1); 
+		
+		gridCells.get(row).get(col).getClicked());
 	}
 	
 }

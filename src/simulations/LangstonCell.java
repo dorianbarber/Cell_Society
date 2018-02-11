@@ -72,6 +72,12 @@ public class LangstonCell extends CellModel {
 		return direction;
 	}
 	
+	@Override
+	public void getClicked()
+	{
+		
+	}
+	
 	public void getNextState()
 	{
 		if(state==CYANCELL)

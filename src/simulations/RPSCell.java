@@ -14,20 +14,20 @@ public class RPSCell extends CellModel{
 	private static final int PAPERCELL=2;
 	private static final int SCISSORCELL=3;
 	private ArrayList<RPSCell> neighbors = new ArrayList<RPSCell>();
-	private int type;
+	private int state;
 	private int power;
 	private RPSCell next;
 	
 	public RPSCell()
 	{
-		type=0;
+		state=0;
 		power=10;
 	}
 	 
 	public RPSCell(int t, int p)
 	{
 		power=p;
-		type=t;
+		state=t;
 	}
 	
 	@Override
@@ -36,32 +36,41 @@ public class RPSCell extends CellModel{
 		neighbors.add((RPSCell)a);
 	}
 	
+	@Override
+	public void getClicked()
+	{
+		if(state==SCISSORCELL)
+			state=EMPTYCELL;
+		else
+			state++;
+	}
+	
 	public void nextState()
 	{
-		if(type==ROCKCELL)
+		if(state==ROCKCELL)
 			for(int a=0; a<neighbors.size(); a++)
 				if(neighbors.get(a).getState()==SCISSORCELL)
-					neighbors.get(a).setNextState(type, 10);
+					neighbors.get(a).setNextState(state, 10);
 				
-		if(type==PAPERCELL)
+		if(state==PAPERCELL)
 			for(int a=0; a<neighbors.size(); a++)
 				if(neighbors.get(a).getState()==ROCKCELL)
-					neighbors.get(a).setNextState(type, 10);
+					neighbors.get(a).setNextState(state, 10);
 			
-		if(type==SCISSORCELL)
+		if(state==SCISSORCELL)
 			for(int a=0; a<neighbors.size(); a++)
 				if(neighbors.get(a).getState()==PAPERCELL)
-					neighbors.get(a).setNextState(type, 10);
+					neighbors.get(a).setNextState(state, 10);
 			
 		for(int a=0; a<neighbors.size(); a++)
 			if(neighbors.get(a).getState()==EMPTYCELL && power>0)
-				neighbors.get(a).setNextState(type, power-1);
+				neighbors.get(a).setNextState(state, power-1);
 	}
 	
 	
 	public int getState()
 	{
-		return type;
+		return state;
 	}
 
 	public RPSCell getNext()
@@ -70,10 +79,10 @@ public class RPSCell extends CellModel{
 	}
 	@Override
 	public void getInput(List<Integer> states) {
-		if (type==SCISSORCELL)
-			type=0;
+		if (state==SCISSORCELL)
+			state=0;
 		else
-			type++;		
+			state++;		
 	}
 
 	

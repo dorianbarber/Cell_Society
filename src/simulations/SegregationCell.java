@@ -33,6 +33,15 @@ public class SegregationCell extends CellModel
 		neighbors.add((SegregationCell) c);
 	}
 	
+	@Override 
+	public void getClicked()
+	{
+		if(state==TYPE2)
+			state=0;
+		else
+			state++;
+	}
+	
 	public SegregationCell()
 	{
 		this((int)((Math.random()*2)+1));

@@ -125,6 +125,15 @@ public class AntsCell extends CellModel implements Comparable<AntsCell>{
 		// TODO Auto-generated method stub
 		
 	}
+	
+	@Override
+	public void getClicked()
+	{
+		if(state==GROUNDCELL) {
+			state=FOODCELL;
+			ants.clear();
+		}
+	}
 
 	public int getState()
 	{
