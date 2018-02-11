@@ -29,7 +29,7 @@ public class SegregationGrid extends GridModel
 	}
 	public SegregationGrid()
 	{
-		this(100);
+		this(40);
 	}
 	
 	public int getKind(){

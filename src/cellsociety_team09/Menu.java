@@ -407,16 +407,10 @@ public class Menu extends Application{
 	}
 	
 	private void getFile(){
-		grid.clear();
+		grid.clear(grid.getCells().get(0).get(0));
 		FileChooser chooser = new FileChooser();
 		chooser.setInitialDirectory(new File(System.getProperty("user.dir")));
 		currentfile = chooser.showOpenDialog(myStage);
-		try {
-			System.out.println(readFile(currentfile.getAbsolutePath(), Charset.defaultCharset()));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		
 		XMLManager manager = new XMLManager(currentfile);
 		grid.xmlEdit(manager.getXMLFile());

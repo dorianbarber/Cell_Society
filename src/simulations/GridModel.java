@@ -4,20 +4,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import java.io.File;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
-
-import org.w3c.dom.Attr;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-
 public abstract class GridModel {
 	protected List<List<CellModel>> gridCells;
 	protected int size;
@@ -67,11 +53,16 @@ public abstract class GridModel {
 	public int getKind(){
 		return 0;
 	}
-	public void clear(){
+	
+	public void clear(CellModel type){
 		for(int i = 0; i < size; i++) {
 			gridCells.add(new ArrayList<CellModel>());
 			for(int j = 0; j < size; j++) {
-				gridCells.get(i).add(new LifeCell());
+				try {
+					gridCells.get(i).add(type.getClass().newInstance());
+				} catch (InstantiationException | IllegalAccessException e) {
+					System.out.println("Not a viable cell model");
+				}
 			}
 		}
 	}
