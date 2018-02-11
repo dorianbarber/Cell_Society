@@ -40,6 +40,7 @@ public class SegregationCell extends CellModel
 			state=0;
 		else
 			state++;
+		color = colors[state];
 	}
 	
 	public SegregationCell()

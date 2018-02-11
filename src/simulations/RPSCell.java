@@ -43,6 +43,7 @@ public class RPSCell extends CellModel{
 			state=EMPTYCELL;
 		else
 			state++;
+		color = colors[state];
 	}
 	
 	public void nextState()

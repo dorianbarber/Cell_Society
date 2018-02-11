@@ -38,7 +38,7 @@ public abstract class GridModel {
 		int row = update.get(0);
 		int col = update.get(1); 
 		
-		gridCells.get(row).get(col).getClicked());
+		gridCells.get(row).get(col).getClicked();
 	}
 	
 }

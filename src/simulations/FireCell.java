@@ -44,6 +44,7 @@ public class FireCell extends CellModel {
 			type=0;
 		else
 			type++;
+		color = colors[type];
 	}
 	
 	public void setNextState(int t, double p)

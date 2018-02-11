@@ -41,8 +41,11 @@ public class WatorCell extends CellModel {
 		{
 			state=0;
 		}
-		else
+		else {
 			state++;
+		}
+		
+		color = colors[state];
 	}
 	
 	

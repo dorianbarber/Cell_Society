@@ -25,4 +25,8 @@ public abstract class CellModel{
 	public Color getColor(){
         return color;
 	}
+	public int getState() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 }

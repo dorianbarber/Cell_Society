@@ -32,10 +32,13 @@ public class LifeCell extends CellModel {
 	@Override
 	public void getClicked()
 	{
-		if(state==0)
+		if(state==0){
 			state=1;
-		else
+		}
+		else{
 			state=0;
+		}
+		color = colors[state];
 	}
 	
 	public int getState()
@@ -78,9 +81,6 @@ public class LifeCell extends CellModel {
 		state=states.get(0);
 		
 
-	}
-
-
-	
+	}	
 
 }
