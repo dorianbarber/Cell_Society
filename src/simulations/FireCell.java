@@ -37,6 +37,15 @@ public class FireCell extends CellModel {
 		burnprb=((double)states.get(1))/100;
 	}
 	
+	@Override
+	public void getClicked()
+	{
+		if(type==2)
+			type=0;
+		else
+			type++;
+	}
+	
 	public void setNextState(int t, double p)
 	{
 		next = new FireCell(t,p);

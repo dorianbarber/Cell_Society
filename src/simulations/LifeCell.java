@@ -29,6 +29,15 @@ public class LifeCell extends CellModel {
 		this(0);
 	}
 	
+	@Override
+	public void getClicked()
+	{
+		if(state==0)
+			state=1;
+		else
+			state=0;
+	}
+	
 	public int getState()
 	{
 		return state;
