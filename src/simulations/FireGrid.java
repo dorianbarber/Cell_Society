@@ -20,6 +20,10 @@ public class FireGrid extends GridModel{
 		}
 		NeighborFinder.getNeighbors(gridCells, new Rectangle(), "standard", "standard");
 	}
+	public FireGrid()
+	{
+		this(50);
+	}
 	
 	@Override
 	public void update() {
@@ -30,7 +34,11 @@ public class FireGrid extends GridModel{
 			}
 		}
 	}
-
+	
+	public int getKind(){
+		return 1;
+	}
+	
 	@Override
 	public void moveForward()
 	{

@@ -3,6 +3,7 @@ package cellsociety_team09;
 import javafx.scene.Group;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
+import simulations.GridModel;
 
 public class TriangleGridView extends GridView {
 	private double gridXPosition;
@@ -17,7 +18,7 @@ public class TriangleGridView extends GridView {
 		this.gridSize = gridSize;
 	}
 	
-	public Group drawGrid(Grid g, int screenwidth, int screenheight, double blocksize){
+	public Group drawGrid(GridModel grid, int screenwidth, int screenheight, double blocksize){
 		Group retgroup = new Group();
 		int x = 0, y = 0;
 		boolean bool = true;
@@ -28,7 +29,7 @@ public class TriangleGridView extends GridView {
 				
 				//System.out.println("X: " + x + " Y: " + y);
 				//System.out.println("I: " + i + " J: " + j);
-				toAdd.setFill(g.getCells().get(x).get(y).getColor());
+				toAdd.setFill(grid.getCells().get(x).get(y).getColor());
 				//System.out.println(toAdd.getFill().toString());
 				toAdd.setStroke(Color.BLACK);
 				int xtemp = x;

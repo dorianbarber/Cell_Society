@@ -13,7 +13,6 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Group;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -25,12 +24,18 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import simulations.AntGrid;
+import simulations.FireGrid;
+import simulations.GridModel;
+import simulations.LifeGrid;
+import simulations.RPSGrid;
+import simulations.SegregationGrid;
+import simulations.WatorGrid;
 
 public class Menu extends Application{
 	
@@ -54,6 +59,9 @@ public class Menu extends Application{
     private static final int MAXGRIDSIZE = 200;
     private static final int MINGRIDSIZE = 2;
     private static final int BUTTONSIZE = 30;
+    private int gridsize = 20;
+    private static final GridModel[] POSSIBLEGRIDS = {new LifeGrid(), new FireGrid(), new SegregationGrid(), 
+    		new WatorGrid(), new AntGrid(), new RPSGrid()}; 
 	
 
 	//public static final double SECOND_DELAY = 6.0 / FRAMES_PER_SECOND;
@@ -75,11 +83,11 @@ public class Menu extends Application{
 	private double stepincrement = FRAMES_PER_SECOND;
 	private double sliderx;
 	private Group gridgroup;
-	private Grid grid;
+	private GridModel grid;
 	private ComboBox<String> simBox;
 	private ComboBox<String> gridShapeBox;
 	private boolean happened = true;
-	private int gridsize = 20;
+	
 	private boolean pushed = true;
 	private String currentbox = "Game of Life";
 	private String currentshape = "Square";
@@ -97,7 +105,7 @@ public class Menu extends Application{
 	@Override
 	public void start(Stage stage) {
 		
-		myScene = initializeStart(WIDTH, HEIGHT, BACKGROUND, new Grid(GOLTYPE), getFile(GOLDESCRIPTION));	
+		myScene = initializeStart(WIDTH, HEIGHT, BACKGROUND, POSSIBLEGRIDS[0], getFile(GOLDESCRIPTION));	
 		myStage = stage;
 		myStage.setScene(myScene);
 		myStage.show();
@@ -148,7 +156,7 @@ public class Menu extends Application{
 	 * @param elapsedTime how much time between each step
 	 */
 	private void step(double elapsedTime) {
-		grid.moveSimulationForward();
+		grid.update();
 		myRoot.getChildren().remove(gridgroup);
 		gridgroup = myGrid.drawGrid(grid, WIDTH, HEIGHT, blocksize);
 		myRoot.getChildren().add(gridgroup);
@@ -160,7 +168,7 @@ public class Menu extends Application{
 	 */
 	private void reset(){
 		//System.out.println(grid.getDescription());
-		myScene = initializeStart(WIDTH, HEIGHT, BACKGROUND, new Grid(grid.getKind()), grid.getDescription());
+		myScene = initializeStart(WIDTH, HEIGHT, BACKGROUND, POSSIBLEGRIDS[grid.getKind()], "BOO");
 		myStage.setScene(myScene);
 		myStage.show();
 	}
@@ -174,9 +182,9 @@ public class Menu extends Application{
 	 * @param textbox = The description of the simulation
 	 * @return = a new Scene containing all of the intialized scene components
 	 */
-	private Scene initializeStart(int screenwidth, int screenheight, Color paint, Grid g, String textbox){
+	private Scene initializeStart(int screenwidth, int screenheight, Color paint, GridModel g, String textbox){
 		grid = g;
-		grid.setDescription(textbox);
+		//grid.setDescription(textbox);
 		blocksize = GRIDSIZE / grid.getGridSize();
 		//System.out.println("blocksize = " + blocksize);
 		Group root = new Group();
@@ -192,7 +200,7 @@ public class Menu extends Application{
 		root.getChildren().add(getStepForwardButton());
 		simBox = getMenu(currentbox);
 		root.getChildren().add(simBox);
-		root.getChildren().add(getText(grid.getDescription()));
+		//root.getChildren().add(getText(grid.getDescription()));
 		root.getChildren().add(getResetButton());
 		root.getChildren().add(getSizeField());
 		return scene;
@@ -239,7 +247,7 @@ public class Menu extends Application{
 			//System.out.println(text);
 			//System.out.println(gridsize);
 			
-			myScene = initializeStart(WIDTH, HEIGHT, BACKGROUND, new Grid(grid.getKind()), grid.getDescription());
+			myScene = initializeStart(WIDTH, HEIGHT, BACKGROUND, POSSIBLEGRIDS[grid.getKind()], "Boo");
 			input.setText(text);
 			myStage.setScene(myScene);
 			myStage.show();
@@ -459,7 +467,7 @@ public class Menu extends Application{
 	
 	
 	private void getWator() {
-		myScene = initializeStart(WIDTH, HEIGHT, BACKGROUND, new Grid(WATORTYPE), getFile(WATORDESCRIPTION));
+		myScene = initializeStart(WIDTH, HEIGHT, BACKGROUND, POSSIBLEGRIDS[WATORTYPE], getFile(WATORDESCRIPTION));
 		myStage.setScene(myScene);
 		myStage.show();
 		happened = false;
@@ -467,7 +475,7 @@ public class Menu extends Application{
 		animation.pause();
 	}
 	private void getSegregation() {
-		myScene = initializeStart(WIDTH, HEIGHT, BACKGROUND, new Grid(SEGTYPE), getFile(SEGDESCRIPTION));
+		myScene = initializeStart(WIDTH, HEIGHT, BACKGROUND, POSSIBLEGRIDS[SEGTYPE], getFile(SEGDESCRIPTION));
 		myStage.setScene(myScene);
 		myStage.show();
 		happened = false;
@@ -476,7 +484,7 @@ public class Menu extends Application{
 		//System.out.println(getFile(SEGDESCRIPTION));
 	}
 	private void getFire() {
-		myScene = initializeStart(WIDTH, HEIGHT, BACKGROUND, new Grid(FIRETYPE), getFile(FIREDESCRIPTION));
+		myScene = initializeStart(WIDTH, HEIGHT, BACKGROUND, POSSIBLEGRIDS[FIRETYPE], getFile(FIREDESCRIPTION));
 		myStage.setScene(myScene);
 		myStage.show();
 		happened = false;
@@ -484,7 +492,7 @@ public class Menu extends Application{
 		animation.pause();
 	}
 	private void getGOL() {
-		myScene = initializeStart(WIDTH, HEIGHT, BACKGROUND, new Grid(GOLTYPE), getFile(GOLDESCRIPTION));
+		myScene = initializeStart(WIDTH, HEIGHT, BACKGROUND, POSSIBLEGRIDS[GOLTYPE], getFile(GOLDESCRIPTION));
 		myStage.setScene(myScene);
 		myStage.show();
 		happened = false;

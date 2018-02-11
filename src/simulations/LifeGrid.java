@@ -14,6 +14,9 @@ public class LifeGrid extends GridModel{
 			}
 		}
 	}
+	public LifeGrid() {
+		this(50);
+	}
 	
 	@Override
 	public void update() {
@@ -23,6 +26,9 @@ public class LifeGrid extends GridModel{
 				temp.findNextState();
 			}
 		}
+	}
+	public int getKind(){
+		return 0;
 	}
 
 	@Override

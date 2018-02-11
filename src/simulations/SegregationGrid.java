@@ -23,8 +23,15 @@ public class SegregationGrid extends GridModel
 		}
 		NeighborFinder.getNeighbors(gridCells, new Rectangle(), "standard", "standard");
 	}
+	public SegregationGrid()
+	{
+		this(100);
+	}
 	
-
+	public int getKind(){
+		return 2;
+	}
+	
 	@Override
 	public void moveForward()
 	{

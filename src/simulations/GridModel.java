@@ -8,7 +8,8 @@ public abstract class GridModel {
 	protected int size;
 	
 	//To be overridden by each subclass
-	public GridModel() {}
+	public GridModel() {
+	}
 	
 	public List<List<CellModel>> getCells() {
 		return Collections.unmodifiableList(gridCells);
@@ -31,6 +32,12 @@ public abstract class GridModel {
 			List<Integer> listOfCellEdits = edits.get(i).subList(2, edits.get(i).size());
 			gridCells.get(row).get(col).getInput(listOfCellEdits);
 		}
+	}
+	public double getGridSize(){
+		return (double) size;
+	}
+	public int getKind(){
+		return 0;
 	}
 	
 }

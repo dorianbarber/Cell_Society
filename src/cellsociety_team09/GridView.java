@@ -5,6 +5,7 @@ import java.util.Random;
 import javafx.scene.Group;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import simulations.GridModel;
 
 public abstract class GridView {
 	private double gridXPosition;
@@ -28,8 +29,5 @@ public abstract class GridView {
 	}
 	public double getDimensions(){
 		return gridSize;
-	}
-	public Group drawGrid(Grid grid, int wIDTH, int hEIGHT, double blocksize) {
-		return new Group();
 	}
 }

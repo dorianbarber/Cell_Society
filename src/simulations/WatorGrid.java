@@ -23,8 +23,15 @@ public class WatorGrid extends GridModel
 		}
 		NeighborFinder.getNeighbors(gridCells, new Rectangle(), "standard", "standard");
 	}
+	public WatorGrid()
+	{
+		this(100);
+	}
 	
-
+	public int getKind(){
+		return 3;
+	}
+	
 	@Override
 	public void moveForward()
 	{

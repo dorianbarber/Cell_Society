@@ -11,6 +11,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
+import simulations.GridModel;
 
 public class HexGridView extends GridView {
 
@@ -28,7 +29,7 @@ public class HexGridView extends GridView {
 			gridHeight = Math.sqrt(3) * gridSize / 2;
 		}
 		
-		public Group drawGrid(Grid g, int screenwidth, int screenheight, double width){
+		public Group drawGrid(GridModel grid, int screenwidth, int screenheight, double width){
 			Group retgroup = new Group();
 			double hexwidth = 3/2 * width;
 			double hexheight = Math.sqrt(3) * hexwidth / 2;
@@ -39,11 +40,11 @@ public class HexGridView extends GridView {
 					Polygon toAdd = new Hexagon(i, j, hexwidth, offset).getShape();
 					//System.out.println("X: " + x + " Y: " + y);
 					//sSystem.out.println("I: " + i + " J: " + j);
-					toAdd.setFill(g.getCells().get(x).get(y).getColor());
+					toAdd.setFill(grid.getCells().get(x).get(y).getColor());
 					toAdd.setStroke(Color.BLACK);
 					int xtemp = x;
 					int ytemp = y;
-					toAdd.setOnMouseClicked(e -> handleClick(xtemp,ytemp,g, toAdd));
+					toAdd.setOnMouseClicked(e -> handleClick(xtemp,ytemp,grid, toAdd));
 					retgroup.getChildren().add(toAdd);
 					y++;
 				}

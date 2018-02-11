@@ -20,7 +20,14 @@ public class RPSGrid extends GridModel
 		}
 		NeighborFinder.getNeighbors(gridCells, new Rectangle(), "standard", "standard");
 	}
+	public RPSGrid()
+	{
+		this(150);
+	}
 	
+	public int getKind(){
+		return 5;
+	}
 
 	@Override
 	public void moveForward()

@@ -19,9 +19,15 @@ public class AntGrid extends GridModel{
 			
 			}
 		}
-		NeighborFinder.getNeighbors(gridCells, new Rectangle(), "standard", "standard");
-		
-		
+		NeighborFinder.getNeighbors(gridCells, new Rectangle(), "standard", "standard");		
+	}
+	public AntGrid()
+	{
+		this(70);		
+	}
+	
+	public int getKind(){
+		return 4;
 	}
 	
 	@Override
