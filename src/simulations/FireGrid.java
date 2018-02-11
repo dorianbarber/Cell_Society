@@ -3,7 +3,6 @@ package simulations;
 import java.util.ArrayList;
 import java.util.List;
 
-import cellsociety_team09.GridModel;
 import javafx.scene.shape.Rectangle;
 
 public class FireGrid extends GridModel{
@@ -17,10 +16,10 @@ public class FireGrid extends GridModel{
 			gridCells.add(new ArrayList<CellModel>());
 			for(int b=0; b<size; b++)
 			{
-				gridCells.get(a).add(new FireCell());
+				gridCells.get(a).add(new FireCell(2,.7));
 			}
 		}
-		NeighborFinder.getNeighbors(gridCells, new Rectangle(), "standard", "standard");
+		NeighborFinder.getNeighbors(gridCells, new Rectangle(), "cross", "standard");
 	}
 	public FireGrid()
 	{
@@ -50,6 +49,7 @@ public class FireGrid extends GridModel{
 				FireCell temp = (FireCell) gridCells.get(r).get(c);
 				gridCells.get(r).set(c, temp.getNext());
 			}
+		NeighborFinder.getNeighbors(gridCells, new Rectangle(), "cross", "standard");
 	}
 
 	@Override

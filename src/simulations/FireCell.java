@@ -17,6 +17,7 @@ public class FireCell extends CellModel {
 	private int type;
 	private double burnprb;
 	private FireCell next;
+	private int regrow;
 	
 	public FireCell()
 	{
@@ -28,6 +29,7 @@ public class FireCell extends CellModel {
 		type=ty;
 		burnprb=bp;
 		color=colors[type];
+		regrow = 10;
 	}
 
 	@Override 
@@ -60,21 +62,42 @@ public class FireCell extends CellModel {
 	public void findNextState()
 	{
 		boolean burning=false;
-		for(int a=0; a<neighbors.size(); a++)
+		for(int a=0; a<neighbors.size(); a++){
 			if(neighbors.get(a).getState()==BURNINGCELL)
 			{
-				burning=(Math.random()<burnprb);
+				double rand = Math.random();
+				burning=(rand<burnprb);
+				//System.out.println(rand + " " + burnprb);
 				break;
 			}
-			
-		if(type==TREECELL && burning)
+		}	
+		
+		if(type==TREECELL && burning){
 			setNextState(BURNINGCELL, burnprb);
-		else if(type==BURNINGCELL)
+		}
+		else if(type==BURNINGCELL){
+			System.out.println(type);
 			setNextState(EMPTYCELL, burnprb);
-		else
+		}
+		else if (type == EMPTYCELL){
+			if (regrow == 0){
+				regrow = 3;
+				setNextState(TREECELL, burnprb);
+			}
+			else {
+				setNextState(EMPTYCELL, burnprb);
+				regrow -= 1;
+				next.setRegrow(regrow);
+				
+			}
+		}
+		else {
 			setNextState(TREECELL, burnprb);
+		}
 	}
-
+	public void setRegrow(int r){
+		regrow = r;
+	}
 	public void setFire(int f)
 	{
 		burnprb=((double)f)/100;
