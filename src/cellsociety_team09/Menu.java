@@ -70,17 +70,19 @@ public class Menu extends Application{
 	private final double BUTTONHOROFFSET = 45;
 	private final int DROPOFFSET = 15;
 	private final int SLIDERSIZE = 300;
-	private TriangleGridView myGrid;
+	private SquareGridView myGrid;
 	private double blocksize;
 	private double stepincrement = FRAMES_PER_SECOND;
 	private double sliderx;
 	private Group gridgroup;
 	private Grid grid;
-	private ComboBox<String> myBox;
+	private ComboBox<String> simBox;
+	private ComboBox<String> gridShapeBox;
 	private boolean happened = true;
 	private int gridsize = 20;
-	private boolean pressed;
+	private boolean pushed = true;
 	private String currentbox = "Game of Life";
+	private String currentshape = "Square";
 	
 	
     /**
@@ -89,10 +91,9 @@ public class Menu extends Application{
     public static void main (String[] args) {
         launch(args); 
     }
-    public String readFile(String path, Charset encoding) throws IOException {
-		  byte[] encoded = Files.readAllBytes(Paths.get(path));
-		  return new String(encoded, encoding);
-    }
+	/* (non-Javadoc)
+	 * @see javafx.application.Application#start(javafx.stage.Stage)
+	 */
 	@Override
 	public void start(Stage stage) {
 		
@@ -103,22 +104,49 @@ public class Menu extends Application{
 		
 		animate();
 	}
-	public String getFile(String s){
+	
+	  /**
+     * Reads a file in its entirety and returns a string containing the file's contents
+     * @param path is the path to the file to be read
+     * @param encoding is how the chars should be read in -- Use Charset.DEFAULT
+     * @return s new string with the full text of the file
+     * @throws IOException
+     */
+    public String readFile(String path, Charset encoding) throws IOException {
+		  byte[] encoded = Files.readAllBytes(Paths.get(path));
+		  return new String(encoded, encoding);
+    }
+    
+	/**
+	 * Calls readFile to read in the whole text contents of a file
+	 * @param filepath is the path to the file to be read
+	 * @return is a new string with the contents of that text file
+	 * 
+	 */
+	public String getFile(String filepath){
 		String labelfield = "";
 		try {
-			labelfield = readFile(s, Charset.defaultCharset());
+			labelfield = readFile(filepath, Charset.defaultCharset());
 		} catch (IOException e) {
 			labelfield = "Sorry, file not found";
 		}
 		return labelfield;
 	}
+	
+	/**
+	 *  Sets a new Timeline loop to show the simulation
+	 */
 	public void animate(){
-		// attach "game loop" to timeline to play it
 		KeyFrame frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY), e -> step(stepincrement));
 		animation = new Timeline();
 		animation.setCycleCount(Timeline.INDEFINITE);
 		animation.getKeyFrames().add(frame);
 	}
+	
+	/**
+	 * Moves the simulation forward by updating and redrawing Grid
+	 * @param elapsedTime how much time between each step
+	 */
 	private void step(double elapsedTime) {
 		grid.moveSimulationForward();
 		myRoot.getChildren().remove(gridgroup);
@@ -127,12 +155,25 @@ public class Menu extends Application{
 		
 	}
 
+	/**
+	 * Resets the grid and the view to their original states
+	 */
 	private void reset(){
 		//System.out.println(grid.getDescription());
 		myScene = initializeStart(WIDTH, HEIGHT, BACKGROUND, new Grid(grid.getKind()), grid.getDescription());
 		myStage.setScene(myScene);
 		myStage.show();
 	}
+	
+	/**
+	 * Initializes the simulation with default settings
+	 * @param screenwidth = width of the desired screen window
+	 * @param screenheight = height of the desired screen window
+	 * @param paint = background color of the desired screen window
+	 * @param g = The declared Grid 
+	 * @param textbox = The description of the simulation
+	 * @return = a new Scene containing all of the intialized scene components
+	 */
 	private Scene initializeStart(int screenwidth, int screenheight, Color paint, Grid g, String textbox){
 		grid = g;
 		grid.setDescription(textbox);
@@ -140,23 +181,28 @@ public class Menu extends Application{
 		//System.out.println("blocksize = " + blocksize);
 		Group root = new Group();
 		myRoot = root;
-		myGrid = new TriangleGridView(GRIDX, GRIDY, blocksize, GRIDSIZE);
-		//grid = new Grid(gridsize,0);
-		
+		myGrid = new SquareGridView(GRIDX, GRIDY, blocksize, GRIDSIZE);		//grid = new Grid(gridsize,0);
 		Scene scene = new Scene(root, screenwidth, screenheight, paint);
 		gridgroup = myGrid.drawGrid(grid, screenwidth, screenheight, blocksize);
 		root.getChildren().add(gridgroup);
+		root.getChildren().add(getGridShape("Square"));
 		root.getChildren().add(getAnimationSpeedSlider());
 		root.getChildren().add(getPlayButton());
 		root.getChildren().add(getPauseButton());
 		root.getChildren().add(getStepForwardButton());
-		myBox = getMenu(currentbox);
-		root.getChildren().add(myBox);
+		simBox = getMenu(currentbox);
+		root.getChildren().add(simBox);
 		root.getChildren().add(getText(grid.getDescription()));
-		root.getChildren().add(getBackStepButton());
+		root.getChildren().add(getResetButton());
 		root.getChildren().add(getSizeField());
 		return scene;
 	}
+	
+	/**
+	 * allows the user to change the grid size manually through a text field
+	 * @return = a new VBox containing a text input field and a caption
+	 * 
+	 */
 	private VBox getSizeField() {
 		Label label1 = new Label(getFile(LABELFIELD));
 		VBox hb = new VBox();
@@ -198,7 +244,7 @@ public class Menu extends Application{
 			myStage.setScene(myScene);
 			myStage.show();
 			animation.stop();
-			pressed = false;
+			//pressed = false;
 			
 			//System.out.println(input.getText());
 			
@@ -210,6 +256,10 @@ public class Menu extends Application{
 		return hb;
 	}
 
+	/**
+	 * Gets a slider which changegs the animation speed
+	 * @return a new Slider object
+	 */
 	private Slider getAnimationSpeedSlider(){
 		Slider speedtoggle = new Slider();
 		speedtoggle.setLayoutY(myGrid.getY() + myGrid.getDimensions() + SLIDEROFFSET); 
@@ -230,20 +280,33 @@ public class Menu extends Application{
 		return speedtoggle;
 	}
 
-	private Button getBackStepButton(){
+	/**
+	 * Gets a button which resets the animation to the beginning
+	 * @return a new Button
+	 */
+	private Button getResetButton(){
 		
 		Image play = new Image(getClass().getResourceAsStream("../stepbackward.png"), BUTTONSIZE, BUTTONSIZE, false, false);
-		Button pausebutton = new Button("", new ImageView(play));
-		pausebutton.setLayoutX(sliderx + 13.5);
-		pausebutton.setLayoutY(myGrid.getY() + myGrid.getDimensions() + BUTTONVERTOFFSET);
-		pausebutton.setOnAction(e -> getReset());
-		return pausebutton;
+		Button resetbutton = new Button("", new ImageView(play));
+		resetbutton.setLayoutX(sliderx + 13.5);
+		resetbutton.setLayoutY(myGrid.getY() + myGrid.getDimensions() + BUTTONVERTOFFSET);
+		resetbutton.setOnAction(e -> getReset());
+		return resetbutton;
 	}
+	
+	/**
+	 * On click of Reset Button, resets the animation and then pauses it
+	 * called only by the Reset Button
+	 */
 	private void getReset() {
 		reset();
 		animation.pause();
 	}
 
+	/**
+	 * Gets a new button which on click plays the animation
+	 * @return = a new Button object
+	 */
 	private Button getPlayButton(){
 		Image play = new Image(getClass().getResourceAsStream("../playicon.png"), BUTTONSIZE, BUTTONSIZE, false, false);
 		Button playbutton = new Button("", new ImageView(play));
@@ -252,6 +315,11 @@ public class Menu extends Application{
 		playbutton.setOnAction(e -> getPlayAction());
 		return playbutton;
 	}
+	
+	/**
+	 * Gets a new button which on click pauses the animation
+	 * @return = a new Button
+	 */
 	private Button getPauseButton(){
 		
 		Image play = new Image(getClass().getResourceAsStream("../pauseicon.png"), BUTTONSIZE, BUTTONSIZE, false, false);
@@ -261,6 +329,11 @@ public class Menu extends Application{
 		pausebutton.setOnAction(e -> getPauseAction());
 		return pausebutton;
 	}
+	
+	/**
+	 * Gets a new button which on click steps the animatiton forward once
+	 * @return = a new Button
+	 */
 	private Button getStepForwardButton() {
 		Image play = new Image(getClass().getResourceAsStream("../stepforward.png"), BUTTONSIZE, BUTTONSIZE, false, false);
 		Button stepforwardbutton = new Button("", new ImageView(play));
@@ -270,10 +343,21 @@ public class Menu extends Application{
 		return stepforwardbutton;
 	}
 
+	
+	/**
+	 * Steps the animation forward once and pauses it
+	 * For Step Forward button
+	 */
 	private void getStepForward() {
 		animation.pause();
 		step(stepincrement);
 	}
+	
+	/**
+	 * Gets a new ComboBox with a drop-down menu allowing the user to choose the simulation
+	 * @param selected = a string indicating which option within the combo box is currently selected
+	 * @return = a new ComboBox indicating the simulation menu
+	 */
 	private ComboBox<String> getMenu(String selected){
 		ObservableList<String> options = 
 			    FXCollections.observableArrayList(
@@ -284,7 +368,7 @@ public class Menu extends Application{
 			    );
 		ComboBox<String> combobox = new ComboBox<>(options);
 		combobox.setLayoutX(GRIDSIZE + GRIDX + DROPOFFSET);
-		combobox.setLayoutY(2 * GRIDY);
+		combobox.setLayoutY(GRIDY);
 		combobox.setValue(selected);
 		combobox.valueProperty().addListener((option, oldvalue, newvalue) -> {
 			handleBoxInput(oldvalue, newvalue);
@@ -292,6 +376,12 @@ public class Menu extends Application{
 		
 		return combobox;
 	}
+	
+	/**
+	 * Sets the simulation to match what a user selects in the member combo box
+	 * @param oldvalue = the previous value (before a selection action) of the Menu combobox
+	 * @param newvalue = the new value (after a selection action) of the Menu combobox
+	 */
 	private void handleBoxInput(String oldvalue, String newvalue) {
 		if (happened) {
 			if (oldvalue == null) {
@@ -312,16 +402,68 @@ public class Menu extends Application{
 				getWator();
 			}
 		}
-		currentbox = myBox.getValue();
+		currentbox = simBox.getValue();
 		happened = true;
 	}
+	
+	/**
+	 * @param 
+	 * @return
+	 */
+	private ComboBox<String> getGridShape(String selected){
+		ObservableList<String> options = 
+			    FXCollections.observableArrayList(
+			        "Square",
+			        "Triangle",
+			        "Hexagon"
+			    );
+		ComboBox<String> combobox = new ComboBox<>(options);
+		combobox.setLayoutX(GRIDSIZE + GRIDX + DROPOFFSET);
+		combobox.setLayoutY(2 * GRIDY);
+		combobox.setValue(selected);
+		combobox.valueProperty().addListener((option, oldvalue, newvalue) -> {
+			handleGridShapeInput(oldvalue, newvalue);
+		});
+		
+		return combobox;
+	}
+	private void handleGridShapeInput(String oldvalue, String newvalue) {
+		if (pushed) {
+			if (oldvalue == null) {
+				oldvalue = "";
+			}
+			if (oldvalue.equals(newvalue)) {
+				return;
+			}
+			if (newvalue.equals("Square")) {
+				myRoot.getChildren().remove(gridgroup);
+				gridgroup = new SquareGridView(GRIDX, GRIDY, blocksize, GRIDSIZE).drawGrid(grid, WIDTH, HEIGHT, blocksize);
+				myRoot.getChildren().add(gridgroup);
+				pushed = false;
+			} 
+			else if (newvalue.equals("Triangle")) {
+				myRoot.getChildren().remove(gridgroup);
+				gridgroup = new TriangleGridView(GRIDX, GRIDY, blocksize, GRIDSIZE).drawGrid(grid, WIDTH, HEIGHT, blocksize);
+				myRoot.getChildren().add(gridgroup);
+				pushed = false;
+			} else {
+				myRoot.getChildren().remove(gridgroup);
+				gridgroup = new HexGridView(GRIDX, GRIDY, blocksize, GRIDSIZE).drawGrid(grid, WIDTH, HEIGHT, blocksize);
+				myRoot.getChildren().add(gridgroup);
+				pushed = false;
+			} 
+		}
+		currentbox = simBox.getValue();
+		pushed = true;
+	}
+	
 	
 	private void getWator() {
 		myScene = initializeStart(WIDTH, HEIGHT, BACKGROUND, new Grid(WATORTYPE), getFile(WATORDESCRIPTION));
 		myStage.setScene(myScene);
 		myStage.show();
 		happened = false;
-		myBox.setValue("Wa-Tor World");
+		simBox.setValue("Wa-Tor World");
 		animation.pause();
 	}
 	private void getSegregation() {
@@ -329,7 +471,7 @@ public class Menu extends Application{
 		myStage.setScene(myScene);
 		myStage.show();
 		happened = false;
-		myBox.setValue("Segregation");
+		simBox.setValue("Segregation");
 		animation.pause();
 		//System.out.println(getFile(SEGDESCRIPTION));
 	}
@@ -338,7 +480,7 @@ public class Menu extends Application{
 		myStage.setScene(myScene);
 		myStage.show();
 		happened = false;
-		myBox.setValue("Spreading Fire");
+		simBox.setValue("Spreading Fire");
 		animation.pause();
 	}
 	private void getGOL() {
@@ -346,7 +488,7 @@ public class Menu extends Application{
 		myStage.setScene(myScene);
 		myStage.show();
 		happened = false;
-		myBox.setValue("Game of Life");
+		simBox.setValue("Game of Life");
 		animation.pause();
 	}
 	private Group getText(String s){

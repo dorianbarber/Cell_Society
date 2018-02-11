@@ -85,7 +85,7 @@ public class SquareGridView {
 		list.add(1);
 		list.add(70);
 		g.getCells().get(x).get(y).getInput(list);
-		n.setFill(g.getCells().get(x).get(y).getKind().getColor());
+		//n.setFill(g.getCells().get(x).get(y).getKind().getColor());
 		g.findCellNeighbors();
 		//System.out.println("Clicked!");
 		

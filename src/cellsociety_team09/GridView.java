@@ -29,4 +29,7 @@ public abstract class GridView {
 	public double getDimensions(){
 		return gridSize;
 	}
+	public Group drawGrid(Grid grid, int wIDTH, int hEIGHT, double blocksize) {
+		return new Group();
+	}
 }
