@@ -1,8 +1,10 @@
 package simulations;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
+import cellsociety_team09.GridModel;
 import javafx.scene.shape.Rectangle;
 
 public class SegregationGrid extends GridModel
@@ -12,13 +14,16 @@ public class SegregationGrid extends GridModel
 	
 	public SegregationGrid(int gridSize)
 	{
+		gridCells = new ArrayList<List<CellModel>>();
 		size = gridSize;
 		for(int a=0; a < size; a++)
 		{
+			gridCells.add(new ArrayList<CellModel>());
 			for(int b=0; b<size; b++)
 			{
-				SegregationCell r = (SegregationCell) gridCells.get(a).get(b);
-				gridCells.get(a).set(b,r);
+//				SegregationCell r = (SegregationCell) gridCells.get(a).get(b);
+//				gridCells.get(a).set(b,r);
+				gridCells.get(a).add(new SegregationCell());
 			}
 		}
 		NeighborFinder.getNeighbors(gridCells, new Rectangle(), "standard", "standard");

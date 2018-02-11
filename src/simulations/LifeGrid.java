@@ -3,10 +3,13 @@ package simulations;
 import java.util.ArrayList;
 import java.util.List;
 
+import cellsociety_team09.GridModel;
+
 public class LifeGrid extends GridModel{
 
 	public LifeGrid(int gridSize) {
 		size = gridSize;
+		gridCells = new ArrayList<List<CellModel>>();
 		for(int i = 0; i < size; i++) {
 			gridCells.add(new ArrayList<CellModel>());
 			for(int j = 0; j < size; j++) {

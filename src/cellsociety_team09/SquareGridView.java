@@ -10,9 +10,8 @@ import javafx.scene.Node;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
-import simulations.GridModel;
 
-public class SquareGridView {
+public class SquareGridView extends GridView{
 	private double gridXPosition;
 	private double gridYPosition;
 	private double gridBlockSize;
@@ -71,7 +70,7 @@ public class SquareGridView {
 				toAdd.setStroke(Color.BLACK);
 				int xtemp = x;
 				int ytemp = y;
-				toAdd.setOnMouseClicked(e -> handleClick(xtemp,ytemp,grid, toAdd));
+				//toAdd.setOnMouseClicked(e -> handleClick(xtemp,ytemp,grid, toAdd));
 				retgroup.getChildren().add(toAdd);
 				y++;
 			}
@@ -81,16 +80,16 @@ public class SquareGridView {
 		return retgroup;
 	}
 	
-	private void handleClick(int x, int y, GridModel g, Shape n) {
-		List<Integer> list = new ArrayList<>();
-		list.add(1);
-		list.add(70);
-		g.getCells().get(x).get(y).getInput(list);
-		//n.setFill(g.getCells().get(x).get(y).getKind().getColor());
-		g.findCellNeighbors();
-		//System.out.println("Clicked!");
-		
-	}
+//	private void handleClick(int x, int y, GridModel g, Shape n) {
+//		List<Integer> list = new ArrayList<>();
+//		list.add(1);
+//		list.add(70);
+//		g.getCells().get(x).get(y).getInput(list);
+//		//n.setFill(g.getCells().get(x).get(y).getKind().getColor());
+//		g.findCellNeighbors();
+//		//System.out.println("Clicked!");
+//		
+//	}
 	public double getX(){
 		return gridXPosition;
 	}

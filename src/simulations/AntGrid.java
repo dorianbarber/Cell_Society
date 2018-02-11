@@ -1,22 +1,25 @@
 package simulations;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import cellsociety_team09.GridModel;
 import javafx.scene.shape.Rectangle;
 
 public class AntGrid extends GridModel{
 
 	public AntGrid(int gridSize)
 	{
+		gridCells = new ArrayList<List<CellModel>>();
 		size = gridSize;
 		for(int a=0; a < size; a++)
 		{
+			gridCells.add(new ArrayList<CellModel>());
 			for(int b=0; b<size; b++)
 			{
-				AntsCell r = (AntsCell) gridCells.get(a).get(b);
+				AntsCell r = new AntsCell();
 				r.setRC(a,b);
-				gridCells.get(a).set(b,r);
-			
+				gridCells.get(a).add(r);			
 			}
 		}
 		NeighborFinder.getNeighbors(gridCells, new Rectangle(), "standard", "standard");		

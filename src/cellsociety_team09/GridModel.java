@@ -1,7 +1,9 @@
-package simulations;
+package cellsociety_team09;
 
 import java.util.Collections;
 import java.util.List;
+
+import simulations.CellModel;
 
 public abstract class GridModel {
 	protected List<List<CellModel>> gridCells;
