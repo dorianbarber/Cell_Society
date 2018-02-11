@@ -79,7 +79,7 @@ public class LifeCell extends CellModel {
 	public void getInput(List<Integer> states)
 	{
 		state=states.get(0);
-		
+		color = colors[state];
 
 	}	
 

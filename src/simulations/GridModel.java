@@ -41,4 +41,13 @@ public abstract class GridModel {
 		gridCells.get(row).get(col).getClicked();
 	}
 	
+	public void xmlEdit(List<List<Integer>> xmlEdits) {
+		for(List<Integer> list : xmlEdits) {
+			int row = list.get(0);
+			int col = list.get(1);
+			List<Integer> listOfCellEdits = list.subList(2, list.size());
+			gridCells.get(row).get(col).getInput(listOfCellEdits);
+		}
+	}
+	
 }

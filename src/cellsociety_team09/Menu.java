@@ -1,5 +1,6 @@
 package cellsociety_team09;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
@@ -27,6 +28,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import simulations.AntGrid;
@@ -35,6 +37,7 @@ import simulations.LifeGrid;
 import simulations.RPSGrid;
 import simulations.SegregationGrid;
 import simulations.WatorGrid;
+import xml_related_package.XMLManager;
 
 public class Menu extends Application{
 	
@@ -92,7 +95,7 @@ public class Menu extends Application{
 	private boolean pushed = true;
 	private String currentbox = "Game of Life";
 	private String currentshape = "Square";
-	
+	private File currentfile;
 	
     /**
      * Start the program.
@@ -215,6 +218,7 @@ public class Menu extends Application{
 		//root.getChildren().add(getText(grid.getDescription()));
 		root.getChildren().add(getResetButton());
 		root.getChildren().add(getSizeField());
+		root.getChildren().add(getFileButton());
 		return scene;
 	}
 	
@@ -363,6 +367,32 @@ public class Menu extends Application{
 		return stepforwardbutton;
 	}
 
+	private Button getFileButton(){
+		Button retbutton = new Button();
+		retbutton.setLayoutX(GRIDSIZE + GRIDX + DROPOFFSET);
+		retbutton.setLayoutY(4 * GRIDY);
+		retbutton.setText("Get XML File");
+		retbutton.setOnAction(e -> getFile());
+		return retbutton;
+		
+	}
+	
+	private void getFile(){
+		FileChooser chooser = new FileChooser();
+		chooser.setInitialDirectory(new File(System.getProperty("user.dir")));
+		currentfile = chooser.showOpenDialog(myStage);
+		try {
+			System.out.println(readFile(currentfile.getAbsolutePath(), Charset.defaultCharset()));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		XMLManager manager = new XMLManager(currentfile);
+		grid.xmlEdit(manager.getXMLFile());
+		initializeStart(WIDTH, HEIGHT, BACKGROUND, grid, getFile(GOLDESCRIPTION));
+	}
+	
 	
 	/**
 	 * Steps the animation forward once and pauses it
@@ -372,7 +402,7 @@ public class Menu extends Application{
 		animation.pause();
 		step(stepincrement);
 	}
-	
+
 	/**
 	 * Gets a new ComboBox with a drop-down menu allowing the user to choose the simulation
 	 * @param selected = a string indicating which option within the combo box is currently selected

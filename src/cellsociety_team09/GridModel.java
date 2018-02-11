@@ -42,12 +42,23 @@ public abstract class GridModel {
 		int col = clicked.get(1);
 		gridCells.get(row).get(col).getClicked();
 	}
+
 	public double getGridSize(){
 		return (double) size;
 	}
 
 	public int getKind(){
 		return 0;
+	}
+	
+	
+	public void xmlEdit(List<List<Integer>> xmlEdits) {
+		for(List<Integer> list : xmlEdits) {
+			int row = list.get(0);
+			int col = list.get(1);
+			List<Integer> listOfCellEdits = list.subList(2, list.size());
+			gridCells.get(row).get(col).getInput(listOfCellEdits);
+		}
 	}
 	
 }
