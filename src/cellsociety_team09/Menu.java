@@ -31,7 +31,6 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import simulations.AntGrid;
 import simulations.FireGrid;
-import simulations.GridModel;
 import simulations.LifeGrid;
 import simulations.RPSGrid;
 import simulations.SegregationGrid;
@@ -56,6 +55,8 @@ public class Menu extends Application{
     private static final int FIRETYPE = 1;
     private static final int SEGTYPE = 2;
     private static final int WATORTYPE = 3;
+    private static final int ANTTYPE = 4;
+    private static final int RPSTYPE = 5;
     private static final int MAXGRIDSIZE = 200;
     private static final int MINGRIDSIZE = 2;
     private static final int BUTTONSIZE = 30;
@@ -78,7 +79,7 @@ public class Menu extends Application{
 	private final double BUTTONHOROFFSET = 45;
 	private final int DROPOFFSET = 15;
 	private final int SLIDERSIZE = 300;
-	private SquareGridView myGrid;
+	private GridView myGrid;
 	private double blocksize;
 	private double stepincrement = FRAMES_PER_SECOND;
 	private double sliderx;
@@ -156,7 +157,9 @@ public class Menu extends Application{
 	 * @param elapsedTime how much time between each step
 	 */
 	private void step(double elapsedTime) {
+		
 		grid.update();
+		grid.moveForward();
 		myRoot.getChildren().remove(gridgroup);
 		gridgroup = myGrid.drawGrid(grid, WIDTH, HEIGHT, blocksize);
 		myRoot.getChildren().add(gridgroup);
@@ -189,17 +192,26 @@ public class Menu extends Application{
 		//System.out.println("blocksize = " + blocksize);
 		Group root = new Group();
 		myRoot = root;
-		myGrid = new SquareGridView(GRIDX, GRIDY, blocksize, GRIDSIZE);		//grid = new Grid(gridsize,0);
+		
 		Scene scene = new Scene(root, screenwidth, screenheight, paint);
-		gridgroup = myGrid.drawGrid(grid, screenwidth, screenheight, blocksize);
-		root.getChildren().add(gridgroup);
-		root.getChildren().add(getGridShape("Square"));
+		//System.out.println(currentshape);
+		if (root.getChildren().contains(gridShapeBox)){
+			root.getChildren().remove(gridShapeBox);
+		}
+		gridShapeBox = getGridShape(currentshape);
+		root.getChildren().add(gridShapeBox);
+		//Also sets myGrid
+		//System.out.println(currentshape);
+		handleGridShapeInput("", currentshape);	
+		//System.out.println(currentshape);
+		//root.getChildren().add(getGridShape("Square"));
 		root.getChildren().add(getAnimationSpeedSlider());
 		root.getChildren().add(getPlayButton());
 		root.getChildren().add(getPauseButton());
 		root.getChildren().add(getStepForwardButton());
 		simBox = getMenu(currentbox);
 		root.getChildren().add(simBox);
+		
 		//root.getChildren().add(getText(grid.getDescription()));
 		root.getChildren().add(getResetButton());
 		root.getChildren().add(getSizeField());
@@ -372,7 +384,9 @@ public class Menu extends Application{
 			        "Game of Life",
 			        "Spreading Fire",
 			        "Segregation",
-			        "Wa-Tor World"
+			        "Wa-Tor World",
+			        "Ants",
+			        "Rock Paper Scissors"
 			    );
 		ComboBox<String> combobox = new ComboBox<>(options);
 		combobox.setLayoutX(GRIDSIZE + GRIDX + DROPOFFSET);
@@ -400,14 +414,16 @@ public class Menu extends Application{
 			}
 			if (newvalue.equals("Game of Life")) {
 				getGOL();
-			} 
-			else if (newvalue.equals("Spreading Fire")) {
+			}else if (newvalue.equals("Spreading Fire")) {
 				getFire();
-			} else if (newvalue.equals("Segregation")) {
+			}else if (newvalue.equals("Segregation")) {
 				getSegregation();
-			} 
-			else {
+			}else if (newvalue.equals("Wa-Tor World")){
 				getWator();
+			}else if (newvalue.equals("Ants")){
+				getAnts();
+			}else {
+				getRPS();
 			}
 		}
 		currentbox = simBox.getValue();
@@ -445,23 +461,31 @@ public class Menu extends Application{
 			}
 			if (newvalue.equals("Square")) {
 				myRoot.getChildren().remove(gridgroup);
-				gridgroup = new SquareGridView(GRIDX, GRIDY, blocksize, GRIDSIZE).drawGrid(grid, WIDTH, HEIGHT, blocksize);
+				myGrid = new SquareGridView(GRIDX, GRIDY, blocksize, GRIDSIZE);
+				gridgroup = myGrid.drawGrid(grid, WIDTH, HEIGHT, blocksize);
 				myRoot.getChildren().add(gridgroup);
 				pushed = false;
+				currentshape = "Square";
+				gridShapeBox.setValue(currentshape);
 			} 
 			else if (newvalue.equals("Triangle")) {
 				myRoot.getChildren().remove(gridgroup);
-				gridgroup = new TriangleGridView(GRIDX, GRIDY, blocksize, GRIDSIZE).drawGrid(grid, WIDTH, HEIGHT, blocksize);
+				myGrid = new TriangleGridView(GRIDX, GRIDY, blocksize, GRIDSIZE);
+				gridgroup = myGrid.drawGrid(grid, WIDTH, HEIGHT, blocksize);
 				myRoot.getChildren().add(gridgroup);
 				pushed = false;
+				currentshape = "Triangle";
+				gridShapeBox.setValue(currentshape);
 			} else {
 				myRoot.getChildren().remove(gridgroup);
-				gridgroup = new HexGridView(GRIDX, GRIDY, blocksize, GRIDSIZE).drawGrid(grid, WIDTH, HEIGHT, blocksize);
+				myGrid = new HexGridView(GRIDX, GRIDY, blocksize, GRIDSIZE);
+				gridgroup = myGrid.drawGrid(grid, WIDTH, HEIGHT, blocksize);
 				myRoot.getChildren().add(gridgroup);
 				pushed = false;
+				currentshape = "Hexagon";
+				gridShapeBox.setValue(currentshape);
 			} 
 		}
-		currentbox = simBox.getValue();
 		pushed = true;
 	}
 	
@@ -497,6 +521,22 @@ public class Menu extends Application{
 		myStage.show();
 		happened = false;
 		simBox.setValue("Game of Life");
+		animation.pause();
+	}
+	private void getAnts() {
+		myScene = initializeStart(WIDTH, HEIGHT, BACKGROUND, POSSIBLEGRIDS[ANTTYPE], getFile(GOLDESCRIPTION));
+		myStage.setScene(myScene);
+		myStage.show();
+		happened = false;
+		simBox.setValue("Ants");
+		animation.pause();
+	}
+	private void getRPS() {
+		myScene = initializeStart(WIDTH, HEIGHT, BACKGROUND, POSSIBLEGRIDS[RPSTYPE], getFile(GOLDESCRIPTION));
+		myStage.setScene(myScene);
+		myStage.show();
+		happened = false;
+		simBox.setValue("Rock, Paper, Scissors");
 		animation.pause();
 	}
 	private Group getText(String s){

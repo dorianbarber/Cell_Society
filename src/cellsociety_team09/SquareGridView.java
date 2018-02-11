@@ -10,9 +10,8 @@ import javafx.scene.Node;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
-import simulations.GridModel;
 
-public class SquareGridView {
+public class SquareGridView extends GridView{
 	private double gridXPosition;
 	private double gridYPosition;
 	private double gridBlockSize;
@@ -83,11 +82,11 @@ public class SquareGridView {
 	
 	private void handleClick(int x, int y, GridModel g, Shape n) {
 		List<Integer> list = new ArrayList<>();
-		list.add(1);
-		list.add(70);
-		g.getCells().get(x).get(y).getInput(list);
+		list.add(x);
+		list.add(y);
+		//g.getCells().get(x).get(y).getInput(list);
+		g.getUserInput(list);
 		//n.setFill(g.getCells().get(x).get(y).getKind().getColor());
-		g.findCellNeighbors();
 		//System.out.println("Clicked!");
 		
 	}

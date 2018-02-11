@@ -6,6 +6,7 @@ import java.util.List;
 import com.sun.javafx.geom.Shape;
 
 import cellsociety_team09.Grid;
+import cellsociety_team09.Hexagon;
 import javafx.scene.shape.Rectangle;
 
 public class NeighborFinder {
@@ -64,21 +65,20 @@ public class NeighborFinder {
 					cs=colindexd;
 				}
 				for(int a=0; a<rs.length; a++)
-					for(int b=0; b<cs.length; b++)
-						if(rs[a]!=0||cs[b]!=0)
+						if(rs[a]!=0||cs[a]!=0)
 							try{
-								grid.get(r).get(c).addNeighbor(grid.get((r+rs[a])).get(c+cs[b]));
+								grid.get(r).get(c).addNeighbor(grid.get((r+rs[a])).get(c+cs[a]));
 							}
-							catch(ArrayIndexOutOfBoundsException obobrow) {
+							catch(IndexOutOfBoundsException obobrow) {
 								try {
-									grid.get(r).get(c).addNeighbor(grid.get(size-(r+rs[a])).get(c+cs[b]));
+									grid.get(r).get(c).addNeighbor(grid.get(size-Math.abs(r+rs[a])).get(c+cs[a]));
 								}
-								catch(ArrayIndexOutOfBoundsException obobcol) {								
+								catch(IndexOutOfBoundsException obobcol) {								
 									try {
-										grid.get(r).get(c).addNeighbor(grid.get((r+rs[a])).get(size-(c+cs[b])));
+										grid.get(r).get(c).addNeighbor(grid.get((r+rs[a])).get(size-Math.abs(c+cs[a])));
 									}
-										catch(ArrayIndexOutOfBoundsException obobcolrow) {
-											grid.get(r).get(c).addNeighbor(grid.get(size-(r+rs[a])).get(size-(c+cs[b])));
+										catch(IndexOutOfBoundsException obobcolrow) {
+											grid.get(r).get(c).addNeighbor(grid.get(size-Math.abs(r+rs[a])).get(size-Math.abs(c+cs[a])));
 										}
 								}
 							}
@@ -88,8 +88,8 @@ public class NeighborFinder {
 	public static void getNeighborsRegular(List<List<CellModel>> grid, Triangle t)
 	{
 		int size=grid.get(0).size();
-		for(int r=0; r<grid.get(0).size(); r++)
-			for(int c=0; c<grid.get(0).size(); c++)
+		for(int r=0; r<size; r++)
+			for(int c=0; c<size; c++)
 			{
 				if(upside(r,c)){
 					rs=rowindexu;
@@ -100,12 +100,11 @@ public class NeighborFinder {
 					cs=colindexd;
 				}
 				for(int a=0; a<rs.length; a++)
-					for(int b=0; b<cs.length; b++)
-						if(rs[a]!=0||cs[b]!=0)
+						if(rs[a]!=0||cs[a]!=0)
 							try{
-								grid.get(r).get(c).addNeighbor(grid.get((r+rs[a])).get(c+cs[b]));
+								grid.get(r).get(c).addNeighbor(grid.get((r+rs[a])).get(c+cs[a]));
 							}
-							catch(ArrayIndexOutOfBoundsException obobrowcol) {
+							catch(IndexOutOfBoundsException obobrowcol) {
 								//what do i do here we are just supposed to not add the neighbor
 							}
 			}
@@ -149,38 +148,37 @@ public class NeighborFinder {
 		for(int r=0; r<grid.get(0).size(); r++)
 			for(int c=0; c<grid.get(0).size(); c++)
 				for(int a=0; a<rs.length; a++)
-					for(int b=0; b<cs.length; b++)
-						if(rs[a]!=0||cs[b]!=0)
+						if(rs[a]!=0||cs[a]!=0) {
 							try{
-								grid.get(r).get(c).addNeighbor(grid.get((r+rs[a])).get(c+cs[b]));
+								grid.get(r).get(c).addNeighbor(grid.get((r+rs[a])).get(c+cs[a]));
 							}
-							catch(ArrayIndexOutOfBoundsException obobrow) {
+							catch(IndexOutOfBoundsException obobrow) {
 								try {
-									grid.get(r).get(c).addNeighbor(grid.get(size-(r+rs[a])).get(c+cs[b]));
+									grid.get(r).get(c).addNeighbor(grid.get(size-Math.abs(r+rs[a])).get(c+cs[a]));
 								}
-								catch(ArrayIndexOutOfBoundsException obobcol) {								
+								catch(IndexOutOfBoundsException obobcol) {								
 									try {
-										grid.get(r).get(c).addNeighbor(grid.get((r+rs[a])).get(size-(c+cs[b])));
+										grid.get(r).get(c).addNeighbor(grid.get((r+rs[a])).get(size-Math.abs(c+cs[a])));
 									}
-									catch(ArrayIndexOutOfBoundsException obobcolrow) {
-											grid.get(r).get(c).addNeighbor(grid.get(size-(r+rs[a])).get(size-(c+cs[b])));
+									catch(IndexOutOfBoundsException obobcolrow) {
+											grid.get(r).get(c).addNeighbor(grid.get(size-Math.abs(r+rs[a])).get(size-Math.abs(c+cs[a])));
 									}
 								}
 							}
+						}
 	}
 	// sub method for standard
 	public static void getNeighborsRegular(List<List<CellModel>> grid, Rectangle rec)
 	{
 		int size=grid.get(0).size();
-		for(int r=0; r<grid.get(0).size(); r++)
-			for(int c=0; c<grid.get(0).size(); c++)
+		for(int r=0; r<size; r++)
+			for(int c=0; c<size; c++)
 				for(int a=0; a<rs.length; a++)
-					for(int b=0; b<cs.length; b++)
-						if(rs[a]!=0||cs[b]!=0)
+						if(rs[a]!=0||cs[a]!=0)
 							try{
-								grid.get(r).get(c).addNeighbor(grid.get((r+rs[a])).get(c+cs[b]));
+								grid.get(r).get(c).addNeighbor(grid.get((r+rs[a])).get(c+cs[a]));
 							}
-							catch(ArrayIndexOutOfBoundsException obobrowcol) {
+							catch(IndexOutOfBoundsException obobrowcol) {
 								//what do i do here we are just supposed to not add the neighbor
 							}
 	}
@@ -221,21 +219,20 @@ public class NeighborFinder {
 				else
 					rs=rowindexd;
 				for(int a=0; a<rs.length; a++)
-					for(int b=0; b<cs.length; b++)
-						if(rs[a]!=0||cs[b]!=0)
+						if(rs[a]!=0||cs[a]!=0)
 							try{
-								grid.get(r).get(c).addNeighbor(grid.get((r+rs[a])).get(c+cs[b]));
+								grid.get(r).get(c).addNeighbor(grid.get((r+rs[a])).get(c+cs[a]));
 							}
-							catch(ArrayIndexOutOfBoundsException obobrow) {
+							catch(IndexOutOfBoundsException obobrow) {
 								try {
-									grid.get(r).get(c).addNeighbor(grid.get(size-(r+rs[a])).get(c+cs[b]));
+									grid.get(r).get(c).addNeighbor(grid.get(size-Math.abs(r+rs[a])).get(c+cs[a]));
 								}
-								catch(ArrayIndexOutOfBoundsException obobcol) {								
+								catch(IndexOutOfBoundsException obobcol) {								
 									try {
-										grid.get(r).get(c).addNeighbor(grid.get((r+rs[a])).get(size-(c+cs[b])));
+										grid.get(r).get(c).addNeighbor(grid.get((r+rs[a])).get(size-Math.abs(c+cs[a])));
 									}
-										catch(ArrayIndexOutOfBoundsException obobcolrow) {
-											grid.get(r).get(c).addNeighbor(grid.get(size-(r+rs[a])).get(size-(c+cs[b])));
+										catch(IndexOutOfBoundsException obobcolrow) {
+											grid.get(r).get(c).addNeighbor(grid.get(size-Math.abs(r+rs[a])).get(size-Math.abs(c+cs[a])));
 										}
 								}
 							}
@@ -254,12 +251,11 @@ public class NeighborFinder {
 					rs=rowindexd;
 				
 				for(int a=0; a<rs.length; a++)
-					for(int b=0; b<cs.length; b++)
-						if(rs[a]!=0||cs[b]!=0)
+						if(rs[a]!=0||cs[a]!=0)
 							try{
-								grid.get(r).get(c).addNeighbor(grid.get((r+rs[a])).get(c+cs[b]));
+								grid.get(r).get(c).addNeighbor(grid.get((r+rs[a])).get(c+cs[a]));
 							}
-							catch(ArrayIndexOutOfBoundsException obobrowcol) {
+							catch(IndexOutOfBoundsException obobrowcol) {
 								//what do i do here we are just supposed to not add the neighbor
 							}
 			}
