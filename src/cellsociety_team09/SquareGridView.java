@@ -85,7 +85,7 @@ public class SquareGridView extends GridView{
 		list.add(x);
 		list.add(y);
 		//g.getCells().get(x).get(y).getInput(list);
-		g.getUserInput(list);
+		//g.getUserInput(list);
 		//n.setFill(g.getCells().get(x).get(y).getKind().getColor());
 		//System.out.println("Clicked!");
 		
