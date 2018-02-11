@@ -7,11 +7,11 @@ public class Triangle extends Polygon{
 	public Triangle(double x, double y, double size, boolean bool){
 		if (bool){
 			//shape = new Polygon();
-			shape = new PointDownTriangle(x,y,size).getTriangle();
+			shape = new PointDownTriangle(x,y,size * 2).getTriangle();
 		}
 		else {
 			//shape = new Polygon();
-			shape = new PointUpTriangle(x,y,size).getTriangle();
+			shape = new PointUpTriangle(x,y,size * 2).getTriangle();
 		}
 	}
 	public Polygon getTriangle(){
