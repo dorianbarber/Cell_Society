@@ -421,7 +421,7 @@ public class Menu extends Application{
 		
 		XMLManager manager = new XMLManager(currentfile);
 		grid.xmlEdit(manager.getXMLFile());
-		
+		NeighborFinder.getNeighbors(grid.getCells(), new Rectangle(), "standard", "standard");
 		gridgroup = myGrid.drawGrid(grid, WIDTH, HEIGHT, blocksize);
 		myRoot.getChildren().add(gridgroup);
 		//initializeStart(WIDTH, HEIGHT, BACKGROUND, grid, getFile(GOLDESCRIPTION));
