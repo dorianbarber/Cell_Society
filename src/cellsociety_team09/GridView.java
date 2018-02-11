@@ -26,7 +26,7 @@ public abstract class GridView {
 	public double getY(){
 		return gridYPosition;
 	}
-	public int getDimensions(){
+	public double getDimensions(){
 		return gridSize;
 	}
 }
