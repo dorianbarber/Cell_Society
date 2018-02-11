@@ -3,6 +3,7 @@ package cellsociety_team09;
 import javafx.scene.Group;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
+import simulations.GridModel;
 
 public class TriangleGridView extends GridView {
 	private double gridXPosition;

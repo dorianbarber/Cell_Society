@@ -33,6 +33,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import simulations.AntGrid;
 import simulations.FireGrid;
+import simulations.GridModel;
 import simulations.LifeGrid;
 import simulations.RPSGrid;
 import simulations.SegregationGrid;
@@ -191,7 +192,7 @@ public class Menu extends Application{
 	private Scene initializeStart(int screenwidth, int screenheight, Color paint, GridModel g, String textbox){
 		grid = g;
 		//grid.setDescription(textbox);
-		blocksize = GRIDSIZE / grid.getGridSize();
+		blocksize = GRIDSIZE / grid.getSize();
 		//System.out.println("blocksize = " + blocksize);
 		Group root = new Group();
 		myRoot = root;
@@ -378,6 +379,7 @@ public class Menu extends Application{
 	}
 	
 	private void getFile(){
+		grid.clear();
 		FileChooser chooser = new FileChooser();
 		chooser.setInitialDirectory(new File(System.getProperty("user.dir")));
 		currentfile = chooser.showOpenDialog(myStage);
@@ -390,7 +392,10 @@ public class Menu extends Application{
 		
 		XMLManager manager = new XMLManager(currentfile);
 		grid.xmlEdit(manager.getXMLFile());
-		initializeStart(WIDTH, HEIGHT, BACKGROUND, grid, getFile(GOLDESCRIPTION));
+		
+		gridgroup = myGrid.drawGrid(grid, WIDTH, HEIGHT, blocksize);
+		myRoot.getChildren().add(gridgroup);
+		//initializeStart(WIDTH, HEIGHT, BACKGROUND, grid, getFile(GOLDESCRIPTION));
 	}
 	
 	
