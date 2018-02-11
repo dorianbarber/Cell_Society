@@ -20,14 +20,15 @@ public class RPSCell extends CellModel{
 	
 	public RPSCell()
 	{
-		state=0;
-		power=10;
+		this(0,10);
 	}
 	 
 	public RPSCell(int t, int p)
 	{
 		power=p;
 		state=t;
+		color=colors[state];
+
 	}
 	
 	@Override

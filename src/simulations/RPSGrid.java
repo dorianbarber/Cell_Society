@@ -3,7 +3,6 @@ package simulations;
 import java.util.ArrayList;
 import java.util.List;
 
-import cellsociety_team09.GridModel;
 import javafx.scene.shape.Rectangle;
 
 public class RPSGrid extends GridModel
@@ -26,7 +25,7 @@ public class RPSGrid extends GridModel
 	}
 	public RPSGrid()
 	{
-		this(150);
+		this(50);
 	}
 	
 	public int getKind(){
