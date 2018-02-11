@@ -19,6 +19,8 @@ public abstract class CellModel{
 	public abstract void addNeighbor(CellModel c);
 
 	public abstract void getInput(List<Integer> list);
+	
+	public abstract void getClicked();
 //	public abstract void moveForward(List<List<CellModel>> cellgrid);
 	public Color getColor(){
         return color;

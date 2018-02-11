@@ -38,6 +38,7 @@ public abstract class GridModel {
 	public double getGridSize(){
 		return (double) size;
 	}
+
 	public int getKind(){
 		return 0;
 	}
