@@ -66,7 +66,8 @@ public class Menu extends Application{
     private static final int MINGRIDSIZE = 2;
     private static final int BUTTONSIZE = 30;
     private int gridsize = 20;
-    private static final GridModel[] POSSIBLEGRIDS = {new LifeGrid(), new FireGrid(), new SegregationGrid(), 
+    LifeGrid a = new LifeGrid();
+    private  final GridModel[] POSSIBLEGRIDS = {a, new FireGrid(), new SegregationGrid(), 
     		new WatorGrid(), new AntGrid(), new RPSGrid()}; 
 	
 

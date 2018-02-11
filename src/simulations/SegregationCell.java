@@ -45,7 +45,7 @@ public class SegregationCell extends CellModel
 	
 	public SegregationCell()
 	{
-		this((int)((Math.random()*2)+1));
+		this((int)((Math.random()*3)));
 		
 	}
 

@@ -110,9 +110,8 @@ public class WatorCell extends CellModel {
 			repo=0;
 			setNextState();
 		}
-		else
-			if(!isEating())
-				isMoving(SHARKCELL);
+		else if(!isEating())
+			isMoving(SHARKCELL);
 	}
 	public void handleFish()
 	{

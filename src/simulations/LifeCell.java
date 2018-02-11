@@ -54,7 +54,7 @@ public class LifeCell extends CellModel {
 	}
 	public void findNextState()
 	{
-		
+		System.out.print(neighbors.size());
 		int alivecount=0;
 		for(int a=0; a<neighbors.size(); a++){
 			if(neighbors.get(a).getState()==ALIVECELL)
