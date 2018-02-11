@@ -3,14 +3,13 @@ package simulations;
 import java.util.ArrayList;
 import java.util.List;
 
-import cellsociety_team09.GridModel;
 import javafx.scene.shape.Rectangle;
 
 public class WatorGrid extends GridModel
 {
-	private int starverate = 6;
+	private int starverate = 5;
 	private int reporate1 = 3;
-	private int reporate2 = 8;
+	private int reporate2 = 10;
 	
 	public WatorGrid(int gridSize)
 	{
@@ -30,11 +29,21 @@ public class WatorGrid extends GridModel
 	}
 	public WatorGrid()
 	{
-		this(10);
+		this(30);
 		}
 	
 	public int getKind(){
 		return 3;
+	}
+	
+	@Override
+	public void update()
+	{
+		for(int r=0; r<size; r++)
+			for(int c=0; c<size; c++) {
+				WatorCell temp = (WatorCell) gridCells.get(r).get(c);
+				temp.getNextState(starverate, reporate1, reporate2);
+			}
 	}
 	
 	@Override
@@ -49,17 +58,6 @@ public class WatorGrid extends GridModel
 		NeighborFinder.getNeighbors(gridCells, new Rectangle(), "cross", "toroidal");
 
 	}
-	
-	@Override
-	public void update()
-	{
-		for(int r=0; r<size; r++)
-			for(int c=0; c<size; c++) {
-				WatorCell temp = (WatorCell) gridCells.get(r).get(c);
-				temp.getNextState(starverate, reporate1, reporate2);
-			}
-	}
-
 
 	@Override
 	public void getInputGlobal(List<Integer> s) {

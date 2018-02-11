@@ -78,12 +78,9 @@ public class WatorCell extends CellModel {
 		reporate2=r2;
 		if(!updated) {
 			if(state==SHARKCELL) {
-				hunger++;				
-				repo++;
 				handleShark();
 			}
 			else if(state==FISHCELL) {
-				repo++;
 				handleFish();
 			}
 			else
@@ -93,7 +90,7 @@ public class WatorCell extends CellModel {
 	
 	public void setNextState()
 	{
-		next = new WatorCell(state, repo, hunger);
+		next = new WatorCell(state, hunger, repo);
 	}
 	
 	@Override
@@ -131,11 +128,10 @@ public class WatorCell extends CellModel {
 		{
 				if(neighbors.get(a).getState()==EMPTYCELL){
 					neighbors.get(a).setState(cellstate);
-					neighbors.get(a).setHunger(hunger);
-					neighbors.get(a).setRepo(repo);
+					neighbors.get(a).setHunger(hunger+1);
+					neighbors.get(a).setRepo(repo+1);
 					neighbors.get(a).setUpdated(true);
-					if((repo>reporate1 && cellstate==FISHCELL) || (repo>reporate2 && cellstate==SHARKCELL)) {
-						setState(cellstate);
+					if((repo>=reporate1 && cellstate==FISHCELL) || (repo>=reporate2 && cellstate==SHARKCELL)) {
 						neighbors.get(a).setRepo(0);
 						updated=true;
 					}
@@ -143,43 +139,42 @@ public class WatorCell extends CellModel {
 						setState(EMPTYCELL);
 					repo=0;
 					neighbors.get(a).setNextState();
-					neighbors.get(a).setUpdated(true);
 					setNextState();
-					
 					return true;
 				}
 		}
+		repo++;
+		hunger++;
 		setNextState();
 		return false;
 	}
 	public boolean isEating()
 	{
+		//System.out.println(neighbors.size());
 		Collections.shuffle(neighbors);
 		for(int a=0; a<neighbors.size(); a++)
 		{
-			if(neighbors.get(a).state==FISHCELL)
+			if(neighbors.get(a).getState()==FISHCELL)
 			{
-//				System.out.println("eating");
-//				System.out.println("");
-
 				neighbors.get(a).setState(SHARKCELL);
 				neighbors.get(a).setHunger(0);
-				System.out.println(repo);
-				neighbors.get(a).setRepo(repo);
+				neighbors.get(a).setRepo(repo+1);
 				neighbors.get(a).setUpdated(true);
+				neighbors.get(a).setNextState();
 				if(repo>=reporate2) {
-					setState(SHARKCELL);
+					neighbors.get(a).setRepo(0);
+					state=SHARKCELL;
 				}
-				else
-					setState(EMPTYCELL);
+				else {
+					state=EMPTYCELL;
+				}
 				repo=0;
 				hunger=0;
-				neighbors.get(a).setNextState();
 				setNextState();
 				return true;
 			}
+		
 		}
-		setNextState();
 		return false;
 	}
 
