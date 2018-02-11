@@ -10,7 +10,7 @@ import javafx.scene.shape.Rectangle;
 
 public class WatorCell extends CellModel {
 	
-	private static final Color[] colors= {Color.BLUE,Color.GREEN, Color.RED,Color.BLUE,Color.BLUE};
+	private static final Color[] colors= {Color.BLUE,Color.GREEN, Color.RED};
 	private static final int EMPTYCELL=0;
 	private static final int FISHCELL=1;
 	private static final int SHARKCELL=2;
@@ -20,7 +20,6 @@ public class WatorCell extends CellModel {
 	private int starverate;
 	private int reporate1;
 	private int reporate2;
-	private boolean inheat;
 	private ArrayList<WatorCell> neighbors = new ArrayList<WatorCell>();
 	private boolean updated;
 	private WatorCell next;
@@ -50,9 +49,9 @@ public class WatorCell extends CellModel {
 	public WatorCell()
 	{
 		int t=(int)(Math.random()*8+1);
-		if(t>6)
+		if(t>7)
 			state=SHARKCELL;
-		else if(t<=6)
+		else if(t<=7 && t>5)
 			state=FISHCELL;
 		else
 			state=EMPTYCELL;
@@ -69,19 +68,24 @@ public class WatorCell extends CellModel {
 	
 	public void getNextState(int d, int r1, int r2 )
 	{
+//		if(state==SHARKCELL)
+//			System.out.println("type: " + state + " repo# " + repo + " hunger " + hunger);
 		starverate=d;
 		reporate1=r1;
 		reporate2=r2;
-		if(!updated) 
+		if(!updated) {
 			if(state==SHARKCELL) {
-				setHunger(hunger+1);
+				hunger++;				
+				repo++;
 				handleShark();
-				setRepo(repo+1);
 			}
-			if(state==FISHCELL) {
+			else if(state==FISHCELL) {
+				repo++;
 				handleFish();
-				setRepo(repo+1);
 			}
+			else
+				setNextState();
+		}
 	}
 	
 	public void setNextState()
@@ -96,12 +100,12 @@ public class WatorCell extends CellModel {
 	
 	public void handleShark() 
 	{
-		if(gethunger()==starverate)
+		if(hunger>=starverate)
 		{
-			setState(EMPTYCELL);
+			state=0;
 			hunger=0;
 			repo=0;
-			inheat=false;
+			setNextState();
 		}
 		else
 			if(!isEating())
@@ -113,6 +117,8 @@ public class WatorCell extends CellModel {
 	}
 	public WatorCell getNext()
 	{
+		updated=false;
+
 		return next;
 	}
 
@@ -126,17 +132,22 @@ public class WatorCell extends CellModel {
 					neighbors.get(a).setHunger(hunger);
 					neighbors.get(a).setRepo(repo);
 					neighbors.get(a).setUpdated(true);
-					if(inheat) {
+					if((repo>reporate1 && cellstate==FISHCELL) || (repo>reporate2 && cellstate==SHARKCELL)) {
 						setState(cellstate);
 						neighbors.get(a).setRepo(0);
+						updated=true;
 					}
 					else 
 						setState(EMPTYCELL);
 					repo=0;
-					inheat=false;
+					neighbors.get(a).setNextState();
+					neighbors.get(a).setUpdated(true);
+					setNextState();
+					
 					return true;
 				}
 		}
+		setNextState();
 		return false;
 	}
 	public boolean isEating()
@@ -144,36 +155,35 @@ public class WatorCell extends CellModel {
 		Collections.shuffle(neighbors);
 		for(int a=0; a<neighbors.size(); a++)
 		{
-			if(neighbors.get(a).state==FISHCELL && !neighbors.get(a).updated)
+			if(neighbors.get(a).state==FISHCELL)
 			{
+//				System.out.println("eating");
+//				System.out.println("");
+
 				neighbors.get(a).setState(SHARKCELL);
 				neighbors.get(a).setHunger(0);
+				System.out.println(repo);
 				neighbors.get(a).setRepo(repo);
 				neighbors.get(a).setUpdated(true);
-				if(inheat) {
+				if(repo>=reporate2) {
 					setState(SHARKCELL);
-					repo=0;
-					inheat=false;
-					neighbors.get(a).setRepo(0);
 				}
 				else
 					setState(EMPTYCELL);
+				repo=0;
 				hunger=0;
+				neighbors.get(a).setNextState();
+				setNextState();
 				return true;
 			}
 		}
+		setNextState();
 		return false;
 	}
-	public int gethunger(){
-		return hunger;
-	}
+
 	public void setRepo(int t)
 	{
 		repo=t;
-		if((state==SHARKCELL && repo>=reporate2) || (state==FISHCELL && repo>=reporate1)) {
-			inheat=true;
-			repo=0;
-		}
 	}
 	public void setHunger(int t){
 		hunger=t;
@@ -184,6 +194,7 @@ public class WatorCell extends CellModel {
 	}
 	private void setState(int t){
 		state=t;
+		color=colors[t];
 	}
 	private void setUpdated(boolean t) {
 		updated=t;
