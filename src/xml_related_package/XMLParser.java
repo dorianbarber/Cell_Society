@@ -35,10 +35,11 @@ public class XMLParser {
     
     
     private NodeList children;
-    private ArrayList<ArrayList<Integer>> xmlEdits = new ArrayList<ArrayList<Integer>>();
+    private List<List<Integer>> xmlEdits = new ArrayList<List<Integer>>();
     
     private static final List<String> DATA_FIELDS = Arrays.asList(new String[] {
     		"Simulation",
+    		"SimulationNumber",
     		"Author",
     		"Size",
     		"gridEdits"
@@ -134,7 +135,7 @@ public class XMLParser {
     }
     
     
-    public ArrayList<ArrayList<Integer>> getEdits(){
+    public List<List<Integer>> getEdits(){
     	return xmlEdits;
     }
 }

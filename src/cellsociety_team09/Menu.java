@@ -1,5 +1,6 @@
 package cellsociety_team09;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
@@ -27,14 +28,18 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import simulations.AntGrid;
 import simulations.FireGrid;
+import simulations.GridModel;
 import simulations.LifeGrid;
+import simulations.NeighborFinder;
 import simulations.RPSGrid;
 import simulations.SegregationGrid;
 import simulations.WatorGrid;
+import xml_related_package.XMLManager;
 
 public class Menu extends Application{
 	
@@ -61,7 +66,8 @@ public class Menu extends Application{
     private static final int MINGRIDSIZE = 2;
     private static final int BUTTONSIZE = 30;
     private int gridsize = 20;
-    private static final GridModel[] POSSIBLEGRIDS = {new LifeGrid(), new FireGrid(), new SegregationGrid(), 
+    LifeGrid a = new LifeGrid();
+    private  final GridModel[] POSSIBLEGRIDS = {a, new FireGrid(), new SegregationGrid(), 
     		new WatorGrid(), new AntGrid(), new RPSGrid()}; 
 	
 
@@ -92,7 +98,7 @@ public class Menu extends Application{
 	private boolean pushed = true;
 	private String currentbox = "Game of Life";
 	private String currentshape = "Square";
-	
+	private File currentfile;
 	
     /**
      * Start the program.
@@ -151,18 +157,32 @@ public class Menu extends Application{
 		animation.setCycleCount(Timeline.INDEFINITE);
 		animation.getKeyFrames().add(frame);
 	}
-	
+	public Rectangle getShape(String shapename){
+		if (shapename.equals("Square")){
+			return new Rectangle();
+		}
+		
+		return new Rectangle();
+//		else if (shapename.equals("Triangle")){
+//			return new Triangle(1,1,1,true);
+//		}
+//		else{
+//			return new Hexagon(3,3,4,false);
+//		}
+	}
 	/**
 	 * Moves the simulation forward by updating and redrawing Grid
 	 * @param elapsedTime how much time between each step
 	 */
 	private void step(double elapsedTime) {
-		
+		//NeighborFinder finder = new NeighborFinder();
+		//NeighborFinder.getNeighbors(grid.getCells(), getShape(currentshape), "standard", "standard");
 		grid.update();
 		grid.moveForward();
 		myRoot.getChildren().remove(gridgroup);
 		gridgroup = myGrid.drawGrid(grid, WIDTH, HEIGHT, blocksize);
 		myRoot.getChildren().add(gridgroup);
+		//System.out.println("Step");
 		
 	}
 
@@ -188,7 +208,7 @@ public class Menu extends Application{
 	private Scene initializeStart(int screenwidth, int screenheight, Color paint, GridModel g, String textbox){
 		grid = g;
 		//grid.setDescription(textbox);
-		blocksize = GRIDSIZE / grid.getGridSize();
+		blocksize = GRIDSIZE / grid.getSize();
 		//System.out.println("blocksize = " + blocksize);
 		Group root = new Group();
 		myRoot = root;
@@ -215,6 +235,7 @@ public class Menu extends Application{
 		//root.getChildren().add(getText(grid.getDescription()));
 		root.getChildren().add(getResetButton());
 		root.getChildren().add(getSizeField());
+		root.getChildren().add(getFileButton());
 		return scene;
 	}
 	
@@ -363,6 +384,36 @@ public class Menu extends Application{
 		return stepforwardbutton;
 	}
 
+	private Button getFileButton(){
+		Button retbutton = new Button();
+		retbutton.setLayoutX(GRIDSIZE + GRIDX + DROPOFFSET);
+		retbutton.setLayoutY(4 * GRIDY);
+		retbutton.setText("Get XML File");
+		retbutton.setOnAction(e -> getFile());
+		return retbutton;
+		
+	}
+	
+	private void getFile(){
+		grid.clear();
+		FileChooser chooser = new FileChooser();
+		chooser.setInitialDirectory(new File(System.getProperty("user.dir")));
+		currentfile = chooser.showOpenDialog(myStage);
+		try {
+			System.out.println(readFile(currentfile.getAbsolutePath(), Charset.defaultCharset()));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		XMLManager manager = new XMLManager(currentfile);
+		grid.xmlEdit(manager.getXMLFile());
+		
+		gridgroup = myGrid.drawGrid(grid, WIDTH, HEIGHT, blocksize);
+		myRoot.getChildren().add(gridgroup);
+		//initializeStart(WIDTH, HEIGHT, BACKGROUND, grid, getFile(GOLDESCRIPTION));
+	}
+	
 	
 	/**
 	 * Steps the animation forward once and pauses it
@@ -372,7 +423,7 @@ public class Menu extends Application{
 		animation.pause();
 		step(stepincrement);
 	}
-	
+
 	/**
 	 * Gets a new ComboBox with a drop-down menu allowing the user to choose the simulation
 	 * @param selected = a string indicating which option within the combo box is currently selected

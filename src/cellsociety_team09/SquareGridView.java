@@ -1,15 +1,14 @@
 package cellsociety_team09;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
 import javafx.scene.Group;
-import javafx.scene.Node;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
+import simulations.GridModel;
 
 public class SquareGridView extends GridView{
 	private double gridXPosition;
@@ -85,8 +84,10 @@ public class SquareGridView extends GridView{
 		list.add(x);
 		list.add(y);
 		//g.getCells().get(x).get(y).getInput(list);
+		//System.out.println(g.getCells().get(x).get(y).getState());
 		g.getUserInput(list);
-		//n.setFill(g.getCells().get(x).get(y).getKind().getColor());
+		//System.out.println(g.getCells().get(x).get(y).getState());
+		n.setFill(g.getCells().get(x).get(y).getColor());
 		//System.out.println("Clicked!");
 		
 	}

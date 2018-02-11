@@ -1,10 +1,7 @@
 package cellsociety_team09;
 
-import java.util.Random;
-
 import javafx.scene.Group;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
+import simulations.GridModel;
 
 public abstract class GridView {
 	private double gridXPosition;

@@ -32,10 +32,13 @@ public class LifeCell extends CellModel {
 	@Override
 	public void getClicked()
 	{
-		if(state==0)
+		if(state==0){
 			state=1;
-		else
+		}
+		else{
 			state=0;
+		}
+		color = colors[state];
 	}
 	
 	public int getState()
@@ -51,7 +54,7 @@ public class LifeCell extends CellModel {
 	}
 	public void findNextState()
 	{
-		
+		System.out.print(neighbors.size());
 		int alivecount=0;
 		for(int a=0; a<neighbors.size(); a++){
 			if(neighbors.get(a).getState()==ALIVECELL)
@@ -76,11 +79,8 @@ public class LifeCell extends CellModel {
 	public void getInput(List<Integer> states)
 	{
 		state=states.get(0);
-		
+		color = colors[state];
 
-	}
-
-
-	
+	}	
 
 }

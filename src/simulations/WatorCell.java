@@ -40,8 +40,11 @@ public class WatorCell extends CellModel {
 		{
 			state=0;
 		}
-		else
+		else {
 			state++;
+		}
+		
+		color = colors[state];
 	}
 	
 	
@@ -107,9 +110,8 @@ public class WatorCell extends CellModel {
 			repo=0;
 			setNextState();
 		}
-		else
-			if(!isEating())
-				isMoving(SHARKCELL);
+		else if(!isEating())
+			isMoving(SHARKCELL);
 	}
 	public void handleFish()
 	{

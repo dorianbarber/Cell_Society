@@ -1,5 +1,6 @@
 package simulations;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -38,7 +39,27 @@ public abstract class GridModel {
 		int row = update.get(0);
 		int col = update.get(1); 
 		
-		gridCells.get(row).get(col).getClicked());
+		gridCells.get(row).get(col).getClicked();
+	}
+	
+	public void xmlEdit(List<List<Integer>> xmlEdits) {
+		for(List<Integer> list : xmlEdits) {
+			int row = list.get(0);
+			int col = list.get(1);
+			List<Integer> listOfCellEdits = list.subList(2, list.size());
+			gridCells.get(row).get(col).getInput(listOfCellEdits);
+		}
+	}
+	public int getKind(){
+		return 0;
+	}
+	public void clear(){
+		for(int i = 0; i < size; i++) {
+			gridCells.add(new ArrayList<CellModel>());
+			for(int j = 0; j < size; j++) {
+				gridCells.get(i).add(new LifeCell());
+			}
+		}
 	}
 	
 }

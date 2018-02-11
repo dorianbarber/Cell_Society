@@ -30,8 +30,8 @@ public class WatorGrid extends GridModel
 	}
 	public WatorGrid()
 	{
-		this(40);
-	}
+		this(10);
+		}
 	
 	public int getKind(){
 		return 3;

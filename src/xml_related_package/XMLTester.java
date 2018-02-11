@@ -1,6 +1,7 @@
 package xml_related_package;
 
 import java.io.File;
+import java.util.Map;
 
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -31,7 +32,10 @@ public class XMLTester extends Application{
         if (dataFile != null) {
             try {
                 XMLParser xml = new XMLParser("type");
-            	xml.getModel(dataFile);
+                Map<String, String> modelDescription = xml.getModel(dataFile);
+                for(String s : modelDescription.keySet()) {
+                	System.out.println(s + ": " +modelDescription.get(s));
+                }
             }
             catch (XMLException e) {
                 Alert a = new Alert(AlertType.ERROR);
