@@ -26,12 +26,12 @@ public class WatorGrid extends GridModel
 				gridCells.get(a).add(new WatorCell());
 			}
 		}
-		NeighborFinder.getNeighbors(gridCells, new Rectangle(), "standard", "standard");
+		NeighborFinder.getNeighbors(gridCells, new Rectangle(), "cross", "toroidal");
 	}
 	public WatorGrid()
 	{
-		this(50);
-	}
+		this(10);
+		}
 	
 	public int getKind(){
 		return 3;
@@ -46,6 +46,8 @@ public class WatorGrid extends GridModel
 				WatorCell temp = (WatorCell) gridCells.get(r).get(c);
 				gridCells.get(r).set(c, temp.getNext());
 			}
+		NeighborFinder.getNeighbors(gridCells, new Rectangle(), "cross", "toroidal");
+
 	}
 	
 	@Override
@@ -55,11 +57,6 @@ public class WatorGrid extends GridModel
 			for(int c=0; c<size; c++) {
 				WatorCell temp = (WatorCell) gridCells.get(r).get(c);
 				temp.getNextState(starverate, reporate1, reporate2);
-			}
-		for(int r=0; r<size; r++)
-			for(int c=0; c<size; c++) {
-				WatorCell temp = (WatorCell) gridCells.get(r).get(c);
-				temp.setNextState();
 			}
 	}
 

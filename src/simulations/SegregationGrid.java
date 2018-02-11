@@ -4,12 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
-import cellsociety_team09.GridModel;
 import javafx.scene.shape.Rectangle;
 
 public class SegregationGrid extends GridModel
 {
-	private double percentsimilar=.7;
+	private double percentsimilar=.5;
 	private Stack<SegregationCell> unsatisfied = new Stack<SegregationCell>();
 	
 	public SegregationGrid(int gridSize)
@@ -46,6 +45,8 @@ public class SegregationGrid extends GridModel
 				SegregationCell temp = (SegregationCell) gridCells.get(r).get(c);
 				gridCells.get(r).set(c, temp.getNext());
 			}
+		NeighborFinder.getNeighbors(gridCells, new Rectangle(), "standard", "standard");
+
 	}
 	
 	@Override

@@ -8,14 +8,20 @@ import javafx.scene.shape.Rectangle;
 public class LifeGrid extends GridModel{
 
 	public LifeGrid(int gridSize) {
-		size = gridSize;
+		System.out.print("HELLO");
 		gridCells = new ArrayList<List<CellModel>>();
-		for(int i = 0; i < size; i++) {
+		size = gridSize;
+		for(int a=0; a < size; a++)
+		{
 			gridCells.add(new ArrayList<CellModel>());
-			for(int j = 0; j < size; j++) {
-				gridCells.get(i).add(new LifeCell());
+			for(int b=0; b<size; b++)
+			{
+//				WatorCell r = (WatorCell) gridCells.get(a).get(b);
+//				gridCells.get(a).set(b,r);
+				gridCells.get(a).add(new LifeCell());
 			}
 		}
+		NeighborFinder.getNeighbors(gridCells, new Rectangle(), "standard", "standard");
 	}
 	public LifeGrid() {
 		this(50);
@@ -25,9 +31,9 @@ public class LifeGrid extends GridModel{
 	public void update() {
 		for(List<CellModel> row : gridCells) {
 			for(CellModel cell: row) {
-//				LifeCell temp = (LifeCell) cell;
+				LifeCell temp = (LifeCell) cell;
 //				temp.findNextState();
-				cell.findNextState();
+				temp.findNextState();
 			}
 		}
 	}
@@ -44,16 +50,16 @@ public class LifeGrid extends GridModel{
 	}
 
 	@Override
-	public void moveForward() {
-		for(List<CellModel> row : gridCells) {
-			for(CellModel cell: row) {
-//				LifeCell temp = (LifeCell) cell;
-//				temp = temp.getNext();
-				cell = cell.getNext();
+	public void moveForward()
+	{
+		for(int r=0; r<size; r++)
+			for(int c=0; c<size; c++)
+			{
+				LifeCell temp = (LifeCell) gridCells.get(r).get(c);
+				gridCells.get(r).set(c, temp.getNext());
 			}
-		}
+		NeighborFinder.getNeighbors(gridCells, new Rectangle(), "standard", "standard");
 
-		NeighborFinder.getNeighbors(this.getCells(), new Rectangle(), "standard", "standard");
 	}
 
 	@Override
