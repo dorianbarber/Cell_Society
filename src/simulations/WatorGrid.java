@@ -3,7 +3,7 @@ package simulations;
 import java.util.ArrayList;
 import java.util.List;
 
-import cellsociety_team09.GridModel;
+
 import javafx.scene.shape.Rectangle;
 
 public class WatorGrid extends GridModel
@@ -30,8 +30,9 @@ public class WatorGrid extends GridModel
 	}
 	public WatorGrid()
 	{
+
 		this(10);
-		}
+	}
 	
 	public int getKind(){
 		return 3;

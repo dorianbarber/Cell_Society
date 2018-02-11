@@ -112,7 +112,11 @@ public class Menu extends Application{
 	@Override
 	public void start(Stage stage) {
 		
-		myScene = initializeStart(WIDTH, HEIGHT, BACKGROUND, POSSIBLEGRIDS[0], getFile(GOLDESCRIPTION));	
+		try {
+			myScene = initializeStart(WIDTH, HEIGHT, BACKGROUND, POSSIBLEGRIDS[0].getClass().newInstance(), getFile(GOLDESCRIPTION));
+		} catch (InstantiationException | IllegalAccessException e) {
+			System.out.println("Ya done messed up line 115");
+		}	
 		myStage = stage;
 		myStage.setScene(myScene);
 		myStage.show();
@@ -189,7 +193,12 @@ public class Menu extends Application{
 	 */
 	private void reset(){
 		//System.out.println(grid.getDescription());
-		myScene = initializeStart(WIDTH, HEIGHT, BACKGROUND, POSSIBLEGRIDS[grid.getKind()], "BOO");
+		try {
+			myScene = initializeStart(WIDTH, HEIGHT, BACKGROUND, POSSIBLEGRIDS[grid.getKind()].getClass().newInstance(), "BOO");
+		} catch (InstantiationException | IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			System.out.println("Error in choosing CellModel type -- refer to Line 194");
+		}
 		myStage.setScene(myScene);
 		myStage.show();
 	}
@@ -278,7 +287,12 @@ public class Menu extends Application{
 			//System.out.println(text);
 			//System.out.println(gridsize);
 			
-			myScene = initializeStart(WIDTH, HEIGHT, BACKGROUND, POSSIBLEGRIDS[grid.getKind()], "Boo");
+			try {
+				myScene = initializeStart(WIDTH, HEIGHT, BACKGROUND, POSSIBLEGRIDS[grid.getKind()].getClass().newInstance(), "Boo");
+			} catch (InstantiationException | IllegalAccessException e) {
+				// TODO Auto-generated catch block
+				System.out.println("292");
+			}
 			input.setText(text);
 			myStage.setScene(myScene);
 			myStage.show();
@@ -406,7 +420,7 @@ public class Menu extends Application{
 		
 		XMLManager manager = new XMLManager(currentfile);
 		grid.xmlEdit(manager.getXMLFile());
-		
+		NeighborFinder.getNeighbors(grid.getCells(), new Rectangle(), "standard", "standard");
 		gridgroup = myGrid.drawGrid(grid, WIDTH, HEIGHT, blocksize);
 		myRoot.getChildren().add(gridgroup);
 		//initializeStart(WIDTH, HEIGHT, BACKGROUND, grid, getFile(GOLDESCRIPTION));
@@ -540,7 +554,12 @@ public class Menu extends Application{
 	
 	
 	private void getWator() {
-		myScene = initializeStart(WIDTH, HEIGHT, BACKGROUND, POSSIBLEGRIDS[WATORTYPE], getFile(WATORDESCRIPTION));
+		try {
+			myScene = initializeStart(WIDTH, HEIGHT, BACKGROUND, POSSIBLEGRIDS[WATORTYPE].getClass().newInstance(), getFile(WATORDESCRIPTION));
+		} catch (InstantiationException | IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			System.out.println("559");
+		}
 		myStage.setScene(myScene);
 		myStage.show();
 		happened = false;
@@ -548,7 +567,12 @@ public class Menu extends Application{
 		animation.pause();
 	}
 	private void getSegregation() {
-		myScene = initializeStart(WIDTH, HEIGHT, BACKGROUND, POSSIBLEGRIDS[SEGTYPE], getFile(SEGDESCRIPTION));
+		try {
+			myScene = initializeStart(WIDTH, HEIGHT, BACKGROUND, POSSIBLEGRIDS[SEGTYPE].getClass().newInstance(), getFile(SEGDESCRIPTION));
+		} catch (InstantiationException | IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			System.out.println("572");
+		}
 		myStage.setScene(myScene);
 		myStage.show();
 		happened = false;
@@ -557,7 +581,12 @@ public class Menu extends Application{
 		//System.out.println(getFile(SEGDESCRIPTION));
 	}
 	private void getFire() {
-		myScene = initializeStart(WIDTH, HEIGHT, BACKGROUND, POSSIBLEGRIDS[FIRETYPE], getFile(FIREDESCRIPTION));
+		try {
+			myScene = initializeStart(WIDTH, HEIGHT, BACKGROUND, POSSIBLEGRIDS[FIRETYPE].getClass().newInstance(), getFile(FIREDESCRIPTION));
+		} catch (InstantiationException | IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			System.out.println("586");
+		}
 		myStage.setScene(myScene);
 		myStage.show();
 		happened = false;
@@ -565,7 +594,12 @@ public class Menu extends Application{
 		animation.pause();
 	}
 	private void getGOL() {
-		myScene = initializeStart(WIDTH, HEIGHT, BACKGROUND, POSSIBLEGRIDS[GOLTYPE], getFile(GOLDESCRIPTION));
+		try {
+			myScene = initializeStart(WIDTH, HEIGHT, BACKGROUND, POSSIBLEGRIDS[GOLTYPE].getClass().newInstance(), getFile(GOLDESCRIPTION));
+		} catch (InstantiationException | IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			System.out.println("599");
+		}
 		myStage.setScene(myScene);
 		myStage.show();
 		happened = false;
@@ -573,7 +607,12 @@ public class Menu extends Application{
 		animation.pause();
 	}
 	private void getAnts() {
-		myScene = initializeStart(WIDTH, HEIGHT, BACKGROUND, POSSIBLEGRIDS[ANTTYPE], getFile(GOLDESCRIPTION));
+		try {
+			myScene = initializeStart(WIDTH, HEIGHT, BACKGROUND, POSSIBLEGRIDS[ANTTYPE].getClass().newInstance(), getFile(GOLDESCRIPTION));
+		} catch (InstantiationException | IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			System.out.println("612");
+		}
 		myStage.setScene(myScene);
 		myStage.show();
 		happened = false;
@@ -581,7 +620,12 @@ public class Menu extends Application{
 		animation.pause();
 	}
 	private void getRPS() {
-		myScene = initializeStart(WIDTH, HEIGHT, BACKGROUND, POSSIBLEGRIDS[RPSTYPE], getFile(GOLDESCRIPTION));
+		try {
+			myScene = initializeStart(WIDTH, HEIGHT, BACKGROUND, POSSIBLEGRIDS[RPSTYPE].getClass().newInstance(), getFile(GOLDESCRIPTION));
+		} catch (InstantiationException | IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			System.out.println("625");
+		}
 		myStage.setScene(myScene);
 		myStage.show();
 		happened = false;
