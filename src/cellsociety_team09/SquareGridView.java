@@ -70,7 +70,7 @@ public class SquareGridView extends GridView{
 				toAdd.setStroke(Color.BLACK);
 				int xtemp = x;
 				int ytemp = y;
-				//toAdd.setOnMouseClicked(e -> handleClick(xtemp,ytemp,grid, toAdd));
+				toAdd.setOnMouseClicked(e -> handleClick(xtemp,ytemp,grid, toAdd));
 				retgroup.getChildren().add(toAdd);
 				y++;
 			}
@@ -80,16 +80,16 @@ public class SquareGridView extends GridView{
 		return retgroup;
 	}
 	
-//	private void handleClick(int x, int y, GridModel g, Shape n) {
-//		List<Integer> list = new ArrayList<>();
-//		list.add(1);
-//		list.add(70);
-//		g.getCells().get(x).get(y).getInput(list);
-//		//n.setFill(g.getCells().get(x).get(y).getKind().getColor());
-//		g.findCellNeighbors();
-//		//System.out.println("Clicked!");
-//		
-//	}
+	private void handleClick(int x, int y, GridModel g, Shape n) {
+		List<Integer> list = new ArrayList<>();
+		list.add(x);
+		list.add(y);
+		//g.getCells().get(x).get(y).getInput(list);
+		g.getUserInput(list);
+		//n.setFill(g.getCells().get(x).get(y).getKind().getColor());
+		//System.out.println("Clicked!");
+		
+	}
 	public double getX(){
 		return gridXPosition;
 	}
