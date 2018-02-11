@@ -9,10 +9,10 @@ import javafx.scene.paint.Color;
 public class RPSCell extends CellModel{
 
 	private static Color[] colors= {Color.WHITE, Color.BLUE, Color.RED, Color.GREEN};
-	private static int EMPTYCELL;
-	private static int ROCKCELL=1;
-	private static int PAPERCELL=2;
-	private static int SCISSORCELL=3;
+	private static final int EMPTYCELL=0;
+	private static final int ROCKCELL=1;
+	private static final int PAPERCELL=2;
+	private static final int SCISSORCELL=3;
 	private ArrayList<RPSCell> neighbors = new ArrayList<RPSCell>();
 	private int type;
 	private int power;
@@ -70,8 +70,10 @@ public class RPSCell extends CellModel{
 	}
 	@Override
 	public void getInput(List<Integer> states) {
-		// TODO Auto-generated method stub
-		
+		if (type==SCISSORCELL)
+			type=0;
+		else
+			type++;		
 	}
 
 	

@@ -14,13 +14,36 @@ public class LifeGrid extends GridModel{
 			}
 		}
 	}
+	public LifeGrid() {
+		this(50);
+	}
 	
 	@Override
 	public void update() {
 		for(List<CellModel> row : gridCells) {
 			for(CellModel cell: row) {
-				cell.findNextState();
+				LifeCell temp = (LifeCell) cell;
+				temp.findNextState();
 			}
 		}
+	}
+	public int getKind(){
+		return 0;
+	}
+
+	@Override
+	public void moveForward() {
+		for(List<CellModel> row : gridCells) {
+			for(CellModel cell: row) {
+				LifeCell temp = (LifeCell) cell;
+				temp = temp.getNext();
+			}
+		}
+	}
+
+	@Override
+	public void getInputGlobal(List<Integer> s) {
+		// TODO Auto-generated method stub
+		
 	}
 }
