@@ -53,7 +53,7 @@ private int[] direct= {3,3,3,3,3,2,0,2,2,2,2,1,1,1,1,1};
 			
 			}
 		}
-		NeighborFinder.getNeighbors(gridCells, new Rectangle(), "cross", "toroidal");
+		NeighborFinder.getNeighbors(gridCells, shape, "standard", "toroidal");	
 		
 		int b=0;
     	for(int a=0; a<colors.length; a++)
@@ -124,7 +124,7 @@ private int[] direct= {3,3,3,3,3,2,0,2,2,2,2,1,1,1,1,1};
 			}
 		System.out.println();
 
-		NeighborFinder.getNeighbors(gridCells, new Rectangle(), "cross", "toroidal");
+		NeighborFinder.getNeighbors(gridCells, shape, "standard", "toroidal");	
 
 	}
 

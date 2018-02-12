@@ -27,7 +27,7 @@ public class AntGrid extends GridModel{
 			as.add(new Ant(5,8));
 		
 		gridCells.get(5).set(8, new AntsCell(0,as,0,0,5,8));
-		NeighborFinder.getNeighbors(gridCells, new Rectangle(), "standard", "standard");	
+		NeighborFinder.getNeighbors(gridCells, shape, "standard", "standard");	
 		
 	}
 	
@@ -58,6 +58,8 @@ public class AntGrid extends GridModel{
 				AntsCell temp = (AntsCell) gridCells.get(r).get(c);
 				temp=temp.getNext();
 			}		
+	NeighborFinder.getNeighbors(gridCells, shape, "standard", "standard");	
+
 	}
 
 	@Override

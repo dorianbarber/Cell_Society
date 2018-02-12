@@ -20,14 +20,14 @@ public class FireGrid extends GridModel{
 				gridCells.get(a).add(new FireCell(2,.7));
 			}
 		}
-		NeighborFinder.getNeighbors(gridCells, new Rectangle(), "cross", "standard");
+		NeighborFinder.getNeighbors(gridCells, shape, "cross", "standard");
 	}
 	
 	
 	public void setSize(int t)
 	{
 	ArrayList<List<CellModel>>tempCells = new ArrayList<List<CellModel>>();
-		
+
 		for(int a=0; a < t; a++)
 		{
 			tempCells.add(new ArrayList<CellModel>());
@@ -55,7 +55,7 @@ public class FireGrid extends GridModel{
 		}
 		gridCells=tempCells;
 		size=t;
-		
+	
 	}
 	public FireGrid()
 	{
@@ -85,7 +85,7 @@ public class FireGrid extends GridModel{
 				FireCell temp = (FireCell) gridCells.get(r).get(c);
 				gridCells.get(r).set(c, temp.getNext());
 			}
-		NeighborFinder.getNeighbors(gridCells, new Rectangle(), "cross", "standard");
+		NeighborFinder.getNeighbors(gridCells, shape, "cross", "standard");	
 	}
 
 	@Override

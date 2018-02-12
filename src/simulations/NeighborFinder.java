@@ -40,6 +40,17 @@ public class NeighborFinder {
 	private static final int[] rectangle_col_cross = { 0,-1, 1, 0};
 	
 	
+	public static void getNeighbors(List<List<CellModel>> grid, String s, String nebtype, String gridtype)
+	{
+		if(s.equals("Triangle"))
+			getNeighbors(grid,new Triangle(), nebtype,gridtype);
+		if(s.equals("Rectangle"))
+			getNeighbors(grid,new Rectangle(), nebtype,gridtype);
+		if(s.equals("Hexagon"))
+			getNeighbors(grid,new Hexagon(0, 0, 0, false), nebtype,gridtype);
+		
+
+	}
 	//Triangle main 
 	public static void getNeighbors(List<List<CellModel>> grid, Triangle t, String nebtype, String gridtype)	
 	{			

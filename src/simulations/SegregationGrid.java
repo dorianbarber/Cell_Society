@@ -26,7 +26,7 @@ public class SegregationGrid extends GridModel
 				gridCells.get(a).add(new SegregationCell());
 			}
 		}
-		NeighborFinder.getNeighbors(gridCells, new Rectangle(), "standard", "standard");
+		NeighborFinder.getNeighbors(gridCells, shape, "standard", "standard");	
 	}
 	
 	@Override
@@ -82,7 +82,7 @@ public class SegregationGrid extends GridModel
 				SegregationCell temp = (SegregationCell) gridCells.get(r).get(c);
 				gridCells.get(r).set(c, temp.getNext());
 			}
-		NeighborFinder.getNeighbors(gridCells, new Rectangle(), "standard", "standard");
+		NeighborFinder.getNeighbors(gridCells, shape, "standard", "standard");	
 
 	}
 	

@@ -1,14 +1,17 @@
 package simulations;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import cellsociety_team09.Hexagon;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.Shape;
 
 public abstract class GridModel {
 	protected List<List<CellModel>> gridCells;
 	protected int size;
 	protected CellModel cellType;
-	
+	protected String shape;
 	//To be overridden by each subclass
 	public GridModel() {}
 	
@@ -53,6 +56,11 @@ public abstract class GridModel {
 	}
 	public int getKind(){
 		return 0;
+	}
+	
+	public void getShape(String s)
+	{
+		shape =s;
 	}
 	
 	public void clear(){

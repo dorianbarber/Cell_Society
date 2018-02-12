@@ -22,7 +22,7 @@ public class LifeGrid extends GridModel{
 				gridCells.get(a).add(new LifeCell());
 			}
 		}
-		NeighborFinder.getNeighbors(gridCells, new Rectangle(), "standard", "standard");
+		NeighborFinder.getNeighbors(gridCells, shape, "standard", "standard");	
 	}
 	public LifeGrid() {
 		this(17);
@@ -94,7 +94,7 @@ public class LifeGrid extends GridModel{
 				LifeCell temp = (LifeCell) gridCells.get(r).get(c);
 				gridCells.get(r).set(c, temp.getNext());
 			}
-		NeighborFinder.getNeighbors(gridCells, new Rectangle(), "standard", "standard");
+		NeighborFinder.getNeighbors(gridCells, shape, "standard", "standard");	
 
 	}
 

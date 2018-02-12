@@ -23,7 +23,7 @@ public class RPSGrid extends GridModel
 				gridCells.get(a).add(new RPSCell());
 			}
 		}
-		NeighborFinder.getNeighbors(gridCells, new Rectangle(), "cross", "toroidal");
+		NeighborFinder.getNeighbors(gridCells, shape, "cross", "toroidal");	
 	}
 	
 	public void setSize(int t)
@@ -87,7 +87,7 @@ public class RPSGrid extends GridModel
 				RPSCell temp = (RPSCell) gridCells.get(r).get(c);
 				temp.nextState();
 			}
-		NeighborFinder.getNeighbors(gridCells, new Rectangle(), "standard", "standard");
+		NeighborFinder.getNeighbors(gridCells, shape, "cross", "toroidal");	
 
 	}
 
