@@ -135,8 +135,14 @@ public class AntsCell extends CellModel implements Comparable<AntsCell>{
 	
 	@Override
 	public void getInput(List<Integer> list) {
-		// TODO Auto-generated method stub
-		
+		state=list.get(0);
+		int a = list.get(1);
+		foodpher = ((double)list.get(2))/100;
+		homepher = ((double)list.get(3))/100;
+		row=list.get(4);
+		col=list.get(5);
+		for(int i=0; i<a; i++)
+			ants.add(new Ant(row,col));
 	}
 	
 	@Override
@@ -196,6 +202,13 @@ public class AntsCell extends CellModel implements Comparable<AntsCell>{
 	public int compareTo(AntsCell o) {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+
+	@Override
+	public String getXMLState() {
+		String t = state+ " "+ getAnts() + " " + (int)(foodpher*100)+" " +(int)(homepher*100)+ " " +row+" "+col;
+		// TODO Auto-generated method stub
+		return t;
 	}
 
 

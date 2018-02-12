@@ -21,7 +21,7 @@ public class Ant {
 	public Ant(int r, int c)
 	{
 		hasfood=false; 
-		direction=3;
+		direction=(int)(Math.random()*4);
 		row=r;
 		col=c;
 	}
@@ -31,7 +31,7 @@ public class Ant {
 	{
 		if(!hasMoved)
 		{
-			Collections.shuffle(neighbors);
+			//Collections.shuffle(neighbors);
 			if(!hasfood)
 			{
 				if(!foundFood(neighbors))
@@ -63,6 +63,9 @@ public class Ant {
 	
 	public boolean isMoving(List<AntsCell> neighbors)
 	{
+		Collections.shuffle(neighbors);
+		Collections.shuffle(neighbors);
+
 		PriorityQueue<AntsCell> bestlocs =null;
 		if(hasfood) {
 			bestlocs = new PriorityQueue<AntsCell>(new AntsCell.HomePheremone());
@@ -70,19 +73,22 @@ public class Ant {
 		else {
 			bestlocs = new PriorityQueue<AntsCell>(new AntsCell.FoodPheremone());
 		}
+		for(int b=0; b<4; b++) {
 			for(int a=0; a<neighbors.size(); a++)
 			{
+				System.out.println(direction + " " + sameDirection(neighbors.get(a))+ " ant loc " +row + " " +col + "  " +
+				neighbors.get(a).getRow()+ " " + neighbors.get(a).getCol());
 				if(sameDirection(neighbors.get(a)) && neighbors.get(a).getAnts()<10) 
 					bestlocs.add(neighbors.get(a));
 			}
 			if(!bestlocs.isEmpty())
-				
+				break;
 			if(direction==3)
 				direction=0;
 			else
 				direction++;
-			System.out.print("direction change");
-		
+			//System.out.print("direction change");
+		}
 		if(!bestlocs.isEmpty())
 		{
 			AntsCell temp = bestlocs.remove();
@@ -92,7 +98,6 @@ public class Ant {
 			hasMoved=true;
 			return true;
 		}
-		System.out.println("none in my dirction");
 		return false;
 	}
 	

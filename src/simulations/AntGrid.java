@@ -25,24 +25,18 @@ public class AntGrid extends GridModel{
 		}
 		ArrayList<Ant> as = new ArrayList<Ant>();
 		for(int a=0; a<8; a++)
-			as.add(new Ant(5,8));
+			as.add(new Ant(27,27));
 		
-		gridCells.get(20).set(20, new AntsCell(0,as,0,0,10,20));
-
-		gridCells.get(8).set(18, new AntsCell(2,null,0,0,30,18));
-		gridCells.get(9).set(18, new AntsCell(2,null,0,0,35,18));
-		gridCells.get(7).set(18, new AntsCell(2,null,0,0,36,18));
-		gridCells.get(6).set(18, new AntsCell(2,null,0,0,37,18));
-		gridCells.get(8).set(19, new AntsCell(2,null,0,0,40,19));
 		
-		gridCells.get(8).set(18, new AntsCell(1,null,0,0,8,18));
-		gridCells.get(9).set(18, new AntsCell(1,null,0,0,9,18));
-		gridCells.get(7).set(18, new AntsCell(1,null,0,0,7,18));
-		gridCells.get(6).set(18, new AntsCell(1,null,0,0,6,18));
-		gridCells.get(8).set(19, new AntsCell(1,null,0,0,8,19));
-		gridCells.get(9).set(20, new AntsCell(1,null,0,0,9,20));
-		gridCells.get(5).set(21, new AntsCell(1,null,0,0,5,21));
-		gridCells.get(6).set(19, new AntsCell(1,null,0,0,6,19));
+		gridCells.get(27).set(27, new AntsCell(0,as,0,0,27,27));
+		
+		
+		for(int a=0; a<8; a++)
+			as.add(new Ant(29,29));
+		
+		
+		gridCells.get(29).set(29, new AntsCell(0,as,0,0,29,29));
+		
 
 		NeighborFinder.getNeighbors(gridCells, currentshape, "standard", "standard");	
 		
