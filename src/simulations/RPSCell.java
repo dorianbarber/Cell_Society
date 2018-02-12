@@ -17,10 +17,11 @@ public class RPSCell extends CellModel{
 	private int state;
 	private int power;
 	private RPSCell next;
+	private boolean updated=false;
 	
 	public RPSCell()
 	{
-		this(0,10);
+		this(0,6);
 	}
 	 
 	public RPSCell(int t, int p)
@@ -49,26 +50,42 @@ public class RPSCell extends CellModel{
 	
 	public void nextState()
 	{
+		System.out.print(neighbors.size());
 		if(state==ROCKCELL)
 			for(int a=0; a<neighbors.size(); a++)
-				if(neighbors.get(a).getState()==SCISSORCELL)
-					neighbors.get(a).setNextState(state, 10);
+				if(neighbors.get(a).getState()==SCISSORCELL) {
+					neighbors.get(a).setNextState(state, 6);
+					neighbors.get(a).setUpdated(true);
+				}
 				
 		if(state==PAPERCELL)
 			for(int a=0; a<neighbors.size(); a++)
-				if(neighbors.get(a).getState()==ROCKCELL)
-					neighbors.get(a).setNextState(state, 10);
+				if(neighbors.get(a).getState()==ROCKCELL) {
+					neighbors.get(a).setNextState(state, 6);
+					neighbors.get(a).setUpdated(true);
+		}
 			
 		if(state==SCISSORCELL)
 			for(int a=0; a<neighbors.size(); a++)
-				if(neighbors.get(a).getState()==PAPERCELL)
-					neighbors.get(a).setNextState(state, 10);
-			
-		for(int a=0; a<neighbors.size(); a++)
-			if(neighbors.get(a).getState()==EMPTYCELL && power>0)
-				neighbors.get(a).setNextState(state, power-1);
-	}
+				if(neighbors.get(a).getState()==PAPERCELL) {
+					neighbors.get(a).setNextState(state, 6);
+					neighbors.get(a).setUpdated(true);
+		}
+		if(state!=EMPTYCELL)	
+			for(int a=0; a<neighbors.size(); a++)
+				if(neighbors.get(a).getState()==EMPTYCELL && power>0) {
+					neighbors.get(a).setNextState(state, power-1);
+					neighbors.get(a).setUpdated(true);
+				}
+
+		if(!updated)
+			setNextState(state,power);
+		}
 	
+	public void setUpdated(boolean t)
+	{
+		updated=t;
+	}
 	
 	public int getState()
 	{
@@ -77,15 +94,15 @@ public class RPSCell extends CellModel{
 
 	public RPSCell getNext()
 	{
+		next.setUpdated(false);
 		return next;
 	}
 	
 	@Override
 	public void getInput(List<Integer> states) {
-		if (state==SCISSORCELL)
-			state=0;
-		else
-			state++;		
+		state=states.get(0);
+		power=6;
+		color=colors[state];
 	}
 
 	
@@ -95,8 +112,8 @@ public class RPSCell extends CellModel{
 
 	@Override
 	public String getXMLState() {
-		// TODO Auto-generated method stub
-		return null;
+		String t="" +state;
+		return t;
 	}
 	
 
