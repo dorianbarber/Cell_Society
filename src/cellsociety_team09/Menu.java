@@ -380,9 +380,9 @@ public class Menu extends Application{
 	private Button getOutlineButton(){
 		
 		//Image play = new Image(getClass().getResourceAsStream("../stepbackward.png"), BUTTONSIZE, BUTTONSIZE, false, false);
-		Button resetbutton = new Button();
-		resetbutton.setLayoutX(sliderx + 500);
-		resetbutton.setLayoutY(myGrid.getY() + myGrid.getDimensions() + BUTTONVERTOFFSET);
+		Button resetbutton = new Button("Toggle Gridlines");
+		resetbutton.setLayoutX(sliderx + 415);
+		resetbutton.setLayoutY(5 * myGrid.getY() + 2 * BUTTONVERTOFFSET);
 		resetbutton.setOnAction(e -> handleOutline());
 		return resetbutton;
 	}
