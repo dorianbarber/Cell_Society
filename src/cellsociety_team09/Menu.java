@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javafx.animation.KeyFrame;
@@ -16,6 +18,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.chart.LineChart;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -33,14 +37,13 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import simulations.AntGrid;
-import simulations.CellModel;
 import simulations.FireGrid;
 import simulations.GridModel;
 import simulations.LifeGrid;
-import simulations.NeighborFinder;
 import simulations.RPSGrid;
 import simulations.SegregationGrid;
 import simulations.WatorGrid;
+import xml_related_package.XMLBuilder;
 import xml_related_package.XMLManager;
 
 public class Menu extends Application{
@@ -77,7 +80,7 @@ public class Menu extends Application{
 	private Timeline animation;
 	
 	private final int WIDTH = 700;
-	private final int HEIGHT = 600;
+	private final int HEIGHT = 700;
 	private final double GRIDSIZE = 500;
 	private final int GRIDX = WIDTH / 20; 
 	private final int GRIDY = HEIGHT / 20;
@@ -101,6 +104,9 @@ public class Menu extends Application{
 	private String currentbox = "Game of Life";
 	private String currentshape = "Square";
 	private File currentfile;
+	private LineChart<Number,Number> linechart; 
+	private double time = 0;
+	private XYChart.Series series = new XYChart.Series<>();
 	
     /**
      * Start the program.
@@ -183,11 +189,17 @@ public class Menu extends Application{
 	private void step(double elapsedTime) {
 		//NeighborFinder finder = new NeighborFinder();
 		//NeighborFinder.getNeighbors(grid.getCells(), getShape(currentshape), "standard", "standard");
-		
+		grid.setCurrentShape(currentshape);
 		grid.update();
 		grid.moveForward();
 		myRoot.getChildren().remove(gridgroup);
 		gridgroup = myGrid.drawGrid(grid, WIDTH, HEIGHT, blocksize);
+//		for (double d : myGrid.getProportions()){
+//			
+//			series.getData().add(new XYChart.Data(time,d));
+//			linechart.getData().add(series);
+//		}
+		time += .1;
 		myRoot.getChildren().add(gridgroup);
 		
 	}
@@ -247,6 +259,16 @@ public class Menu extends Application{
 		root.getChildren().add(getResetButton());
 		root.getChildren().add(getSizeField());
 		root.getChildren().add(getFileButton());
+		root.getChildren().add(getOutlineButton());
+		root.getChildren().add(getFileSaveButton());
+//		NumberAxis xaxis = new NumberAxis();
+//		NumberAxis yaxis = new NumberAxis();
+//		linechart = new LineChart<Number,Number>(xaxis, yaxis);
+//		linechart.setTitle("Proportions of different cell types over time");
+//		linechart.setLayoutX(10);
+//		linechart.setLayoutY(575);
+//		linechart.setMaxHeight(80);
+//		root.getChildren().add(linechart);
 		return scene;
 	}
 	
@@ -287,19 +309,23 @@ public class Menu extends Application{
 			
 		});
 		input.setOnKeyPressed((event) -> { if(event.getCode() == KeyCode.ENTER) { 
-			String text = input.getText();
+			//String text = input.getText();
 			//System.out.println(text);
 			//System.out.println(gridsize);
-			
-			try {
-				myScene = initializeStart(WIDTH, HEIGHT, BACKGROUND, POSSIBLEGRIDS[grid.getKind()].getClass().newInstance(), "Boo");
-			} catch (InstantiationException | IllegalAccessException e) {
-				// TODO Auto-generated catch block
-				System.out.println("292");
+			grid.setSize((gridsize));
+			blocksize = GRIDSIZE / gridsize;
+			if (currentshape.equals("Square")) {
+				myGrid = new SquareGridView(GRIDX, GRIDY, GRIDSIZE / grid.getSize(), GRIDSIZE);
 			}
-			input.setText(text);
-			myStage.setScene(myScene);
-			myStage.show();
+			else if (currentshape.equals("Triangle")){
+				myGrid = new TriangleGridView(GRIDX, GRIDY, GRIDSIZE / grid.getSize(), GRIDSIZE);
+			}
+			else if (currentshape.equals("Hexagon")){
+				myGrid = new HexGridView(GRIDX, GRIDY, GRIDSIZE / grid.getSize(), GRIDSIZE);
+			}
+			myRoot.getChildren().remove(gridgroup);
+			gridgroup = myGrid.drawGrid(grid, WIDTH, HEIGHT, GRIDSIZE / grid.getSize());
+			myRoot.getChildren().add(gridgroup);
 			animation.stop();
 			//pressed = false;
 			
@@ -351,6 +377,23 @@ public class Menu extends Application{
 		return resetbutton;
 	}
 	
+	private Button getOutlineButton(){
+		
+		//Image play = new Image(getClass().getResourceAsStream("../stepbackward.png"), BUTTONSIZE, BUTTONSIZE, false, false);
+		Button resetbutton = new Button();
+		resetbutton.setLayoutX(sliderx + 500);
+		resetbutton.setLayoutY(myGrid.getY() + myGrid.getDimensions() + BUTTONVERTOFFSET);
+		resetbutton.setOnAction(e -> handleOutline());
+		return resetbutton;
+	}
+	
+	
+	private void handleOutline() {
+		myGrid.setOutline(!myGrid.getOutline());
+		myRoot.getChildren().remove(gridgroup);
+		gridgroup = myGrid.drawGrid(grid, WIDTH, HEIGHT, blocksize);
+		myRoot.getChildren().add(gridgroup);
+	}
 	/**
 	 * On click of Reset Button, resets the animation and then pauses it
 	 * called only by the Reset Button
@@ -419,6 +462,7 @@ public class Menu extends Application{
 		XMLManager manager = new XMLManager(currentfile);
 		List<List<Integer>> editList = manager.getXMLFile();
 		grid.setSize(manager.getSize());
+		//grid.clear();
 		blocksize = GRIDSIZE / grid.getSize();
 		if (currentshape.equals("Square")) {
 			myGrid = new SquareGridView(GRIDX, GRIDY, GRIDSIZE / grid.getSize(), GRIDSIZE);
@@ -432,12 +476,28 @@ public class Menu extends Application{
 		
 		grid.xmlEdit(editList);
 		
-		NeighborFinder.getNeighbors(grid.getCells(), new Rectangle(), "standard", "standard");
+		//NeighborFinder.getNeighbors(grid.getCells(), new Rectangle(), "cross", "standard");
 		gridgroup = myGrid.drawGrid(grid, WIDTH, HEIGHT, GRIDSIZE / grid.getSize());
 		myRoot.getChildren().add(gridgroup);
 		//initializeStart(WIDTH, HEIGHT, BACKGROUND, grid, getFile(GOLDESCRIPTION));
 	}
 	
+	
+	private Button getFileSaveButton(){
+		Button retbutton = new Button();
+		retbutton.setLayoutX(GRIDSIZE + GRIDX + DROPOFFSET);
+		retbutton.setLayoutY(5 * GRIDY);
+		retbutton.setText("Save to XML File");
+		retbutton.setOnAction(e -> saveFile());
+		return retbutton;
+		
+	}
+	
+	private void saveFile(){
+		XMLBuilder builder = new XMLBuilder();
+		String timeStamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date());
+		builder.setUpFile(grid, timeStamp);
+	}
 	
 	/**
 	 * Steps the animation forward once and pauses it

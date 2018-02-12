@@ -16,7 +16,7 @@ public class HexGridView extends GridView {
 		private double gridBlockSize;
 		private double gridSize;
 		private double gridHeight;
-		
+		private boolean outline = true;
 		public HexGridView(double x, double y, double blocksize, double GRIDSIZE){
 			gridXPosition = x;
 			gridYPosition = y;
@@ -27,17 +27,19 @@ public class HexGridView extends GridView {
 		
 		public Group drawGrid(GridModel grid, int screenwidth, int screenheight, double width){
 			Group retgroup = new Group();
-			double hexwidth = 2 * width;
+			double hexwidth =  1.4 * width;
 			double hexheight = Math.sqrt(3) * hexwidth / 2;
 			boolean offset = false;
 			int x = 0, y = 0;
-			for (double i = gridXPosition; i < ((gridXPosition + gridSize - .5) * .75) * (3/2); i += .75 * hexwidth){
-				for (double j = gridYPosition; j < (gridYPosition + gridHeight - .5) * (3/2); j += hexheight){
+			for (double i = gridXPosition - 15; i < ((gridXPosition + gridSize - .5) * .9); i += .75 * hexwidth){
+				for (double j = gridYPosition; j < (gridYPosition + gridHeight - .5); j += hexheight){
 					Polygon toAdd = new Hexagon(i, j, hexwidth, offset).getShape();
-					//System.out.println("X: " + x + " Y: " + y);
+					System.out.println("X: " + x + " Y: " + y);
 					//sSystem.out.println("I: " + i + " J: " + j);
 					toAdd.setFill(grid.getCells().get(x).get(y).getColor());
-					toAdd.setStroke(Color.BLACK);
+					if (outline){
+						toAdd.setStroke(Color.BLACK);
+					}
 					int xtemp = x;
 					int ytemp = y;
 					toAdd.setOnMouseClicked(e -> handleClick(xtemp,ytemp,grid, toAdd));
@@ -65,6 +67,12 @@ public class HexGridView extends GridView {
 		}
 		public double getX(){
 			return gridXPosition;
+		}
+		public boolean getOutline(){
+			return outline;
+		}
+		public void setOutline(boolean outline){
+			this.outline = outline;
 		}
 		public double getY(){
 			return gridYPosition;

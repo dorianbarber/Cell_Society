@@ -28,7 +28,9 @@ public class LifeCell extends CellModel {
 	{
 		this(0);
 	}
-	
+	public int numColors(){
+		return colors.length;
+	}
 	@Override
 	public void getClicked()
 	{

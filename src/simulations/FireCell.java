@@ -3,7 +3,6 @@ package simulations;
 import java.util.ArrayList;
 import java.util.List;
 
-import cellsociety_team09.StateNode;
 import javafx.scene.paint.Color;
 
 public class FireCell extends CellModel {
@@ -21,7 +20,8 @@ public class FireCell extends CellModel {
 	
 	public FireCell()
 	{
-		this(2,.2);
+		this(2,.7);
+
 	}
 	
 	public FireCell(int ty, double bp)
@@ -59,6 +59,8 @@ public class FireCell extends CellModel {
 	{
 		return type;
 	}
+	
+	
 	
 	public void findNextState()
 	{

@@ -7,6 +7,7 @@ import com.sun.javafx.geom.Shape;
 
 import cellsociety_team09.Grid;
 import cellsociety_team09.Hexagon;
+import cellsociety_team09.Triangle;
 import javafx.scene.shape.Rectangle;
 
 public class NeighborFinder {
@@ -40,6 +41,18 @@ public class NeighborFinder {
 	private static final int[] rectangle_col_cross = { 0,-1, 1, 0};
 	
 	
+	public static void getNeighbors(List<List<CellModel>> grid, String s, String nebtype, String gridtype)
+	{
+		System.out.print(s);
+		if(s.equals("Triangle"))
+			getNeighbors(grid,new Triangle(0,0,0,false), nebtype,gridtype);
+		if(s.equals("Square"))
+			getNeighbors(grid,new Rectangle(), nebtype,gridtype);
+		if(s.equals("Hexagon"))
+			getNeighbors(grid,new Hexagon(0, 0, 0, false), nebtype,gridtype);
+		
+
+	}
 	//Triangle main 
 	public static void getNeighbors(List<List<CellModel>> grid, Triangle t, String nebtype, String gridtype)	
 	{			
@@ -267,52 +280,4 @@ public class NeighborFinder {
 		return (c%2 == 0);
 	}
 	
-}
-//	public void decidenebs(String nebtype, Rectangle r)
-//	{
-//		if()
-//	}
-//
-//	public List<CellModel> getNeighbors(List<List<CellModel>> grid, Rectangle r){
-//		
-//		ArrayList<CellModel> nebs = new ArrayList<CellModel>();
-//		for(int i = 1; i < grid.get(0).size() - 1; i++){
-//			for (int j = 1; j < grid.get(0).size() - 1; j++){
-//				for (int k = i - 1; k <= i + 1; k++){
-//					for (int l = j - 1; l <= j + 1; l++){
-//						if (!grid.get(i).get(j).equals(grid.get(k).get(l))){
-//							nebs.add(grid.get(k).get(l));
-//						}
-//					}
-//				}
-//			}
-//		}
-//		return nebs;
-//	}
-//	public void getNeighbors(List<List<CellModel>> grid, Rectangle rectangle, LifeCell cell){
-//		this.getNeighbors(grid, rectangle, cell);
-//	}
-//	public static void getNeighbors(List<List<CellModel>> grid, Rectangle rectangle){
-//		for(int i = 1; i < grid.get(0).size() - 1; i++){
-//			for (int j = 1; j < grid.get(0).size() - 1; j++){
-//				System.out.print("boom");
-//				grid.get(i).get(j).addNeighbor(grid.get(i - 1).get(j));
-//				grid.get(i).get(j).addNeighbor(grid.get(i).get(j - 1));
-//				grid.get(i).get(j).addNeighbor(grid.get(i).get(j + 1));
-//				grid.get(i).get(j).addNeighbor(grid.get(i + 1).get(j));
-//			}
-//		}
-//	}
-//	public void getNeighbors(List<List<CellModel>> grid, Rectangle rectangle, SegregationCell cell){
-//		this.getNeighbors(grid, rectangle, cell);
-//	}
-//	public void getNeighbors(List<List<CellModel>> grid, Rectangle rectangle, WatorCell cell){
-//		this.getNeighbors(grid, rectangle, cell);
-//	}
-//	
-//	
-//	public static void main(String[] args){
-//		Grid grid = new Grid(1);
-//		getNeighbors(grid.getCells(), new Rectangle(), new FireCell());
-//	}
-//}
+}//eof

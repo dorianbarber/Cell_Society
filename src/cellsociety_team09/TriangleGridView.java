@@ -14,6 +14,7 @@ public class TriangleGridView extends GridView {
 	private double gridYPosition;
 	private double gridBlockSize;
 	private double gridSize;
+	private boolean outline = true;
 	
 	public TriangleGridView(double x, double y, double blocksize, double gridSize){
 		gridXPosition = x;
@@ -27,15 +28,17 @@ public class TriangleGridView extends GridView {
 		int x = 0, y = 0;
 		boolean bool = true;
 		for (double i = gridXPosition; i < (gridXPosition + gridSize - 2 * blocksize); i += 2 * blocksize){
-			bool = i % 0 != 0;
-			for (double j = gridYPosition; j < gridYPosition + gridSize - .5; j += blocksize){
+			bool = true;
+			for (double j = gridYPosition; j < gridYPosition + gridSize; j += blocksize){
 				Polygon toAdd = new Triangle(i, j, blocksize, bool).getTriangle();
 				
 				//System.out.println("X: " + x + " Y: " + y);
 				//System.out.println("I: " + i + " J: " + j);
 				toAdd.setFill(grid.getCells().get(x).get(y).getColor());
 				//System.out.println(toAdd.getFill().toString());
-				toAdd.setStroke(Color.BLACK);
+				if (outline){
+					toAdd.setStroke(Color.BLACK);
+				}
 				int xtemp = x;
 				int ytemp = y;
 				toAdd.setOnMouseClicked(e -> handleClick(xtemp,ytemp, grid , toAdd));
@@ -47,6 +50,12 @@ public class TriangleGridView extends GridView {
 			y = 0;
 		}
 		return retgroup;
+	}
+	public void setOutline(boolean outline){
+		this.outline = outline;
+	}
+	public boolean getOutline(){
+		return outline;
 	}
 	private void handleClick(int x, int y, GridModel g, Shape n) {
 		List<Integer> list = new ArrayList<>();
