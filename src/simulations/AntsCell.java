@@ -60,6 +60,7 @@ public class AntsCell extends CellModel implements Comparable<AntsCell>{
 	
 	public AntsCell getNext()
 	{
+		
 		return next;
 	}
 	
@@ -69,23 +70,32 @@ public class AntsCell extends CellModel implements Comparable<AntsCell>{
 		
 	}
 
-	public void getNextState()
+	
+	
+	public void nextState()
 	{
 		for(int a=0; a< ants.size(); a++)
 		{
 			if(ants.get(a).hasFood())
-				homepher=1;
-			else
 				foodpher=1;
-			if(ants.get(a).update(neighbors));
+			else
+				homepher=1;
+			if(ants.get(a).update(neighbors)) {
 				ants.remove(a);
-			a--;
+				a--;
+			}
 		}
 		if(homepher>0)
-			homepher-=.2;
+			homepher-=.02;
 		if(foodpher>0)
-			foodpher-=.2;
-		next = new AntsCell(state, ants, foodpher, homepher, row, col);
+			foodpher-=.02;
+	}
+	
+	public void getNextState()
+	{
+		for(int a=0; a<ants.size(); a++)
+			ants.get(a).setMoved(false);
+		next=new AntsCell(state, ants, foodpher, homepher, row, col);
 	}
 	
 	public double getFoodPher()
@@ -111,7 +121,10 @@ public class AntsCell extends CellModel implements Comparable<AntsCell>{
 			return Color.MAGENTA;
 		else 		{
 			if(homepher>0 || foodpher>0)
-				return Color.GREEN;
+				if(homepher>foodpher)
+					return Color.GREEN;
+				else
+					return Color.AQUA;
 			else
 				return Color.SADDLEBROWN;
 		}
@@ -122,17 +135,27 @@ public class AntsCell extends CellModel implements Comparable<AntsCell>{
 	
 	@Override
 	public void getInput(List<Integer> list) {
-		// TODO Auto-generated method stub
-		
+		state=list.get(0);
+		int a = list.get(1);
+		foodpher = ((double)list.get(2))/100;
+		homepher = ((double)list.get(3))/100;
+		row=list.get(4);
+		col=list.get(5);
+		for(int i=0; i<a; i++)
+			ants.add(new Ant(row,col));
 	}
 	
 	@Override
 	public void getClicked()
 	{
-		if(state==GROUNDCELL) {
-			state=FOODCELL;
+		if(state==GROUNDCELL || state==FOODCELL) {
+			state=HOMECELL;
 			ants.clear();
 		}
+		else if(state==HOMECELL)
+			state=FOODCELL;
+		color=colorCalc();
+
 	}
 
 	public int getState()
@@ -154,11 +177,11 @@ public class AntsCell extends CellModel implements Comparable<AntsCell>{
 		public int compare(AntsCell v, AntsCell w) {
 			double r =(v.getHomePher() - w.getHomePher());
 			if(r<0)
-				return (-1);
+				return (1);
 			else if(r==0) 
 				return 0;
 			else
-				return 1;
+				return -1;
 		}
 	}
 
@@ -167,11 +190,11 @@ public class AntsCell extends CellModel implements Comparable<AntsCell>{
 		public int compare(AntsCell v, AntsCell w) {
 			double r =(v.getFoodPher() - w.getFoodPher());
 			if(r<0)
-				return (-1);
+				return (1);
 			else if(r==0) 
 				return 0;
 			else
-				return 1;
+				return -1;
 		}
 	}
 
@@ -179,6 +202,13 @@ public class AntsCell extends CellModel implements Comparable<AntsCell>{
 	public int compareTo(AntsCell o) {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+
+	@Override
+	public String getXMLState() {
+		String t = state+ " "+ getAnts() + " " + (int)(foodpher*100)+" " +(int)(homepher*100)+ " " +row+" "+col;
+		// TODO Auto-generated method stub
+		return t;
 	}
 
 

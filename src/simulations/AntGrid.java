@@ -25,9 +25,19 @@ public class AntGrid extends GridModel{
 		}
 		ArrayList<Ant> as = new ArrayList<Ant>();
 		for(int a=0; a<8; a++)
-			as.add(new Ant(5,8));
+			as.add(new Ant(27,27));
 		
-		gridCells.get(5).set(8, new AntsCell(0,as,0,0,5,8));
+		
+		gridCells.get(27).set(27, new AntsCell(0,as,0,0,27,27));
+		
+		
+		for(int a=0; a<8; a++)
+			as.add(new Ant(29,29));
+		
+		
+		gridCells.get(29).set(29, new AntsCell(0,as,0,0,29,29));
+		
+
 		NeighborFinder.getNeighbors(gridCells, currentshape, "standard", "standard");	
 		
 	}
@@ -44,22 +54,29 @@ public class AntGrid extends GridModel{
 	
 	@Override
 	public void update() {
-		System.out.print("yo");
+		//System.out.println("yo");
+		for(int r=0; r<size; r++)
+			for(int c=0; c<size; c++) {
+				AntsCell temp = (AntsCell) gridCells.get(r).get(c);
+				temp.nextState();
+			}
 		for(int r=0; r<size; r++)
 			for(int c=0; c<size; c++) {
 				AntsCell temp = (AntsCell) gridCells.get(r).get(c);
 				temp.getNextState();
-			}
+			}	
 	}
 
 	@Override
-	public void moveForward() {
+	public void moveForward()
+	{
 		for(int r=0; r<size; r++)
-			for(int c=0; c<size; c++) {
+			for(int c=0; c<size; c++)
+			{
 				AntsCell temp = (AntsCell) gridCells.get(r).get(c);
-				temp=temp.getNext();
-			}		
-	NeighborFinder.getNeighbors(gridCells, this.getCurrentShape(), "standard", "standard");	
+				gridCells.get(r).set(c, temp.getNext());
+			}
+		NeighborFinder.getNeighbors(gridCells,currentshape, "standard", "standard");	
 
 	}
 

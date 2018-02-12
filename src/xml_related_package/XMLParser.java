@@ -73,7 +73,7 @@ public class XMLParser {
     	}
     	
     	ArrayList<String> list = new ArrayList<>();
-    	for(int i = 1; i < children.getLength(); i += 2) {
+    	for(int i = 1; i < children.getLength(); i += 1) {
     		list.add(children.item(i).getTextContent());
     	}
     	for(int j = 0; j < list.size(); j++) {
