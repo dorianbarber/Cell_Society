@@ -1,8 +1,11 @@
 package simulations;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import cellsociety_team09.Hexagon;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.Shape;
 
 public abstract class GridModel {
 	protected List<List<CellModel>> gridCells;
@@ -54,7 +57,6 @@ public abstract class GridModel {
 	public int getKind(){
 		return 0;
 	}
-	
 	public void clear(){
 		for(int i = 0; i < size; i++) {
 			for(int j = 0; j < size; j++) {
