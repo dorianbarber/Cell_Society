@@ -25,24 +25,33 @@ public class FireGrid extends GridModel{
 	
 	public void setSize(int t)
 	{
-		ArrayList<List<CellModel>>tempCells = new ArrayList<List<CellModel>>();
+//		ArrayList<List<CellModel>>tempCells = new ArrayList<List<CellModel>>();
+//		
+//		for(int a=0; a < t; a++)
+//		{
+//			tempCells.add(new ArrayList<CellModel>());
+//			for(int b=0; b<t; b++)
+//			{
+//				tempCells.get(a).add(new FireCell());
+//			}
+//		}
+//		if(t>size)
+//		{
+//			int center=(t-size)/2;
+//			for(int r=0; r<size; r++)
+//				for(int c=0; c<size; c++)
+//					tempCells.get(r+center).set(center+c, gridCells.get(r-center).get(c-center));
+//		}
+//		gridCells=tempCells;
 		
-		for(int a=0; a < t; a++)
-		{
-			tempCells.add(new ArrayList<CellModel>());
-			for(int b=0; b<t; b++)
-			{
-				tempCells.get(a).add(new FireCell());
+		for(int i = size; i < t; i++) {
+			gridCells.add(new ArrayList<CellModel>());
+			for(int j = 0; j <= i; j++) {
+				gridCells.get(i).add(new FireCell());
+				gridCells.get(j).add(new FireCell());
 			}
 		}
-		if(t>size)
-		{
-			int center=(t-size)/2;
-			for(int r=0; r<size; r++)
-				for(int c=0; c<size; c++)
-					tempCells.get(r+center).set(center+c, gridCells.get(r-center).get(c-center));
-		}
-		gridCells=tempCells;
+		size = t;
 		
 	}
 	public FireGrid()

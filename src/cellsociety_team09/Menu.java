@@ -415,12 +415,23 @@ public class Menu extends Application{
 		FileChooser chooser = new FileChooser();
 		chooser.setInitialDirectory(new File(System.getProperty("user.dir")));
 		currentfile = chooser.showOpenDialog(myStage);
+		
 		XMLManager manager = new XMLManager(currentfile);
 		List<List<Integer>> editList = manager.getXMLFile();
 		grid.setSize(manager.getSize());
+		if (currentshape.equals("Square")) {
+			myGrid = new SquareGridView(GRIDX, GRIDY, GRIDSIZE / grid.getSize(), GRIDSIZE);
+		}
+		else if (currentshape.equals("Triangle")){
+			myGrid = new TriangleGridView(GRIDX, GRIDY, GRIDSIZE / grid.getSize(), GRIDSIZE);
+		}
+		else if (currentshape.equals("Hexagon")){
+			myGrid = new HexGridView(GRIDX, GRIDY, GRIDSIZE / grid.getSize(), GRIDSIZE);
+		}
 		grid.xmlEdit(editList);
+		
 		NeighborFinder.getNeighbors(grid.getCells(), new Rectangle(), "standard", "standard");
-		gridgroup = myGrid.drawGrid(grid, WIDTH, HEIGHT, blocksize);
+		gridgroup = myGrid.drawGrid(grid, WIDTH, HEIGHT, GRIDSIZE / grid.getSize());
 		myRoot.getChildren().add(gridgroup);
 		//initializeStart(WIDTH, HEIGHT, BACKGROUND, grid, getFile(GOLDESCRIPTION));
 	}
