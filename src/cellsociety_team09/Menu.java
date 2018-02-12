@@ -415,7 +415,6 @@ public class Menu extends Application{
 		FileChooser chooser = new FileChooser();
 		chooser.setInitialDirectory(new File(System.getProperty("user.dir")));
 		currentfile = chooser.showOpenDialog(myStage);
-	
 		XMLManager manager = new XMLManager(currentfile);
 		grid.xmlEdit(manager.getXMLFile());
 		NeighborFinder.getNeighbors(grid.getCells(), new Rectangle(), "standard", "standard");
