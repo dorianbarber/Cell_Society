@@ -91,19 +91,18 @@ public class LangstonCell extends CellModel {
 			System.out.println(a+" "+counts[a]);
 		if(state==CYANCELL)
 		{
-			if(counts[BLUECELL]==2) {}
 
-//				if(!diverged) {
-//					neighbors.get(directionCalc("counterclockwise")).setNextState(CYANCELL, setDirection("counterclockwise"));
-//					neighbors.get(directionCalc("straight")).setNextState(CYANCELL,setDirection("straight"));
-//					diverged=true;
-//					setNextState(BLUECELL,directionCalc("straight"));
-//				}
-//				else
-//				{
-//					setNextState(BLACKCELL,direction);
-//				}
-//			}
+				if(!diverged && neighbors.get(directionCalc("counterclockwise")).getState()==BLUECELL && neighbors.get(directionCalc("straight")).getState()==BLUECELL) {
+					neighbors.get(directionCalc("counterclockwise")).setNextState(CYANCELL, setDirection("counterclockwise"));
+					neighbors.get(directionCalc("straight")).setNextState(CYANCELL,setDirection("straight"));
+					diverged=true;
+					setNextState(BLUECELL,directionCalc("straight"));
+				}
+				else
+				{
+					setNextState(BLACKCELL,direction);
+				}
+			}
 			 if(neighbors.get(directionCalc("straight")).getState()==BLUECELL && neighbors.get(directionCalc("counterclockwise")).getState()!=BLUECELL)
 			{
 				System.out.print("moving forwarf");
