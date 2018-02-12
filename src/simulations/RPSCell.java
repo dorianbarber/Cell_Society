@@ -47,26 +47,38 @@ public class RPSCell extends CellModel{
 		color = colors[state];
 	}
 	
-	public void nextState()
+	public void findNextState()
 	{
-		if(state==ROCKCELL)
-			for(int a=0; a<neighbors.size(); a++)
+		if (power == 10){
+			this.setNextState(EMPTYCELL, 0);
+			return;
+		}
+		if(state==ROCKCELL){
+			for(int a=0; a<neighbors.size(); a++){
 				if(neighbors.get(a).getState()==SCISSORCELL)
 					neighbors.get(a).setNextState(state, 10);
+			}
+		}
 				
-		if(state==PAPERCELL)
-			for(int a=0; a<neighbors.size(); a++)
-				if(neighbors.get(a).getState()==ROCKCELL)
+		if(state==PAPERCELL){
+			for(int a=0; a<neighbors.size(); a++){
+				if(neighbors.get(a).getState()==ROCKCELL){
 					neighbors.get(a).setNextState(state, 10);
-			
-		if(state==SCISSORCELL)
-			for(int a=0; a<neighbors.size(); a++)
-				if(neighbors.get(a).getState()==PAPERCELL)
+				}
+			}
+		}	
+		if(state==SCISSORCELL){
+			for(int a=0; a<neighbors.size(); a++){
+				if(neighbors.get(a).getState()==PAPERCELL){
 					neighbors.get(a).setNextState(state, 10);
+				}
+			}
+		}
 			
-		for(int a=0; a<neighbors.size(); a++)
+		for(int a=0; a<neighbors.size(); a++){
 			if(neighbors.get(a).getState()==EMPTYCELL && power>0)
 				neighbors.get(a).setNextState(state, power-1);
+		}
 	}
 	
 	
@@ -93,13 +105,7 @@ public class RPSCell extends CellModel{
 		next= new RPSCell(t,p);
 	}
 
-	@Override
-	public void findNextState() {
-		// TODO Auto-generated method stub
-		
-	}
 
-	@Override
 	public String getXMLState() {
 		// TODO Auto-generated method stub
 		return null;

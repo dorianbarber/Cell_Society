@@ -43,6 +43,7 @@ public class NeighborFinder {
 	
 	public static void getNeighbors(List<List<CellModel>> grid, String s, String nebtype, String gridtype)
 	{
+
 		if(s.equals("Triangle"))
 			getNeighbors(grid,new Triangle(0,0,0,false), nebtype,gridtype);
 		if(s.equals("Square"))

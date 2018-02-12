@@ -104,7 +104,6 @@ public class Menu extends Application{
 	private String currentbox = "Game of Life";
 	private String currentshape = "Square";
 	private File currentfile;
-	
     /**
      * Start the program.
      */
@@ -191,11 +190,7 @@ public class Menu extends Application{
 		grid.moveForward();
 		myRoot.getChildren().remove(gridgroup);
 		gridgroup = myGrid.drawGrid(grid, WIDTH, HEIGHT, blocksize);
-//		for (double d : myGrid.getProportions()){
-//			
-//			series.getData().add(new XYChart.Data(time,d));
-//			linechart.getData().add(series);
-//		}
+
 		myRoot.getChildren().add(gridgroup);
 		
 	}
@@ -376,9 +371,9 @@ public class Menu extends Application{
 	private Button getOutlineButton(){
 		
 		//Image play = new Image(getClass().getResourceAsStream("../stepbackward.png"), BUTTONSIZE, BUTTONSIZE, false, false);
-		Button resetbutton = new Button();
-		resetbutton.setLayoutX(sliderx + 500);
-		resetbutton.setLayoutY(myGrid.getY() + myGrid.getDimensions() + BUTTONVERTOFFSET);
+		Button resetbutton = new Button("Toggle Gridlines");
+		resetbutton.setLayoutX(sliderx + 415);
+		resetbutton.setLayoutY(5 * myGrid.getY() + 2 * BUTTONVERTOFFSET);
 		resetbutton.setOnAction(e -> handleOutline());
 		return resetbutton;
 	}
@@ -443,7 +438,7 @@ public class Menu extends Application{
 		Button retbutton = new Button();
 		retbutton.setLayoutX(GRIDSIZE + GRIDX + DROPOFFSET);
 		retbutton.setLayoutY(4 * GRIDY);
-		retbutton.setText("Get XML File");
+		retbutton.setText("Load from XML File");
 		retbutton.setOnAction(e -> getFile());
 		return retbutton;
 		
@@ -497,6 +492,10 @@ public class Menu extends Application{
 	}
 	
 	
+	/**
+	 * Creates the save to XML file button
+	 * @return = a new Button
+	 */
 	private Button getFileSaveButton(){
 		Button retbutton = new Button();
 		retbutton.setLayoutX(GRIDSIZE + GRIDX + DROPOFFSET);
@@ -507,6 +506,9 @@ public class Menu extends Application{
 		
 	}
 	
+	/**
+	 * Saves the current state to a new file with the current time as the name
+	 */
 	private void saveFile(){
 		XMLBuilder builder = new XMLBuilder();
 		String timeStamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date());
@@ -573,6 +575,8 @@ public class Menu extends Application{
 				getAnts();
 			}else {
 				getRPS();
+				happened = false;
+				simBox.setValue("Sorry! Not available :(");
 			}
 		}
 		currentbox = simBox.getValue();
@@ -706,17 +710,18 @@ public class Menu extends Application{
 		animation.pause();
 	}
 	private void getRPS() {
-		try {
-			myScene = initializeStart(WIDTH, HEIGHT, BACKGROUND, POSSIBLEGRIDS[RPSTYPE].getClass().newInstance(), getFile(GOLDESCRIPTION));
-		} catch (InstantiationException | IllegalAccessException e) {
-			// TODO Auto-generated catch block
-			System.out.println("625");
-		}
-		myStage.setScene(myScene);
-		myStage.show();
-		happened = false;
-		simBox.setValue("Rock, Paper, Scissors");
-		animation.pause();
+//		try {
+//			myScene = initializeStart(WIDTH, HEIGHT, BACKGROUND, POSSIBLEGRIDS[RPSTYPE].getClass().newInstance(), getFile(GOLDESCRIPTION));
+//		} catch (InstantiationException | IllegalAccessException e) {
+//			// TODO Auto-generated catch block
+//			System.out.println("625");
+//		}
+//		myStage.setScene(myScene);
+//		myStage.show();
+//		happened = false;
+//		simBox.setValue("Rock, Paper, Scissors");
+//		animation.pause();
+		return;
 	}
 	private void getPlayAction(){
 		animation.play();
