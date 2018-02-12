@@ -6,9 +6,10 @@ import java.util.List;
 import javafx.scene.shape.Rectangle;
 
 public class FireGrid extends GridModel{
-
+	
 	public FireGrid(int gridSize)
 	{
+		cellType = new FireCell();
 		gridCells = new ArrayList<List<CellModel>>();
 		size = gridSize;
 		for(int a=0; a < size; a++)
@@ -22,9 +23,10 @@ public class FireGrid extends GridModel{
 		NeighborFinder.getNeighbors(gridCells, new Rectangle(), "cross", "standard");
 	}
 	
+	
 	public void setSize(int t)
 	{
-		ArrayList<List<CellModel>>tempCells = new ArrayList<List<CellModel>>();
+	ArrayList<List<CellModel>>tempCells = new ArrayList<List<CellModel>>();
 		
 		for(int a=0; a < t; a++)
 		{

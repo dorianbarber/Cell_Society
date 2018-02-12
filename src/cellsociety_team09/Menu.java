@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.List;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -32,6 +33,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import simulations.AntGrid;
+import simulations.CellModel;
 import simulations.FireGrid;
 import simulations.GridModel;
 import simulations.LifeGrid;
@@ -181,12 +183,12 @@ public class Menu extends Application{
 	private void step(double elapsedTime) {
 		//NeighborFinder finder = new NeighborFinder();
 		//NeighborFinder.getNeighbors(grid.getCells(), getShape(currentshape), "standard", "standard");
+		
 		grid.update();
 		grid.moveForward();
 		myRoot.getChildren().remove(gridgroup);
 		gridgroup = myGrid.drawGrid(grid, WIDTH, HEIGHT, blocksize);
 		myRoot.getChildren().add(gridgroup);
-		//System.out.println("Step");
 		
 	}
 
@@ -414,11 +416,22 @@ public class Menu extends Application{
 		chooser.setInitialDirectory(new File(System.getProperty("user.dir")));
 		currentfile = chooser.showOpenDialog(myStage);
 		
-		
 		XMLManager manager = new XMLManager(currentfile);
-		grid.xmlEdit(manager.getXMLFile());
+		List<List<Integer>> editList = manager.getXMLFile();
+		grid.setSize(manager.getSize());
+		if (currentshape.equals("Square")) {
+			myGrid = new SquareGridView(GRIDX, GRIDY, GRIDSIZE / grid.getSize(), GRIDSIZE);
+		}
+		else if (currentshape.equals("Triangle")){
+			myGrid = new TriangleGridView(GRIDX, GRIDY, GRIDSIZE / grid.getSize(), GRIDSIZE);
+		}
+		else if (currentshape.equals("Hexagon")){
+			myGrid = new HexGridView(GRIDX, GRIDY, GRIDSIZE / grid.getSize(), GRIDSIZE);
+		}
+		grid.xmlEdit(editList);
+		
 		NeighborFinder.getNeighbors(grid.getCells(), new Rectangle(), "standard", "standard");
-		gridgroup = myGrid.drawGrid(grid, WIDTH, HEIGHT, blocksize);
+		gridgroup = myGrid.drawGrid(grid, WIDTH, HEIGHT, GRIDSIZE / grid.getSize());
 		myRoot.getChildren().add(gridgroup);
 		//initializeStart(WIDTH, HEIGHT, BACKGROUND, grid, getFile(GOLDESCRIPTION));
 	}

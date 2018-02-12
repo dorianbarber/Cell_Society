@@ -41,6 +41,7 @@ private int[] direct= {3,3,3,3,3,2,0,2,2,2,2,1,1,1,1,1};
 
 	public LangstonGrid(int gridSize)
 	{
+		cellType = new LangstonCell(0, 0);
 		gridCells = new ArrayList<List<CellModel>>();
 		size = gridSize;
 		for(int a=0; a < size; a++)
@@ -67,6 +68,39 @@ private int[] direct= {3,3,3,3,3,2,0,2,2,2,2,1,1,1,1,1};
     	}
 	}
 	
+	public void setSize(int t)
+	{
+	ArrayList<List<CellModel>>tempCells = new ArrayList<List<CellModel>>();
+		
+		for(int a=0; a < t; a++)
+		{
+			tempCells.add(new ArrayList<CellModel>());
+			for(int b=0; b<t; b++)
+			{
+				tempCells.get(a).add(new LangstonCell(0,0));
+			}
+		}
+		if(t>size)
+		{
+			int center=(t-size)/2;
+			for(int r=0; r<size; r++)
+				for(int c=0; c<size; c++)
+					tempCells.get(r+center).set(center+c, gridCells.get(r).get(c));
+		}
+		else
+		{
+			if(t<size)
+			{
+				int center=(size-t)/2;
+				for(int r=0; r<t; r++)
+					for(int c=0; c<t; c++)
+						tempCells.get(r).set(c, gridCells.get(r+center).get(c+center));
+			}
+		}
+		gridCells=tempCells;
+		size=t;
+		
+	}
 	
 	@Override
 	public void update() {
@@ -85,8 +119,11 @@ private int[] direct= {3,3,3,3,3,2,0,2,2,2,2,1,1,1,1,1};
 			for(int c=0; c<size; c++) {
 				LangstonCell t = (LangstonCell) gridCells.get(r).get(c);
 				gridCells.get(r).set(c,  t.getNext());
+
 		
 			}
+		System.out.println();
+
 		NeighborFinder.getNeighbors(gridCells, new Rectangle(), "cross", "toroidal");
 
 	}

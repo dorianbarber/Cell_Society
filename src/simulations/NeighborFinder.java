@@ -180,7 +180,7 @@ public class NeighborFinder {
 								grid.get(r).get(c).addNeighbor(grid.get((r+rs[a])).get(c+cs[a]));
 							}
 							catch(IndexOutOfBoundsException obobrowcol) {
-								System.out.print("out of bounds");//what do i do here we are just supposed to not add the neighbor
+								//System.out.print("out of bounds");//what do i do here we are just supposed to not add the neighbor
 							}
 	}
 	// sub method to decide between cross and standard orientations
