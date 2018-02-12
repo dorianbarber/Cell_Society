@@ -60,7 +60,6 @@ We started this project with a design using "CellModel" as our main logic engine
 Major Bugs: 
 
 - The Ants simulation doesn't work entirely as intended. Sometimes Ants follow each other instead of the food source.
-- The RPS simulation does not work at all, so we disconnected it from the display -- The user can still select the option from the drop-down menu, but it doesn't actually do anything except display a message. We judged this to be a better option than leaving in a bug-riddled simulation.
 - The displays for various different shapes aren't entirely lined up within the Grid window, and for some gid sizes they look really strange
 - The simulation can lag when too many changes are applied to it in quick succession
 
