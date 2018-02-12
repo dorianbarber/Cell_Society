@@ -62,4 +62,6 @@ public abstract class GridModel {
 		}
 	}
 	
+	public abstract void setSize(int t);
+	
 }

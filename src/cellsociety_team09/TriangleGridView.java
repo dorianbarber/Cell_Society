@@ -1,8 +1,12 @@
 package cellsociety_team09;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javafx.scene.Group;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
+import javafx.scene.shape.Shape;
 import simulations.GridModel;
 
 public class TriangleGridView extends GridView {
@@ -34,7 +38,7 @@ public class TriangleGridView extends GridView {
 				toAdd.setStroke(Color.BLACK);
 				int xtemp = x;
 				int ytemp = y;
-				//toAdd.setOnMouseClicked(e -> handleClick(xtemp,ytemp,g, toAdd));
+				toAdd.setOnMouseClicked(e -> handleClick(xtemp,ytemp, grid , toAdd));
 				retgroup.getChildren().add(toAdd);
 				y++;
 				bool = !bool;
@@ -43,6 +47,18 @@ public class TriangleGridView extends GridView {
 			y = 0;
 		}
 		return retgroup;
+	}
+	private void handleClick(int x, int y, GridModel g, Shape n) {
+		List<Integer> list = new ArrayList<>();
+		list.add(x);
+		list.add(y);
+		//g.getCells().get(x).get(y).getInput(list);
+		//System.out.println(g.getCells().get(x).get(y).getState());
+		g.getUserInput(list);
+		//System.out.println(g.getCells().get(x).get(y).getState());
+		n.setFill(g.getCells().get(x).get(y).getColor());
+		//System.out.println("Clicked!");
+		
 	}
 	
 	public double getX(){

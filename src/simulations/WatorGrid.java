@@ -2,7 +2,6 @@ package simulations;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import javafx.scene.shape.Rectangle;
 
 public class WatorGrid extends GridModel
@@ -30,7 +29,7 @@ public class WatorGrid extends GridModel
 	public WatorGrid()
 	{
 		this(30);
-		}
+	}
 	
 	public int getKind(){
 		return 3;
@@ -61,9 +60,13 @@ public class WatorGrid extends GridModel
 
 	@Override
 	public void getInputGlobal(List<Integer> s) {
-		starverate=s.get(0);
-		reporate1=s.get(1);
-		reporate2=s.get(2);		
+		if(s.get(0)!=-1)
+			reporate1=s.get(0);
+		if(s.get(1)!=-1)
+			reporate2=s.get(1);		
+		if(s.get(2)!=-1)
+			starverate=s.get(2);
+
 	}
 	
 	

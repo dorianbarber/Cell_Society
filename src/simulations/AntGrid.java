@@ -21,7 +21,13 @@ public class AntGrid extends GridModel{
 				gridCells.get(a).add(r);			
 			}
 		}
-		NeighborFinder.getNeighbors(gridCells, new Rectangle(), "standard", "standard");		
+		ArrayList<Ant> as = new ArrayList<Ant>();
+		for(int a=0; a<8; a++)
+			as.add(new Ant(5,8));
+		
+		gridCells.get(5).set(8, new AntsCell(0,as,0,0,5,8));
+		NeighborFinder.getNeighbors(gridCells, new Rectangle(), "standard", "standard");	
+		
 	}
 	public AntGrid()
 	{
@@ -34,6 +40,7 @@ public class AntGrid extends GridModel{
 	
 	@Override
 	public void update() {
+		System.out.print("yo");
 		for(int r=0; r<size; r++)
 			for(int c=0; c<size; c++) {
 				AntsCell temp = (AntsCell) gridCells.get(r).get(c);

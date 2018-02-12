@@ -8,7 +8,7 @@ import javafx.scene.shape.Rectangle;
 
 public class SegregationGrid extends GridModel
 {
-	private double percentsimilar=.5;
+	private double percentsimilar=.75;
 	private Stack<SegregationCell> unsatisfied = new Stack<SegregationCell>();
 	
 	public SegregationGrid(int gridSize)

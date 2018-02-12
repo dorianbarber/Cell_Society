@@ -170,7 +170,7 @@ public class NeighborFinder {
 	// sub method for standard
 	public static void getNeighborsRegular(List<List<CellModel>> grid, Rectangle rec)
 	{
-		System.out.print("HELLO");
+		//System.out.print("HELLO");
 		int size=grid.get(0).size();
 		for(int r=0; r<size; r++)
 			for(int c=0; c<size; c++)

@@ -79,6 +79,7 @@ public class RPSCell extends CellModel{
 	{
 		return next;
 	}
+	
 	@Override
 	public void getInput(List<Integer> states) {
 		if (state==SCISSORCELL)
