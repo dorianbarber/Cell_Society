@@ -19,6 +19,7 @@ import org.w3c.dom.Element;
 
 import simulations.CellModel;
 import simulations.GridModel;
+import simulations.LifeGrid;
 
 public class XMLBuilder {
 	
@@ -41,9 +42,9 @@ public class XMLBuilder {
 			docBuilder = docFactory.newDocumentBuilder();
 			
 			doc = docBuilder.newDocument();
-			
 			Element rootElement = doc.createElement("data");
 			rootElement.setAttribute("type", "Model");
+			doc.appendChild(rootElement);
 			
 			addContent(rootElement, model);
 			writePoints(model.getCells(), rootElement);
@@ -51,8 +52,9 @@ public class XMLBuilder {
 			TransformerFactory transformerFactory = TransformerFactory.newInstance();
 			Transformer transformer = transformerFactory.newTransformer();
 			DOMSource source = new DOMSource(doc);
-			StreamResult result = new StreamResult(new File("C:\\file.xml"));
 			
+			StreamResult result = new StreamResult(new File("..\\data\\" + fileName + ".xml"));
+			//StreamResult result = new StreamResult(System.out);
 			transformer.transform(source, result);
 			
 		} catch (ParserConfigurationException e) {
@@ -96,5 +98,11 @@ public class XMLBuilder {
 			}
 		}
 		root.appendChild(edits);
+	}
+	
+	public static void main(String[] args) {
+		GridModel grid = new LifeGrid();
+		XMLBuilder builder = new XMLBuilder();
+		builder.setUpFile(grid, "testBuilder");
 	}
 }

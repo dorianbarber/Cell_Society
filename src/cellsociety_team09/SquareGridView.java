@@ -70,7 +70,7 @@ public class SquareGridView extends GridView{
 		for (double i = gridXPosition; i < gridXPosition + gridSize - .5; i += blocksize){
 			for (double j = gridYPosition; j < gridYPosition + gridSize - .5; j += blocksize){
 				Rectangle toAdd = new Rectangle(i, j, blocksize, blocksize);
-				System.out.println("X: " + x + " Y: " + y);
+				//System.out.println("X: " + x + " Y: " + y);
 				//sSystem.out.println("I: " + i + " J: " + j);
 				//System.out.println(grid.getCells().get(x).get(y).getColor().toString());
 				toAdd.setFill(grid.getCells().get(x).get(y).getColor());

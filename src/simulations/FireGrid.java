@@ -27,6 +27,7 @@ public class FireGrid extends GridModel{
 	public void setSize(int t)
 	{
 	ArrayList<List<CellModel>>tempCells = new ArrayList<List<CellModel>>();
+
 		
 		for(int a=0; a < t; a++)
 		{
@@ -55,7 +56,17 @@ public class FireGrid extends GridModel{
 		}
 		gridCells=tempCells;
 		size=t;
-		
+
+			
+		if(t>size)
+		{
+			int center=(t-size)/2;
+			for(int r=0; r<size; r++)
+				for(int c=0; c<size; c++)
+					tempCells.get(r+center).set(center+c, gridCells.get(r-center).get(c-center));
+		}
+		gridCells=tempCells;
+		size = t;
 	}
 	public FireGrid()
 	{

@@ -470,6 +470,7 @@ public class Menu extends Application{
 		else if (currentshape.equals("Hexagon")){
 			myGrid = new HexGridView(GRIDX, GRIDY, GRIDSIZE / grid.getSize(), GRIDSIZE);
 		}
+		
 		grid.xmlEdit(editList);
 		
 		//NeighborFinder.getNeighbors(grid.getCells(), new Rectangle(), "cross", "standard");
