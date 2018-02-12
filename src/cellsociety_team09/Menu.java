@@ -104,9 +104,9 @@ public class Menu extends Application{
 	private String currentbox = "Game of Life";
 	private String currentshape = "Square";
 	private File currentfile;
-	private LineChart<Number,Number> linechart; 
-	private double time = 0;
-	private XYChart.Series series = new XYChart.Series<>();
+	//private LineChart<Number,Number> linechart; 
+	//private double time = 0;
+	//private XYChart.Series series = new XYChart.Series<>();
 	
     /**
      * Start the program.
@@ -199,7 +199,7 @@ public class Menu extends Application{
 //			series.getData().add(new XYChart.Data(time,d));
 //			linechart.getData().add(series);
 //		}
-		time += .1;
+//		time += .1;
 		myRoot.getChildren().add(gridgroup);
 		
 	}
