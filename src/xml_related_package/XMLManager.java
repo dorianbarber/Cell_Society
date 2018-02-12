@@ -25,6 +25,9 @@ public class XMLManager {
 	public List<List<Integer>> getXMLFile() {
 		XMLParser xml = new XMLParser("type");
 		modelDescription = xml.getModel(configFile);
+		for(String s : DATA_FIELDS) {
+			System.out.println(s + ": " + modelDescription.get(s));
+		}
 		return Collections.unmodifiableList(xml.getEdits());
 	}
 	

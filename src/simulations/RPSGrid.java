@@ -18,15 +18,16 @@ public class RPSGrid extends GridModel
 			gridCells.add(new ArrayList<CellModel>());
 			for(int b=0; b<size; b++)
 			{
-				RPSCell r = new RPSCell();
-				gridCells.get(a).add(r);
+//				WatorCell r = (WatorCell) gridCells.get(a).get(b);
+//				gridCells.get(a).set(b,r);
+				gridCells.get(a).add(new RPSCell());
 			}
 		}
-		NeighborFinder.getNeighbors(gridCells, new Rectangle(), "standard", "standard");
+		NeighborFinder.getNeighbors(gridCells, new Rectangle(), "cross", "toroidal");
 	}
 	public RPSGrid()
 	{
-		this(150);
+		this(50);
 	}
 	
 	public int getKind(){
@@ -52,6 +53,8 @@ public class RPSGrid extends GridModel
 				RPSCell temp = (RPSCell) gridCells.get(r).get(c);
 				temp.nextState();
 			}
+		NeighborFinder.getNeighbors(gridCells, new Rectangle(), "standard", "standard");
+
 	}
 
 

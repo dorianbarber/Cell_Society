@@ -65,6 +65,7 @@ public class SquareGridView extends GridView{
 				Rectangle toAdd = new Rectangle(i, j, blocksize, blocksize);
 				//System.out.println("X: " + x + " Y: " + y);
 				//sSystem.out.println("I: " + i + " J: " + j);
+				//System.out.println(grid.getCells().get(x).get(y).getColor().toString());
 				toAdd.setFill(grid.getCells().get(x).get(y).getColor());
 				toAdd.setStroke(Color.BLACK);
 				int xtemp = x;

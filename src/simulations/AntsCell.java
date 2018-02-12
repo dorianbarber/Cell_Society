@@ -113,7 +113,7 @@ public class AntsCell extends CellModel implements Comparable<AntsCell>{
 			if(homepher>0 || foodpher>0)
 				return Color.GREEN;
 			else
-				return Color.BROWN;
+				return Color.SADDLEBROWN;
 		}
 	}
 	

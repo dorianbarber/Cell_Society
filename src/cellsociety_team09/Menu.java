@@ -416,8 +416,9 @@ public class Menu extends Application{
 		chooser.setInitialDirectory(new File(System.getProperty("user.dir")));
 		currentfile = chooser.showOpenDialog(myStage);
 		XMLManager manager = new XMLManager(currentfile);
-		
-		grid.xmlEdit(manager.getXMLFile());
+		List<List<Integer>> editList = manager.getXMLFile();
+		grid.setSize(manager.getSize());
+		grid.xmlEdit(editList);
 		NeighborFinder.getNeighbors(grid.getCells(), new Rectangle(), "standard", "standard");
 		gridgroup = myGrid.drawGrid(grid, WIDTH, HEIGHT, blocksize);
 		myRoot.getChildren().add(gridgroup);

@@ -17,6 +17,15 @@ public class Ant {
 	private int direction;
 	
 	
+	public Ant(int r, int c)
+	{
+		hasfood=false; 
+		direction=3;
+		row=r;
+		col=c;
+	}
+	
+	
 	public boolean update(List<AntsCell> neighbors)
 	{
 		Collections.shuffle(neighbors);
