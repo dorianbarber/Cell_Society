@@ -447,7 +447,7 @@ public class Menu extends Application{
 		Button retbutton = new Button();
 		retbutton.setLayoutX(GRIDSIZE + GRIDX + DROPOFFSET);
 		retbutton.setLayoutY(4 * GRIDY);
-		retbutton.setText("Get XML File");
+		retbutton.setText("Load from XML File");
 		retbutton.setOnAction(e -> getFile());
 		return retbutton;
 		
@@ -559,6 +559,8 @@ public class Menu extends Application{
 				getAnts();
 			}else {
 				getRPS();
+				happened = false;
+				simBox.setValue("Sorry! Not available :(");
 			}
 		}
 		currentbox = simBox.getValue();
@@ -692,17 +694,18 @@ public class Menu extends Application{
 		animation.pause();
 	}
 	private void getRPS() {
-		try {
-			myScene = initializeStart(WIDTH, HEIGHT, BACKGROUND, POSSIBLEGRIDS[RPSTYPE].getClass().newInstance(), getFile(GOLDESCRIPTION));
-		} catch (InstantiationException | IllegalAccessException e) {
-			// TODO Auto-generated catch block
-			System.out.println("625");
-		}
-		myStage.setScene(myScene);
-		myStage.show();
-		happened = false;
-		simBox.setValue("Rock, Paper, Scissors");
-		animation.pause();
+//		try {
+//			myScene = initializeStart(WIDTH, HEIGHT, BACKGROUND, POSSIBLEGRIDS[RPSTYPE].getClass().newInstance(), getFile(GOLDESCRIPTION));
+//		} catch (InstantiationException | IllegalAccessException e) {
+//			// TODO Auto-generated catch block
+//			System.out.println("625");
+//		}
+//		myStage.setScene(myScene);
+//		myStage.show();
+//		happened = false;
+//		simBox.setValue("Rock, Paper, Scissors");
+//		animation.pause();
+		return;
 	}
 	private Group getText(String s){
 		Text description = new Text();
