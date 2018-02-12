@@ -321,6 +321,7 @@ public class Menu extends Application{
 			else if (currentshape.equals("Hexagon")){
 				myGrid = new HexGridView(GRIDX, GRIDY, GRIDSIZE / grid.getSize(), GRIDSIZE);
 			}
+			myRoot.getChildren().remove(gridgroup);
 			gridgroup = myGrid.drawGrid(grid, WIDTH, HEIGHT, GRIDSIZE / grid.getSize());
 			myRoot.getChildren().add(gridgroup);
 			animation.stop();

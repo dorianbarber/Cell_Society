@@ -8,7 +8,7 @@ public abstract class GridModel {
 	protected List<List<CellModel>> gridCells;
 	protected int size;
 	protected CellModel cellType;
-	protected String currentstring;
+	protected String currentshape;
 	//To be overridden by each subclass
 	public GridModel() {}
 	
@@ -69,11 +69,9 @@ public abstract class GridModel {
 	public abstract void setSize(int t);
 
 	public void setCurrentShape(String currentshape) {
-		// TODO Auto-generated method stub
 		currentshape = currentshape;
 	}
-	public void getCurrentShape() {
-		// TODO Auto-generated method stub
-		return;
+	public String getCurrentShape() {
+		return currentshape;
 	}
 }

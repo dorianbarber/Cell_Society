@@ -1,6 +1,7 @@
 package xml_related_package;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -36,8 +37,9 @@ public class XMLBuilder {
     });
 	
 	
-	public void setUpFile(GridModel model, String fileName) {
+	public void setUpFile(GridModel model, String fileName) throws IOException {
 		try {
+			
 			docFactory = DocumentBuilderFactory.newInstance();
 			docBuilder = docFactory.newDocumentBuilder();
 			
@@ -46,16 +48,25 @@ public class XMLBuilder {
 			rootElement.setAttribute("type", "Model");
 			doc.appendChild(rootElement);
 			
-			addContent(rootElement, model);
+			addContent(rootElement, model, fileName);
 			writePoints(model.getCells(), rootElement);
 			
 			TransformerFactory transformerFactory = TransformerFactory.newInstance();
 			Transformer transformer = transformerFactory.newTransformer();
 			DOMSource source = new DOMSource(doc);
+			File fileToWrite = new File("../data/" + fileName + ".xml");
 			
-			StreamResult result = new StreamResult(new File("..\\data\\" + fileName + ".xml"));
+			if(fileToWrite.createNewFile()) {
+				System.out.println("GOOD JOB");
+				StreamResult result = new StreamResult(fileToWrite);
+				transformer.transform(source, result);
+			}
+			else {
+				System.out.println("YO");
+			}
+			
 			//StreamResult result = new StreamResult(System.out);
-			transformer.transform(source, result);
+			
 			
 		} catch (ParserConfigurationException e) {
 			e.printStackTrace();
@@ -69,9 +80,9 @@ public class XMLBuilder {
 	
 	
 	
-	private void addContent(Element root, GridModel model) {
+	private void addContent(Element root, GridModel model, String fileName) {
 		Element sim = doc.createElement(DATA_FIELDS.get(0));
-		sim.appendChild(doc.createTextNode("fileName"));
+		sim.appendChild(doc.createTextNode(fileName));
 		root.appendChild(sim);
 		
 		Element simNumb = doc.createElement(DATA_FIELDS.get(1));
@@ -103,6 +114,10 @@ public class XMLBuilder {
 	public static void main(String[] args) {
 		GridModel grid = new LifeGrid();
 		XMLBuilder builder = new XMLBuilder();
-		builder.setUpFile(grid, "testBuilder");
+		try {
+			builder.setUpFile(grid, "thirdTest");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 }
