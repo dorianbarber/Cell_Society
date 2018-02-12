@@ -36,6 +36,7 @@ public class LangstonCell extends CellModel {
 		neighbors=s;
 	}
 	
+	
 	public LangstonCell getNext()
 	{
 		if(next==null)
@@ -80,49 +81,24 @@ public class LangstonCell extends CellModel {
 	
 	public void getNextState()
 	{
-		if(state==CYANCELL)
-			System.out.println(state);
+//		if(state==CYANCELL)
+//			System.out.print(state);
 		for(int a=0; a<neighbors.size(); a++)
 		{
 			counts[neighbors.get(a).getState()]++;
 		}
+		//if(state==CYANCELL)
+//		for(int a=0; a<counts.length; a++)
+//			System.out.println(a+" "+counts[a]);
 		if(state==CYANCELL)
-		for(int a=0; a<counts.length; a++)
-			System.out.println(a+" "+counts[a]);
-		if(state==CYANCELL)
-		{
-
-				if(!diverged && neighbors.get(directionCalc("counterclockwise")).getState()==BLUECELL && neighbors.get(directionCalc("straight")).getState()==BLUECELL) {
-					neighbors.get(directionCalc("counterclockwise")).setNextState(CYANCELL, setDirection("counterclockwise"));
-					neighbors.get(directionCalc("straight")).setNextState(CYANCELL,setDirection("straight"));
-					diverged=true;
-					setNextState(BLUECELL,directionCalc("straight"));
-				}
-				else
-				{
-					setNextState(BLACKCELL,direction);
-				}
-			}
-			 if(neighbors.get(directionCalc("straight")).getState()==BLUECELL && neighbors.get(directionCalc("counterclockwise")).getState()!=BLUECELL)
-			{
-				System.out.print("moving forwarf");
-				neighbors.get(directionCalc("straight")).setNextState(CYANCELL,direction);
-			}
-//			else if(counts[REDCELL]==5 && counts[BLUECELL]==0)
-//				neighbors.get(directionCalc("straight")).setNextState(BLUECELL,setDirection("straight"));
-			}
-		
-//		if(state==BLACKCELL)
-//		{
-//			for(int a=0; a<neighbors.size(); a++)
-//				if(neighbors.get(a).getState()==CYANCELL || neighbors.get(a).getState()==YELLOWCELL)
-//				{
-//					neighbors.get(a).setState(BLACKCELL,neighbors.get(a).getDirection());
-//					setNextState(BLUECELL,direction);
-//				}
-//		}
+			cyanUpdate();
+		if(state==BLACKCELL)
+			blackUpdate();
+		if(state==YELLOWCELL)
+			yellowUpdate();
 		
 		counts= new int[] {0,0,0,0,0,0,0,0};
+
 	}
 	
 	private int directionCalc(String dir)
@@ -131,39 +107,29 @@ public class LangstonCell extends CellModel {
 		if(dir.equals("straight"))
 		{
 			if(direction == 0)
-				return 1;
+				return 0;
 			else if(direction == 1)
-				return 7;
+				return 2;
 			else if(direction == 2)
-				return 4;
+				return 3;
 			else
-				return 6;
+				return 1;
 			
 			}
 		else if(dir.equals("counterclockwise"))
 		{
 			int temp = direction;
 			if(temp==0)
-				return 6;
-			else if(temp==1)
 				return 1;
-			else if(temp==2)
-				return 7;
-			else
-				return 4;
-		}
-		else
-		{
-			int temp = direction;
-			if(temp==0)
-				return 7;
 			else if(temp==1)
-				return 4;
+				return 0;
 			else if(temp==2)
-				return 6;
+				return 2;
 			else
-				return 1;
+				return 3;
 		}
+		return -1;
+		
 	}
 	
 	public int setDirection(String g)
@@ -181,8 +147,57 @@ public class LangstonCell extends CellModel {
 		
 	}
 	
+	public void cyanUpdate()
+	{
+		System.out.println(" direction " + direction);
+
+		if(neighbors.get(directionCalc("counterclockwise")).getState()==BLUECELL && neighbors.get(directionCalc("straight")).getState()==BLUECELL) {
+			if(!diverged) {
+				neighbors.get(directionCalc("counterclockwise")).setNextState(CYANCELL, setDirection("counterclockwise"));
+				neighbors.get(directionCalc("straight")).setNextState(CYANCELL,setDirection("straight"));
+				diverged=true;
+			}
+			else
+				setNextState(BLACKCELL,direction);
+		}
+		
+		if(neighbors.get(directionCalc("straight")).getState()==BLUECELL && neighbors.get(directionCalc("counterclockwise")).getState()!=BLUECELL)
+		{
+			//System.out.print("moving forward");
+			neighbors.get(directionCalc("straight")).setNextState(CYANCELL,setDirection("straight"));
+		}
+	}
 	
+	public void blackUpdate()
+	{
+		for(int a=0; a<neighbors.size(); a++)
+			if(neighbors.get(a).getState()==CYANCELL || neighbors.get(a).getState()==YELLOWCELL)
+			{
+				neighbors.get(a).setNextState(BLACKCELL,neighbors.get(a).getDirection());
+				setNextState(BLUECELL,setDirection("straight"));
+			}
+	}
 	
+	public void yellowUpdate()
+	{
+		if(neighbors.get(directionCalc("counterclockwise")).getState()==BLUECELL && neighbors.get(directionCalc("straight")).getState()==BLUECELL) {
+			if(!diverged) {
+				neighbors.get(directionCalc("counterclockwise")).setNextState(YELLOWCELL, setDirection("counterclockwise"));
+				neighbors.get(directionCalc("straight")).setNextState(YELLOWCELL,setDirection("straight"));
+				diverged=true;
+			}
+			else
+				setNextState(BLACKCELL,direction);
+				
+		}
+		
+	
+	if(neighbors.get(directionCalc("straight")).getState()==BLUECELL && neighbors.get(directionCalc("counterclockwise")).getState()!=BLUECELL)
+	{
+		System.out.print("moving forwarf");
+		neighbors.get(directionCalc("straight")).setNextState(YELLOWCELL,direction);
+	}
+	}
 	@Override
 	public void addNeighbor(CellModel c) {
 		neighbors.add((LangstonCell) c);

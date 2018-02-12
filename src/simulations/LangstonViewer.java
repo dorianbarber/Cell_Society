@@ -30,7 +30,7 @@ public class LangstonViewer extends Application {
 	private Stage myStage;
 	private Scene myScene;
 	public static final int FRAMES_PER_SECOND = 60;
-	public static final int MILLISECOND_DELAY = 5000;
+	public static final int MILLISECOND_DELAY = 2000;
     public static final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
 
 	
