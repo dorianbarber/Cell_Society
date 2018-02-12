@@ -72,6 +72,7 @@ public class FireCell extends CellModel {
 	
 	public void findNextState()
 	{
+		System.out.print(neighbors.size());
 		double bp=0;
 		boolean burning=false;
 		for(int a=0; a<neighbors.size(); a++){
