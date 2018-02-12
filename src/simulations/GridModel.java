@@ -8,7 +8,7 @@ public abstract class GridModel {
 	protected List<List<CellModel>> gridCells;
 	protected int size;
 	protected CellModel cellType;
-	
+
 	//To be overridden by each subclass
 	public GridModel() {}
 	

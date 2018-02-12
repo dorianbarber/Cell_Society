@@ -1,11 +1,13 @@
 package cellsociety_team09;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
 import javafx.scene.Group;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 import simulations.GridModel;
@@ -15,12 +17,15 @@ public class SquareGridView extends GridView{
 	private double gridYPosition;
 	private double gridBlockSize;
 	private double gridSize;
+	private ArrayList<Double> proportions;
+	private boolean outline = true;
 	
 	public SquareGridView(double x, double y, double blocksize, double GRIDSIZE){
 		gridXPosition = x;
 		gridYPosition = y;
 		gridSize = GRIDSIZE;
 		gridBlockSize = blocksize;
+		proportions = new ArrayList<Double>();
 	}
 	public Group drawBlankGrid(int screenwidth, int screenheight, double blocksize){
 		Group retgroup = new Group();
@@ -58,6 +63,8 @@ public class SquareGridView extends GridView{
 		return retgroup;
 	}
 	public Group drawGrid(GridModel grid, int screenwidth, int screenheight, double blocksize){
+		
+		HashMap<Paint,Integer> proportionmap = new HashMap<Paint,Integer>();
 		Group retgroup = new Group();
 		int x = 0, y = 0;
 		for (double i = gridXPosition; i < gridXPosition + gridSize - .5; i += blocksize){
@@ -66,7 +73,15 @@ public class SquareGridView extends GridView{
 				//System.out.println("X: " + x + " Y: " + y);
 				//sSystem.out.println("I: " + i + " J: " + j);
 				toAdd.setFill(grid.getCells().get(x).get(y).getColor());
-				toAdd.setStroke(Color.BLACK);
+				if (!proportionmap.containsKey(toAdd.getFill())){
+					proportionmap.put(toAdd.getFill(), 1);
+				}
+				else {
+					proportionmap.put(toAdd.getFill(), proportionmap.get(toAdd.getFill()) + 1);
+				}
+				if (outline){
+					toAdd.setStroke(Color.BLACK);
+				}
 				int xtemp = x;
 				int ytemp = y;
 				toAdd.setOnMouseClicked(e -> handleClick(xtemp,ytemp,grid, toAdd));
@@ -76,9 +91,24 @@ public class SquareGridView extends GridView{
 			x++;
 			y = 0;
 		}
+		int sum = 0;
+		for (Paint key : proportionmap.keySet()){
+			sum += proportionmap.get(key);
+		}
+		for (Paint key : proportionmap.keySet()){
+			proportions.add((double) proportionmap.get(key) / sum);
+		}
 		return retgroup;
 	}
-	
+	public ArrayList<Double> getProportions(){
+		return proportions;
+	}
+	public void setOutline(boolean outline){
+		this.outline = outline;
+	}
+	public boolean getOutline(){
+		return outline;
+	}
 	private void handleClick(int x, int y, GridModel g, Shape n) {
 		List<Integer> list = new ArrayList<>();
 		list.add(x);

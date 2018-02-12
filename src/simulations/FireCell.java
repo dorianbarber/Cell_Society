@@ -29,7 +29,7 @@ public class FireCell extends CellModel {
 		type=ty;
 		burnprb=bp;
 		color=colors[type];
-		regrow = 10;
+		regrow = 23;
 	}
 
 	@Override 

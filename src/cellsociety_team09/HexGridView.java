@@ -16,7 +16,7 @@ public class HexGridView extends GridView {
 		private double gridBlockSize;
 		private double gridSize;
 		private double gridHeight;
-		
+		private boolean outline = true;
 		public HexGridView(double x, double y, double blocksize, double GRIDSIZE){
 			gridXPosition = x;
 			gridYPosition = y;
@@ -37,7 +37,9 @@ public class HexGridView extends GridView {
 					//System.out.println("X: " + x + " Y: " + y);
 					//sSystem.out.println("I: " + i + " J: " + j);
 					toAdd.setFill(grid.getCells().get(x).get(y).getColor());
-					toAdd.setStroke(Color.BLACK);
+					if (outline){
+						toAdd.setStroke(Color.BLACK);
+					}
 					int xtemp = x;
 					int ytemp = y;
 					toAdd.setOnMouseClicked(e -> handleClick(xtemp,ytemp,grid, toAdd));
@@ -65,6 +67,12 @@ public class HexGridView extends GridView {
 		}
 		public double getX(){
 			return gridXPosition;
+		}
+		public boolean getOutline(){
+			return outline;
+		}
+		public void setOutline(boolean outline){
+			this.outline = outline;
 		}
 		public double getY(){
 			return gridYPosition;

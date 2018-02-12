@@ -37,4 +37,8 @@ public abstract class CellModel{
 		// TODO Auto-generated method stub
 		return null;
 	}
+	public int numColors() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 }
