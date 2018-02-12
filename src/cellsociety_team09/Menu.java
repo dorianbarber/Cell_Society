@@ -483,6 +483,10 @@ public class Menu extends Application{
 	}
 	
 	
+	/**
+	 * Creates the save to XML file button
+	 * @return = a new Button
+	 */
 	private Button getFileSaveButton(){
 		Button retbutton = new Button();
 		retbutton.setLayoutX(GRIDSIZE + GRIDX + DROPOFFSET);
@@ -493,6 +497,9 @@ public class Menu extends Application{
 		
 	}
 	
+	/**
+	 * Saves the current state to a new file with the current time as the name
+	 */
 	private void saveFile(){
 		XMLBuilder builder = new XMLBuilder();
 		String timeStamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date());
