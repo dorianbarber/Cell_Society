@@ -95,7 +95,10 @@ public class WatorCell extends CellModel {
 	
 	@Override
 	public void getInput(List<Integer> states) {	
-		state=states.get(0);
+		state = states.get(0);
+		hunger = states.get(1);
+		repo = states.get(2);
+		color = colors[state];
 	}
 	
 	public void handleShark() 
@@ -195,6 +198,11 @@ public class WatorCell extends CellModel {
 	}
 	private void setUpdated(boolean t) {
 		updated=t;
+	}
+
+	@Override
+	public String getXMLState() {
+		return state + " " + hunger + " " + repo;
 	}
 
 }

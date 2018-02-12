@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javafx.animation.KeyFrame;
@@ -17,7 +19,6 @@ import javafx.collections.ObservableList;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.chart.LineChart;
-import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -39,10 +40,10 @@ import simulations.AntGrid;
 import simulations.FireGrid;
 import simulations.GridModel;
 import simulations.LifeGrid;
-import simulations.NeighborFinder;
 import simulations.RPSGrid;
 import simulations.SegregationGrid;
 import simulations.WatorGrid;
+import xml_related_package.XMLBuilder;
 import xml_related_package.XMLManager;
 
 public class Menu extends Application{
@@ -259,6 +260,7 @@ public class Menu extends Application{
 		root.getChildren().add(getSizeField());
 		root.getChildren().add(getFileButton());
 		root.getChildren().add(getOutlineButton());
+		root.getChildren().add(getFileSaveButton());
 //		NumberAxis xaxis = new NumberAxis();
 //		NumberAxis yaxis = new NumberAxis();
 //		linechart = new LineChart<Number,Number>(xaxis, yaxis);
@@ -480,6 +482,22 @@ public class Menu extends Application{
 		//initializeStart(WIDTH, HEIGHT, BACKGROUND, grid, getFile(GOLDESCRIPTION));
 	}
 	
+	
+	private Button getFileSaveButton(){
+		Button retbutton = new Button();
+		retbutton.setLayoutX(GRIDSIZE + GRIDX + DROPOFFSET);
+		retbutton.setLayoutY(5 * GRIDY);
+		retbutton.setText("Save to XML File");
+		retbutton.setOnAction(e -> saveFile());
+		return retbutton;
+		
+	}
+	
+	private void saveFile(){
+		XMLBuilder builder = new XMLBuilder();
+		String timeStamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date());
+		builder.setUpFile(grid, timeStamp);
+	}
 	
 	/**
 	 * Steps the animation forward once and pauses it
