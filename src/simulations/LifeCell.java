@@ -81,6 +81,11 @@ public class LifeCell extends CellModel {
 		state=states.get(0);
 		color = colors[state];
 
+	}
+
+	@Override
+	public String getXMLState() {
+		return Integer.toString(getState());
 	}	
 
 }

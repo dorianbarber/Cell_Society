@@ -118,4 +118,9 @@ public class FireCell extends CellModel {
 	{
 		return next;
 	}
+
+	@Override
+	public String getXMLState() {
+		return Integer.toString(type) +  " " + Integer.toString((int)(burnprb*100));
+	}
 }

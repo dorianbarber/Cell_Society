@@ -9,7 +9,6 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
@@ -37,49 +36,39 @@ public class XMLBuilder {
     });
 	
 	
-	public void setUpFile(GridModel model, String fileName) throws IOException {
+	public void setUpFile(GridModel model, String fileName) {
 		try {
-			
 			docFactory = DocumentBuilderFactory.newInstance();
 			docBuilder = docFactory.newDocumentBuilder();
-			
+
 			doc = docBuilder.newDocument();
 			Element rootElement = doc.createElement("data");
 			rootElement.setAttribute("type", "Model");
 			doc.appendChild(rootElement);
-			
+
 			addContent(rootElement, model, fileName);
 			writePoints(model.getCells(), rootElement);
-			
+
 			TransformerFactory transformerFactory = TransformerFactory.newInstance();
 			Transformer transformer = transformerFactory.newTransformer();
 			DOMSource source = new DOMSource(doc);
-			File fileToWrite = new File("../data/" + fileName + ".xml");
+			File fileToWrite = new File("C:\\Users\\Dorian\\Documents\\CS\\workspace308\\cellsociety_team09\\data\\" + fileName + ".xml");
+
 			
 			if(fileToWrite.createNewFile()) {
-				System.out.println("GOOD JOB");
 				StreamResult result = new StreamResult(fileToWrite);
 				transformer.transform(source, result);
 			}
-			else {
-				System.out.println("YO");
-			}
-			
-			//StreamResult result = new StreamResult(System.out);
-			
-			
-		} catch (ParserConfigurationException e) {
-			e.printStackTrace();
-		} catch (TransformerConfigurationException ee) {
-			ee.printStackTrace();
-		} catch (TransformerException eee) {
-			eee.printStackTrace();
 		}
-		
+		catch(ParserConfigurationException | TransformerException | IOException e) {
+			throw new XMLException(e);
+		}
 	}
 	
 	
-	
+	/**
+	 * Adds the basic contents related to the DATA_FIELDS
+	 */
 	private void addContent(Element root, GridModel model, String fileName) {
 		Element sim = doc.createElement(DATA_FIELDS.get(0));
 		sim.appendChild(doc.createTextNode(fileName));
@@ -98,12 +87,13 @@ public class XMLBuilder {
 		root.appendChild(size);
 	}
 	
+	
 	private void writePoints(List<List<CellModel>> grid, Element root) {
 		Element edits = doc.createElement(DATA_FIELDS.get(4));
 		for(int i = 0; i < grid.size(); i++) {
 			for(int j = 0; j < grid.size(); j++) {
 				Element point = doc.createElement("point");
-				String content = i + " " + j + " " + grid.get(i).get(j).getState();
+				String content = i + " " + j + " " + grid.get(i).get(j).getXMLState();
 				point.appendChild(doc.createTextNode(content));
 				edits.appendChild(point);
 			}
@@ -111,13 +101,10 @@ public class XMLBuilder {
 		root.appendChild(edits);
 	}
 	
+	//For testing the XMLBuilder
 	public static void main(String[] args) {
 		GridModel grid = new LifeGrid();
 		XMLBuilder builder = new XMLBuilder();
-		try {
-			builder.setUpFile(grid, "thirdTest");
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		builder.setUpFile(grid, "thirdTest");
 	}
 }
