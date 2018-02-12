@@ -28,6 +28,42 @@ public class SegregationGrid extends GridModel
 		}
 		NeighborFinder.getNeighbors(gridCells, new Rectangle(), "standard", "standard");
 	}
+	
+	@Override
+	public void setSize(int t)
+	{
+	ArrayList<List<CellModel>>tempCells = new ArrayList<List<CellModel>>();
+		
+		for(int a=0; a < t; a++)
+		{
+			tempCells.add(new ArrayList<CellModel>());
+			for(int b=0; b<t; b++)
+			{
+				tempCells.get(a).add(new SegregationCell());
+			}
+		}
+		if(t>size)
+		{
+			int center=(t-size)/2;
+			for(int r=0; r<size; r++)
+				for(int c=0; c<size; c++)
+					tempCells.get(r+center).set(center+c, gridCells.get(r).get(c));
+		}
+		else
+		{
+			if(t<size)
+			{
+				int center=(size-t)/2;
+				for(int r=0; r<t; r++)
+					for(int c=0; c<t; c++)
+						tempCells.get(r).set(c, gridCells.get(r+center).get(c+center));
+			}
+		}
+		gridCells=tempCells;
+		size=t;
+		
+	}
+	
 	public SegregationGrid()
 	{
 		this(40);
