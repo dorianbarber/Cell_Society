@@ -15,7 +15,7 @@ public class SegregationCell extends CellModel
 	private static final int TYPE2 = 2;
 	private static final Color[] colors = {Color.WHITE, Color.BLUE, Color.RED, Color.WHITE, Color.WHITE};
 	private ArrayList<SegregationCell> neighbors = new ArrayList<SegregationCell>();
-
+	
 	private double t=.75;
 	private int state;
 	private SegregationCell next;
@@ -106,11 +106,8 @@ public class SegregationCell extends CellModel
 
 	@Override
 	public void getInput(List<Integer> states) {
-		if(state==2)
-			state=0;
-		else
-			state++;
-		color=colors[state];
+		state = states.get(0);
+		color = colors[state];
 	}
 	
 	public void setNextState(int t)
@@ -129,4 +126,10 @@ public class SegregationCell extends CellModel
 		color=colors[s];
 	}
 
+	@Override
+	public String getXMLState() {
+		return Integer.toString(state);
+	}
+
+	
 }

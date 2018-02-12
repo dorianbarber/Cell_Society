@@ -92,6 +92,12 @@ public class RPSCell extends CellModel{
 	protected void setNextState(int t, int p) {
 		next= new RPSCell(t,p);
 	}
+
+	@Override
+	public String getXMLState() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 
 }

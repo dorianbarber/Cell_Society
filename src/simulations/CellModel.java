@@ -41,4 +41,8 @@ public abstract class CellModel{
 		// TODO Auto-generated method stub
 		return 0;
 	}
+
+	
+	public abstract String getXMLState();
+
 }
