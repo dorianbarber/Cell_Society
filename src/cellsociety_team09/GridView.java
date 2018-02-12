@@ -5,12 +5,16 @@ import java.util.ArrayList;
 import javafx.scene.Group;
 import simulations.GridModel;
 
+/**
+ * Abstract class for drawing the grid in many different shapes. 
+ * 
+ * @author Liam
+ *
+ */
 public abstract class GridView {
 	private double gridXPosition;
 	private double gridYPosition;
-	private int gridBlockSize;
 	private int gridSize;
-	private boolean outline = true;
 	public GridView(){
 	}
 	public Group drawBlankGrid(int screenwidth, int screenheight, int blocksize){

@@ -18,20 +18,19 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.chart.LineChart;
-import javafx.scene.chart.XYChart;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -44,6 +43,7 @@ import simulations.RPSGrid;
 import simulations.SegregationGrid;
 import simulations.WatorGrid;
 import xml_related_package.XMLBuilder;
+import xml_related_package.XMLException;
 import xml_related_package.XMLManager;
 
 public class Menu extends Application{
@@ -104,10 +104,6 @@ public class Menu extends Application{
 	private String currentbox = "Game of Life";
 	private String currentshape = "Square";
 	private File currentfile;
-	//private LineChart<Number,Number> linechart; 
-	//private double time = 0;
-	//private XYChart.Series series = new XYChart.Series<>();
-	
     /**
      * Start the program.
      */
@@ -194,12 +190,7 @@ public class Menu extends Application{
 		grid.moveForward();
 		myRoot.getChildren().remove(gridgroup);
 		gridgroup = myGrid.drawGrid(grid, WIDTH, HEIGHT, blocksize);
-//		for (double d : myGrid.getProportions()){
-//			
-//			series.getData().add(new XYChart.Data(time,d));
-//			linechart.getData().add(series);
-//		}
-//		time += .1;
+
 		myRoot.getChildren().add(gridgroup);
 		
 	}
@@ -460,24 +451,42 @@ public class Menu extends Application{
 		currentfile = chooser.showOpenDialog(myStage);
 		
 		XMLManager manager = new XMLManager(currentfile);
-		List<List<Integer>> editList = manager.getXMLFile();
-		grid.setSize(manager.getSize());
-		//grid.clear();
-		blocksize = GRIDSIZE / grid.getSize();
-		if (currentshape.equals("Square")) {
-			myGrid = new SquareGridView(GRIDX, GRIDY, GRIDSIZE / grid.getSize(), GRIDSIZE);
+		try {
+			List<List<Integer>> editList = manager.getXMLFile(grid.getKind());
+			grid.setSize(manager.getSize());
+			//grid.clear();
+			blocksize = GRIDSIZE / grid.getSize();
+			if (currentshape.equals("Square")) {
+				myGrid = new SquareGridView(GRIDX, GRIDY, blocksize, GRIDSIZE);
+			}
+			else if (currentshape.equals("Triangle")){
+				myGrid = new TriangleGridView(GRIDX, GRIDY, blocksize, GRIDSIZE);
+			}
+			else if (currentshape.equals("Hexagon")){
+				myGrid = new HexGridView(GRIDX, GRIDY, blocksize, GRIDSIZE);
+			}
+
+			grid.xmlEdit(editList);
 		}
-		else if (currentshape.equals("Triangle")){
-			myGrid = new TriangleGridView(GRIDX, GRIDY, GRIDSIZE / grid.getSize(), GRIDSIZE);
+		catch(IllegalArgumentException e) {
+			//DO NOTHING BECAUSE THE USER NEVER PICKED A FILE
+			//AND THERE IS NOTHING WRONG WITH THAT. 
 		}
-		else if (currentshape.equals("Hexagon")){
-			myGrid = new HexGridView(GRIDX, GRIDY, GRIDSIZE / grid.getSize(), GRIDSIZE);
+		catch(NullPointerException e) {
+			Alert alert = new Alert(AlertType.INFORMATION);
+    		alert.setTitle("Alert Dialog");
+    		alert.setHeaderText("Incorrect file type chosen.");
+    		alert.setContentText("Incorrect file type was chosen. Please get a proper XML file.");
+
+    		alert.showAndWait();
+		}
+		catch (XMLException ee){
+			this.getFile();
 		}
 		
-		grid.xmlEdit(editList);
-		
+		//grid.moveForward();
 		//NeighborFinder.getNeighbors(grid.getCells(), new Rectangle(), "cross", "standard");
-		gridgroup = myGrid.drawGrid(grid, WIDTH, HEIGHT, GRIDSIZE / grid.getSize());
+		gridgroup = myGrid.drawGrid(grid, WIDTH, HEIGHT, blocksize);
 		myRoot.getChildren().add(gridgroup);
 		//initializeStart(WIDTH, HEIGHT, BACKGROUND, grid, getFile(GOLDESCRIPTION));
 	}
@@ -713,25 +722,6 @@ public class Menu extends Application{
 //		simBox.setValue("Rock, Paper, Scissors");
 //		animation.pause();
 		return;
-	}
-	private Group getText(String s){
-		Text description = new Text();
-		description.setLayoutX(GRIDSIZE + GRIDX + DROPOFFSET / 2);
-		description.setLayoutY(3.8 * GRIDY);
-		description.setText(s);
-		description.setWrappingWidth(WIDTH - description.getLayoutX() - 5);
-		description.setFill(Color.BLACK);
-		description.setStyle("-fx-font-family: garamond; -fx-font-size: 14;");
-		Rectangle background = new Rectangle(description.getLayoutX() - 3, description.getLayoutY() - 15, 158, 300);
-		background.setStroke(Color.BLACK);
-		background.setFill(Color.BURLYWOOD);
-		background.toBack();
-		Group retroot = new Group();
-		retroot.getChildren().add(description);
-		retroot.getChildren().add(background);
-		description.toFront();
-		
-		return retroot;
 	}
 	private void getPlayAction(){
 		animation.play();

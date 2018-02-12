@@ -12,10 +12,15 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 import simulations.GridModel;
 
+/**
+ * Tasked with specifically creating square grid cells. 
+ * 
+ * @author Liam
+ *
+ */
 public class SquareGridView extends GridView{
 	private double gridXPosition;
 	private double gridYPosition;
-	private double gridBlockSize;
 	private double gridSize;
 	private ArrayList<Double> proportions;
 	private boolean outline = true;
@@ -24,7 +29,6 @@ public class SquareGridView extends GridView{
 		gridXPosition = x;
 		gridYPosition = y;
 		gridSize = GRIDSIZE;
-		gridBlockSize = blocksize;
 		proportions = new ArrayList<Double>();
 	}
 	public Group drawBlankGrid(int screenwidth, int screenheight, double blocksize){

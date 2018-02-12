@@ -33,6 +33,8 @@ Estimated Number of Hours Worked (each): 30
 
 - To Test Project
 	- Also use Menu.java
+	- XMLTester.java
+	- Check UnusedReferences package for developmental classes that provide insight into our thought process
 	
 ## OverView
 

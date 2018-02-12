@@ -3,7 +3,7 @@ package simulations;
 import java.util.ArrayList;
 import java.util.List;
 
-import cellsociety_team09.StateNode;
+import UnusedReferences.StateNode;
 import javafx.scene.paint.Color;
 
 public class RPSCell extends CellModel{
@@ -105,7 +105,7 @@ public class RPSCell extends CellModel{
 		next= new RPSCell(t,p);
 	}
 
-	@Override
+
 	public String getXMLState() {
 		// TODO Auto-generated method stub
 		return null;

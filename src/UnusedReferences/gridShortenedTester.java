@@ -1,9 +1,15 @@
-package cellsociety_team09;
+package UnusedReferences;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * No longer being used, however provided helpful information.
+ * 
+ * @author Dorian
+ *
+ */
 public class gridShortenedTester {
 	private static int size;
 	

@@ -4,10 +4,17 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import cellsociety_team09.StateNode;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 
+/**
+ * Cell for Wa-tor Prey and Predator Simulation.
+ * Cells can be water, fish, or sharks. These cells have
+ * behaviors dependentent on their neighbors, hunger, 
+ * reproduction rate, etc. 
+ * 
+ * @author Conrad
+ *
+ */
 public class WatorCell extends CellModel {
 	
 	private static final Color[] colors= {Color.BLUE,Color.GREEN, Color.RED};
@@ -204,5 +211,6 @@ public class WatorCell extends CellModel {
 	public String getXMLState() {
 		return state + " " + hunger + " " + repo;
 	}
+
 
 }
