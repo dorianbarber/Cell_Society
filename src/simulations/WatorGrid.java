@@ -14,6 +14,7 @@ public class WatorGrid extends GridModel
 	
 	public WatorGrid(int gridSize)
 	{
+		cellType = new WatorCell();
 		gridCells = new ArrayList<List<CellModel>>();
 		size = gridSize;
 		for(int a=0; a < size; a++)

@@ -13,6 +13,7 @@ public class SegregationGrid extends GridModel
 	
 	public SegregationGrid(int gridSize)
 	{
+		cellType = new SegregationCell();
 		gridCells = new ArrayList<List<CellModel>>();
 		size = gridSize;
 		for(int a=0; a < size; a++)

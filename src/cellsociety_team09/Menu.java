@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.List;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -32,6 +33,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import simulations.AntGrid;
+import simulations.CellModel;
 import simulations.FireGrid;
 import simulations.GridModel;
 import simulations.LifeGrid;
@@ -181,11 +183,13 @@ public class Menu extends Application{
 	private void step(double elapsedTime) {
 		//NeighborFinder finder = new NeighborFinder();
 		//NeighborFinder.getNeighbors(grid.getCells(), getShape(currentshape), "standard", "standard");
+		
 		grid.update();
 		grid.moveForward();
 		myRoot.getChildren().remove(gridgroup);
 		gridgroup = myGrid.drawGrid(grid, WIDTH, HEIGHT, blocksize);
 		myRoot.getChildren().add(gridgroup);
+		
 	}
 
 	/**
@@ -407,7 +411,7 @@ public class Menu extends Application{
 	}
 	
 	private void getFile(){
-		grid.clear(grid.getCells().get(0).get(0));
+		grid.clear();
 		FileChooser chooser = new FileChooser();
 		chooser.setInitialDirectory(new File(System.getProperty("user.dir")));
 		currentfile = chooser.showOpenDialog(myStage);

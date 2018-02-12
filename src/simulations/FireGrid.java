@@ -6,9 +6,10 @@ import java.util.List;
 import javafx.scene.shape.Rectangle;
 
 public class FireGrid extends GridModel{
-
+	
 	public FireGrid(int gridSize)
 	{
+		cellType = new FireCell();
 		gridCells = new ArrayList<List<CellModel>>();
 		size = gridSize;
 		for(int a=0; a < size; a++)

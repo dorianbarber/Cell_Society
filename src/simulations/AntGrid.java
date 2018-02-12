@@ -10,6 +10,7 @@ public class AntGrid extends GridModel{
 
 	public AntGrid(int gridSize)
 	{
+		cellType = new AntsCell();
 		gridCells = new ArrayList<List<CellModel>>();
 		size = gridSize;
 		for(int a=0; a < size; a++)

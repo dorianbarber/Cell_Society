@@ -41,6 +41,7 @@ private int[] direct= {3,3,3,3,0,2,0,2,2,2,2,1,1,1,1,1};
 
 	public LangstonGrid(int gridSize)
 	{
+		cellType = new LangstonCell(0, 0);
 		gridCells = new ArrayList<List<CellModel>>();
 		size = gridSize;
 		for(int a=0; a < size; a++)

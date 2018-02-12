@@ -7,6 +7,7 @@ import java.util.List;
 public abstract class GridModel {
 	protected List<List<CellModel>> gridCells;
 	protected int size;
+	protected CellModel cellType;
 	
 	//To be overridden by each subclass
 	public GridModel() {}
@@ -54,12 +55,12 @@ public abstract class GridModel {
 		return 0;
 	}
 	
-	public void clear(CellModel type){
+	public void clear(){
 		for(int i = 0; i < size; i++) {
 			gridCells.add(new ArrayList<CellModel>());
 			for(int j = 0; j < size; j++) {
 				try {
-					gridCells.get(i).add(type.getClass().newInstance());
+					gridCells.get(i).add(cellType.getClass().newInstance());
 				} catch (InstantiationException | IllegalAccessException e) {
 					System.out.println("Not a viable cell model");
 				}

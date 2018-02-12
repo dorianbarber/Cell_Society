@@ -10,6 +10,7 @@ public class RPSGrid extends GridModel
 	
 	public RPSGrid(int gridSize)
 	{
+		cellType = new RPSCell();
 		gridCells = new ArrayList<List<CellModel>>();
 		size = gridSize;
 		for(int a=0; a < size; a++)

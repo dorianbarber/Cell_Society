@@ -8,7 +8,7 @@ import javafx.scene.shape.Rectangle;
 public class LifeGrid extends GridModel{
 
 	public LifeGrid(int gridSize) {
-		System.out.print("HELLO");
+		cellType = new LifeCell();
 		gridCells = new ArrayList<List<CellModel>>();
 		size = gridSize;
 		for(int a=0; a < size; a++)
@@ -24,7 +24,7 @@ public class LifeGrid extends GridModel{
 		NeighborFinder.getNeighbors(gridCells, new Rectangle(), "standard", "standard");
 	}
 	public LifeGrid() {
-		this(50);
+		this(17);
 	}
 	
 	@Override
