@@ -208,6 +208,11 @@ public class LangstonCell extends CellModel {
 		// TODO Auto-generated method stub
 		
 	}
+	@Override
+	public String getXMLState() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 	
 	

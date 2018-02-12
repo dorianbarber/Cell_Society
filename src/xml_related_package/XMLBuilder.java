@@ -21,12 +21,20 @@ import simulations.CellModel;
 import simulations.GridModel;
 import simulations.LifeGrid;
 
+/**
+ * XML Builder to create xml files during runtime. 
+ * Contains all behaviors related to building xml files. 
+ * 
+ * @author Dorian
+ *
+ */
 public class XMLBuilder {
 	
 	private DocumentBuilderFactory docFactory;
 	private DocumentBuilder docBuilder;
 	private Document doc;
 	
+	//describes the specific tag names in each xml file
 	private static final List<String> DATA_FIELDS = Arrays.asList(new String[] {
     		"Simulation",
     		"SimulationNumber",
@@ -36,6 +44,11 @@ public class XMLBuilder {
     });
 	
 	
+	/**
+	 * Builds the xml file using xml and DOM packages.
+	 * @param model
+	 * @param fileName
+	 */
 	public void setUpFile(GridModel model, String fileName) {
 		try {
 			docFactory = DocumentBuilderFactory.newInstance();
@@ -87,7 +100,13 @@ public class XMLBuilder {
 		root.appendChild(size);
 	}
 	
-	
+	/**
+	 * Method for writing all of the data points related to 
+	 * each specific change for the grid.
+	 * 
+	 * @param grid
+	 * @param root
+	 */
 	private void writePoints(List<List<CellModel>> grid, Element root) {
 		Element edits = doc.createElement(DATA_FIELDS.get(4));
 		for(int i = 0; i < grid.size(); i++) {

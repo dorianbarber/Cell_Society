@@ -5,6 +5,14 @@ import java.util.List;
 
 import javafx.scene.paint.Color;
 
+/**
+ * Cell for Fire simulation. Cells can be burnt, burning, or full of greenery.
+ * These cells changes state based on the states of their neighbors and
+ * also a special burn propbability factor. 
+ * 
+ * @author Conrad
+ *
+ */
 public class FireCell extends CellModel {
 	
 	
@@ -125,4 +133,6 @@ public class FireCell extends CellModel {
 	public String getXMLState() {
 		return Integer.toString(type) +  " " + Integer.toString((int)(burnprb*100));
 	}
+
+	
 }

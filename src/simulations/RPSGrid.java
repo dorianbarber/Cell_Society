@@ -15,8 +15,7 @@ public class RPSGrid extends GridModel
 		size = gridSize;
 		currentshape="Square";
 
-		for(int a=0; a < size; a++)
-		{
+		for(int a=0; a < size; a++){
 			gridCells.add(new ArrayList<CellModel>());
 			for(int b=0; b<size; b++)
 			{
@@ -25,7 +24,9 @@ public class RPSGrid extends GridModel
 				gridCells.get(a).add(new RPSCell());
 			}
 		}
+
 		NeighborFinder.getNeighbors(gridCells, currentshape, "standard", "standard");	
+
 	}
 	
 	public void setSize(int t)
@@ -81,18 +82,24 @@ public class RPSGrid extends GridModel
 				gridCells.get(r).set(c, temp.getNext());
 			}
 		}
-		NeighborFinder.getNeighbors(gridCells, currentshape, "standard", "standard");	
+		NeighborFinder.getNeighbors(gridCells, currentshape, "standard", "standard");
+
 	}
 	
 	@Override
 	public void update()
 	{
-		for(int r=0; r<size; r++)
+		for(int r=0; r<size; r++){
 			for(int c=0; c<size; c++) {
 				RPSCell temp = (RPSCell) gridCells.get(r).get(c);
-				temp.nextState();
+				if (temp != null){
+					temp.findNextState();
+				}
+				else {
+					gridCells.get(r).set(c, new RPSCell());
+				}
 			}
-
+		}
 	}
 
 

@@ -9,17 +9,21 @@ import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Shape;
 import simulations.GridModel;
 
+/**
+ * Tasked with creating triangle shaped grids. 
+ * 
+ * @author Liam
+ *
+ */
 public class TriangleGridView extends GridView {
 	private double gridXPosition;
 	private double gridYPosition;
-	private double gridBlockSize;
 	private double gridSize;
 	private boolean outline = true;
 	
 	public TriangleGridView(double x, double y, double blocksize, double gridSize){
 		gridXPosition = x;
 		gridYPosition = y;
-		gridBlockSize = blocksize;
 		this.gridSize = gridSize;
 	}
 	

@@ -3,10 +3,15 @@ package simulations;
 import java.util.ArrayList;
 import java.util.List;
 
-import cellsociety_team09.StateNode;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 
+/**
+ * Cell for Game of Life. 
+ * Cells have states either dead or alive. 
+ * 
+ * @author Dorian and Conrad
+ *
+ */
 public class LifeCell extends CellModel {
 	
 	private int state;
@@ -28,9 +33,7 @@ public class LifeCell extends CellModel {
 	{
 		this(0);
 	}
-	public int numColors(){
-		return colors.length;
-	}
+	
 	@Override
 	public void getClicked()
 	{
@@ -47,16 +50,20 @@ public class LifeCell extends CellModel {
 	{
 		return state;
 	}
+	
 	public void addNeighbor(CellModel cell){
 		neighbors.add((LifeCell) cell);
 	}
+	
 	public LifeCell getNext()
 	{
 		return next;
 	}
+	
+	//finds the next state of this cell based on neighbors
 	public void findNextState()
 	{
-		System.out.print(neighbors.size());
+		//System.out.print(neighbors.size());
 		int alivecount=0;
 		for(int a=0; a<neighbors.size(); a++){
 			if(neighbors.get(a).getState()==ALIVECELL)

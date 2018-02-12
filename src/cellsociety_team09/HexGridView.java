@@ -9,11 +9,16 @@ import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Shape;
 import simulations.GridModel;
 
+/**
+ * Class specifically tasked with creating hexagonal grids. 
+ * 
+ * @author Liam
+ *
+ */
 public class HexGridView extends GridView {
 
 		private double gridXPosition;
 		private double gridYPosition;
-		private double gridBlockSize;
 		private double gridSize;
 		private double gridHeight;
 		private boolean outline = true;
@@ -21,7 +26,6 @@ public class HexGridView extends GridView {
 			gridXPosition = x;
 			gridYPosition = y;
 			gridSize = GRIDSIZE;
-			gridBlockSize = blocksize;
 			gridHeight = Math.sqrt(3) * gridSize / 2;
 		}
 		

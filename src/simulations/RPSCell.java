@@ -3,7 +3,7 @@ package simulations;
 import java.util.ArrayList;
 import java.util.List;
 
-import cellsociety_team09.StateNode;
+import UnusedReferences.StateNode;
 import javafx.scene.paint.Color;
 
 public class RPSCell extends CellModel{
@@ -48,7 +48,7 @@ public class RPSCell extends CellModel{
 		color = colors[state];
 	}
 	
-	public void nextState()
+	public void findNextState()
 	{
 		System.out.print(neighbors.size());
 		if(state==ROCKCELL)
@@ -81,6 +81,7 @@ public class RPSCell extends CellModel{
 		if(!updated)
 			setNextState(state,power);
 		}
+
 	
 	public void setUpdated(boolean t)
 	{
@@ -110,7 +111,7 @@ public class RPSCell extends CellModel{
 		next= new RPSCell(t,p);
 	}
 
-	@Override
+
 	public String getXMLState() {
 		String t="" +state;
 		return t;
