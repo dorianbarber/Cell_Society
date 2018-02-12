@@ -60,6 +60,8 @@ public class FireCell extends CellModel {
 		return type;
 	}
 	
+	
+	
 	public void findNextState()
 	{
 		boolean burning=false;
