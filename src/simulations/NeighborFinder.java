@@ -7,6 +7,7 @@ import com.sun.javafx.geom.Shape;
 
 import cellsociety_team09.Grid;
 import cellsociety_team09.Hexagon;
+import cellsociety_team09.Triangle;
 import javafx.scene.shape.Rectangle;
 
 public class NeighborFinder {
@@ -42,9 +43,10 @@ public class NeighborFinder {
 	
 	public static void getNeighbors(List<List<CellModel>> grid, String s, String nebtype, String gridtype)
 	{
+		System.out.print(s);
 		if(s.equals("Triangle"))
-			getNeighbors(grid,new Triangle(), nebtype,gridtype);
-		if(s.equals("Rectangle"))
+			getNeighbors(grid,new Triangle(0,0,0,false), nebtype,gridtype);
+		if(s.equals("Square"))
 			getNeighbors(grid,new Rectangle(), nebtype,gridtype);
 		if(s.equals("Hexagon"))
 			getNeighbors(grid,new Hexagon(0, 0, 0, false), nebtype,gridtype);

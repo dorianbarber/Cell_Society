@@ -9,7 +9,7 @@ public class FireGrid extends GridModel{
 	
 	public FireGrid(int gridSize)
 	{
-		shape="Rectangle";
+		currentshape="Rectangle";
 
 		cellType = new FireCell();
 		gridCells = new ArrayList<List<CellModel>>();
@@ -22,20 +22,14 @@ public class FireGrid extends GridModel{
 				gridCells.get(a).add(new FireCell(2,.7));
 			}
 		}
-		NeighborFinder.getNeighbors(gridCells, shape, "cross", "standard");
+		NeighborFinder.getNeighbors(gridCells, currentshape, "cross", "standard");
 	}
 	
 	
 	public void setSize(int t)
 	{
-<<<<<<< HEAD
 
 	ArrayList<List<CellModel>>tempCells = new ArrayList<List<CellModel>>();
-		
-=======
-	ArrayList<List<CellModel>>tempCells = new ArrayList<List<CellModel>>();
-
->>>>>>> 640851373fd5b47a007898a01b7d00b503b6aa20
 		for(int a=0; a < t; a++)
 		{
 			tempCells.add(new ArrayList<CellModel>());
@@ -63,10 +57,7 @@ public class FireGrid extends GridModel{
 		}
 		gridCells=tempCells;
 		size=t;
-<<<<<<< HEAD
-=======
 	
->>>>>>> 640851373fd5b47a007898a01b7d00b503b6aa20
 	}
 	public FireGrid()
 	{
@@ -96,7 +87,7 @@ public class FireGrid extends GridModel{
 				FireCell temp = (FireCell) gridCells.get(r).get(c);
 				gridCells.get(r).set(c, temp.getNext());
 			}
-		NeighborFinder.getNeighbors(gridCells, shape, "cross", "standard");	
+		NeighborFinder.getNeighbors(gridCells, currentshape, "cross", "standard");	
 	}
 
 	@Override

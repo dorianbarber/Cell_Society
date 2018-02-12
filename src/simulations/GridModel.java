@@ -11,7 +11,7 @@ public abstract class GridModel {
 	protected List<List<CellModel>> gridCells;
 	protected int size;
 	protected CellModel cellType;
-	protected String currentshape;
+	protected String currentshape = "Square";
 	//To be overridden by each subclass
 	public GridModel() {}
 	
