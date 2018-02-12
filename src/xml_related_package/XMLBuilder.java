@@ -52,7 +52,7 @@ public class XMLBuilder {
 			TransformerFactory transformerFactory = TransformerFactory.newInstance();
 			Transformer transformer = transformerFactory.newTransformer();
 			DOMSource source = new DOMSource(doc);
-			File fileToWrite = new File("C:\\Users\\Dorian\\Documents\\CS\\workspace308\\cellsociety_team09\\data\\" + fileName + ".xml");
+			File fileToWrite = new File("./data\\" + fileName + ".xml");
 
 			
 			if(fileToWrite.createNewFile()) {
