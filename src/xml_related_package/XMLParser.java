@@ -112,8 +112,6 @@ public class XMLParser {
 			alert.showAndWait();
 			throw new IllegalArgumentException();
     	}
-    	
-    	
     }
     
     // Helper method to make a documentBuilder.

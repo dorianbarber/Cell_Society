@@ -32,7 +32,7 @@ public class XMLTester extends Application{
         if (dataFile != null) {
             try {
                 XMLParser xml = new XMLParser("type");
-                Map<String, String> modelDescription = xml.getModel(dataFile);
+                Map<String, String> modelDescription = xml.getModel(dataFile, 0);
                 for(String s : modelDescription.keySet()) {
                 	System.out.println(s + ": " +modelDescription.get(s));
                 }

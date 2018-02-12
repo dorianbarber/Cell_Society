@@ -6,7 +6,13 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-
+/**
+ * Manager for the XMLParser and Menu class.
+ * Here the edits the special edits are returned. 
+ * 
+ * @author Dorian
+ *
+ */
 public class XMLManager {
 	private File configFile;
 	private Map<String, String> modelDescription;

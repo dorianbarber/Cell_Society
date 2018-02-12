@@ -7,6 +7,10 @@ import java.util.Scanner;
  * to be used in the excel file. Has no implications 
  * outside of generating print statements. 
  * 
+ * In the advent of the xml file builder this program
+ * is essentially useless. The XMLBuilder will create xml files
+ * for any of the simulations. 
+ * 
  * @author Dorian
  *
  */
