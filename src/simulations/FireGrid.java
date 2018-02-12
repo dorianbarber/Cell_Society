@@ -9,6 +9,8 @@ public class FireGrid extends GridModel{
 	
 	public FireGrid(int gridSize)
 	{
+		shape="Rectangle";
+
 		cellType = new FireCell();
 		gridCells = new ArrayList<List<CellModel>>();
 		size = gridSize;

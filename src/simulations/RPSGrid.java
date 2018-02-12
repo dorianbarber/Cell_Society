@@ -13,6 +13,8 @@ public class RPSGrid extends GridModel
 		cellType = new RPSCell();
 		gridCells = new ArrayList<List<CellModel>>();
 		size = gridSize;
+		shape="Rectangle";
+
 		for(int a=0; a < size; a++)
 		{
 			gridCells.add(new ArrayList<CellModel>());

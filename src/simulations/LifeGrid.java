@@ -12,6 +12,7 @@ public class LifeGrid extends GridModel{
 		cellType = new LifeCell();
 		gridCells = new ArrayList<List<CellModel>>();
 		size = gridSize;
+		shape="Rectangle";
 		for(int a=0; a < size; a++)
 		{
 			gridCells.add(new ArrayList<CellModel>());
