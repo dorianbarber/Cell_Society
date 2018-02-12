@@ -73,11 +73,7 @@ public class WatorGrid extends GridModel
 			starverate=s.get(2);
 
 	}
-	@Override
-	public void setSize(int t) {
-		// TODO Auto-generated method stub
-		
-	}
+
 	
 	public void setSize(int t)
 	{

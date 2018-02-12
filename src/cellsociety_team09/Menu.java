@@ -307,19 +307,22 @@ public class Menu extends Application{
 			
 		});
 		input.setOnKeyPressed((event) -> { if(event.getCode() == KeyCode.ENTER) { 
-			String text = input.getText();
+			//String text = input.getText();
 			//System.out.println(text);
 			//System.out.println(gridsize);
-			
-			try {
-				myScene = initializeStart(WIDTH, HEIGHT, BACKGROUND, POSSIBLEGRIDS[grid.getKind()].getClass().newInstance(), "Boo");
-			} catch (InstantiationException | IllegalAccessException e) {
-				// TODO Auto-generated catch block
-				System.out.println("292");
+			grid.setSize((gridsize));
+			blocksize = GRIDSIZE / gridsize;
+			if (currentshape.equals("Square")) {
+				myGrid = new SquareGridView(GRIDX, GRIDY, GRIDSIZE / grid.getSize(), GRIDSIZE);
 			}
-			input.setText(text);
-			myStage.setScene(myScene);
-			myStage.show();
+			else if (currentshape.equals("Triangle")){
+				myGrid = new TriangleGridView(GRIDX, GRIDY, GRIDSIZE / grid.getSize(), GRIDSIZE);
+			}
+			else if (currentshape.equals("Hexagon")){
+				myGrid = new HexGridView(GRIDX, GRIDY, GRIDSIZE / grid.getSize(), GRIDSIZE);
+			}
+			gridgroup = myGrid.drawGrid(grid, WIDTH, HEIGHT, GRIDSIZE / grid.getSize());
+			myRoot.getChildren().add(gridgroup);
 			animation.stop();
 			//pressed = false;
 			
