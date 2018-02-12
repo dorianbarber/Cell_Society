@@ -29,7 +29,7 @@ public class FireCell extends CellModel {
 		type=ty;
 		burnprb=bp;
 		color=colors[type];
-		regrow = 10;
+		regrow = 25;
 	}
 
 	@Override 
@@ -37,7 +37,7 @@ public class FireCell extends CellModel {
 	{
 		type = states.get(0);
 		burnprb=((double)states.get(1))/100;
-		color = colors[states.get(0)];
+		color = colors[type];
 	}
 	
 	@Override

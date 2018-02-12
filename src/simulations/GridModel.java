@@ -57,7 +57,6 @@ public abstract class GridModel {
 	
 	public void clear(){
 		for(int i = 0; i < size; i++) {
-			//gridCells.add(new ArrayList<CellModel>());
 			for(int j = 0; j < size; j++) {
 				try {
 					gridCells.get(i).set(j, cellType.getClass().newInstance());
@@ -67,5 +66,4 @@ public abstract class GridModel {
 			}
 		}
 	}
-	
 }
