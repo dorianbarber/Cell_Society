@@ -67,4 +67,9 @@ public class LifeGrid extends GridModel{
 		// TODO Auto-generated method stub
 		
 	}
+	@Override
+	public void setSize(int t) {
+		// TODO Auto-generated method stub
+		
+	}
 }

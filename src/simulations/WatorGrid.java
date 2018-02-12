@@ -2,15 +2,13 @@ package simulations;
 
 import java.util.ArrayList;
 import java.util.List;
-
-
 import javafx.scene.shape.Rectangle;
 
 public class WatorGrid extends GridModel
 {
-	private int starverate = 6;
+	private int starverate = 5;
 	private int reporate1 = 3;
-	private int reporate2 = 8;
+	private int reporate2 = 10;
 	
 	public WatorGrid(int gridSize)
 	{
@@ -32,11 +30,24 @@ public class WatorGrid extends GridModel
 	public WatorGrid()
 	{
 
-		this(100);
+		this(40);
+
 	}
 	
 	public int getKind(){
 		return 3;
+	}
+	
+	@Override
+	public void update()
+	{
+		for(int r=0; r<size; r++)
+			for(int c=0; c<size; c++) {
+				WatorCell temp = (WatorCell) gridCells.get(r).get(c);
+				temp.getNextState(starverate, reporate1, reporate2);
+			}
+		NeighborFinder.getNeighbors(gridCells, new Rectangle(), "cross", "standard");
+
 	}
 	
 	@Override
@@ -51,23 +62,21 @@ public class WatorGrid extends GridModel
 		NeighborFinder.getNeighbors(gridCells, new Rectangle(), "cross", "standard");
 
 	}
-	
-	@Override
-	public void update()
-	{
-		for(int r=0; r<size; r++)
-			for(int c=0; c<size; c++) {
-				WatorCell temp = (WatorCell) gridCells.get(r).get(c);
-				temp.getNextState(starverate, reporate1, reporate2);
-			}
-	}
-
 
 	@Override
 	public void getInputGlobal(List<Integer> s) {
-		starverate=s.get(0);
-		reporate1=s.get(1);
-		reporate2=s.get(2);		
+		if(s.get(0)!=-1)
+			reporate1=s.get(0);
+		if(s.get(1)!=-1)
+			reporate2=s.get(1);		
+		if(s.get(2)!=-1)
+			starverate=s.get(2);
+
+	}
+	@Override
+	public void setSize(int t) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 	

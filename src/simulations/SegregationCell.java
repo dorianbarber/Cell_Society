@@ -45,7 +45,15 @@ public class SegregationCell extends CellModel
 	
 	public SegregationCell()
 	{
-		this((int)((Math.random()*3)));
+		int t= (int)(Math.random()*8);
+		if(t >=5)
+			state=1;
+		else if(t>=2)
+			state=2;
+		else
+			state=0;
+		color = colors[state];
+			
 		
 	}
 
@@ -59,7 +67,7 @@ public class SegregationCell extends CellModel
 		t=s;
 		if(state==1 || state==2)
 		{
-			
+			int notmecount=0;
 			int mecount=0; 
 			for(int a=0; a< neighbors.size(); a++)
 			{
@@ -67,8 +75,12 @@ public class SegregationCell extends CellModel
 				{
 					mecount++;
 				}
+				else if(neighbors.get(a).getState()!=0)
+				{
+					notmecount++;
+				}
 			}
-			if(nPercent( mecount, neighbors.size())<t)
+			if(nPercent(mecount, notmecount)<t)
 			{
 				return this;
 			}
@@ -87,9 +99,9 @@ public class SegregationCell extends CellModel
 		
 	
 
-	private double nPercent(int mecount, int total)
+	private double nPercent(int mecount, int notmecount)
 	{
-		return((double)(mecount))/(total);
+		return((double)(mecount))/(mecount+notmecount);
 	}
 
 	@Override

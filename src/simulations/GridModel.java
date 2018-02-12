@@ -8,7 +8,7 @@ public abstract class GridModel {
 	protected List<List<CellModel>> gridCells;
 	protected int size;
 	protected CellModel cellType;
-
+	protected String currentstring;
 	//To be overridden by each subclass
 	public GridModel() {}
 	
@@ -57,15 +57,23 @@ public abstract class GridModel {
 	
 	public void clear(){
 		for(int i = 0; i < size; i++) {
-			gridCells.add(new ArrayList<CellModel>());
 			for(int j = 0; j < size; j++) {
 				try {
-					gridCells.get(i).add(cellType.getClass().newInstance());
+					gridCells.get(i).set(j, cellType.getClass().newInstance());
 				} catch (InstantiationException | IllegalAccessException e) {
 					System.out.println("Not a viable cell model");
 				}
 			}
 		}
 	}
-	
+	public abstract void setSize(int t);
+
+	public void setCurrentShape(String currentshape) {
+		// TODO Auto-generated method stub
+		currentshape = currentshape;
+	}
+	public void getCurrentShape() {
+		// TODO Auto-generated method stub
+		return;
+	}
 }

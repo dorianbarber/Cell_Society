@@ -1,11 +1,18 @@
 package xml_related_package;
 
+import java.io.File;
 import java.util.Arrays;
 import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -29,7 +36,6 @@ public class XMLBuilder {
 	
 	
 	public void setUpFile(GridModel model, String fileName) {
-		
 		try {
 			docFactory = DocumentBuilderFactory.newInstance();
 			docBuilder = docFactory.newDocumentBuilder();
@@ -39,33 +45,47 @@ public class XMLBuilder {
 			Element rootElement = doc.createElement("data");
 			rootElement.setAttribute("type", "Model");
 			
-			Element sim = doc.createElement(DATA_FIELDS.get(0));
-			sim.appendChild(doc.createTextNode("fileName"));
-			rootElement.appendChild(sim);
-			
-			Element simNumb = doc.createElement(DATA_FIELDS.get(1));
-			simNumb.appendChild(doc.createTextNode(Integer.toString(model.getKind())));
-			rootElement.appendChild(simNumb);
-			
-			Element author = doc.createElement(DATA_FIELDS.get(2));
-			author.appendChild(doc.createTextNode("Conrad Mitchell"));
-			rootElement.appendChild(author);
-			
-			Element size = doc.createElement(DATA_FIELDS.get(3));
-			size.appendChild(doc.createTextNode(Integer.toString(model.getSize())));
-			rootElement.appendChild(size);
-			
+			addContent(rootElement, model);
 			writePoints(model.getCells(), rootElement);
+			
+			TransformerFactory transformerFactory = TransformerFactory.newInstance();
+			Transformer transformer = transformerFactory.newTransformer();
+			DOMSource source = new DOMSource(doc);
+			StreamResult result = new StreamResult(new File("C:\\file.xml"));
+			
+			transformer.transform(source, result);
+			
 		} catch (ParserConfigurationException e) {
 			e.printStackTrace();
+		} catch (TransformerConfigurationException ee) {
+			ee.printStackTrace();
+		} catch (TransformerException eee) {
+			eee.printStackTrace();
 		}
 		
 	}
 	
 	
 	
+	private void addContent(Element root, GridModel model) {
+		Element sim = doc.createElement(DATA_FIELDS.get(0));
+		sim.appendChild(doc.createTextNode("fileName"));
+		root.appendChild(sim);
+		
+		Element simNumb = doc.createElement(DATA_FIELDS.get(1));
+		simNumb.appendChild(doc.createTextNode(Integer.toString(model.getKind())));
+		root.appendChild(simNumb);
+		
+		Element author = doc.createElement(DATA_FIELDS.get(2));
+		author.appendChild(doc.createTextNode("Conrad Mitchell"));
+		root.appendChild(author);
+		
+		Element size = doc.createElement(DATA_FIELDS.get(3));
+		size.appendChild(doc.createTextNode(Integer.toString(model.getSize())));
+		root.appendChild(size);
+	}
 	
-	public void writePoints(List<List<CellModel>> grid, Element root) {
+	private void writePoints(List<List<CellModel>> grid, Element root) {
 		Element edits = doc.createElement(DATA_FIELDS.get(4));
 		for(int i = 0; i < grid.size(); i++) {
 			for(int j = 0; j < grid.size(); j++) {

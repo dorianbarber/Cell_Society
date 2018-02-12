@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.List;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -187,7 +188,7 @@ public class Menu extends Application{
 	private void step(double elapsedTime) {
 		//NeighborFinder finder = new NeighborFinder();
 		//NeighborFinder.getNeighbors(grid.getCells(), getShape(currentshape), "standard", "standard");
-		
+		grid.setCurrentShape(currentshape);
 		grid.update();
 		grid.moveForward();
 		myRoot.getChildren().remove(gridgroup);
@@ -447,14 +448,29 @@ public class Menu extends Application{
 	}
 	
 	private void getFile(){
-		grid.clear();
+		//grid.clear();
 		FileChooser chooser = new FileChooser();
 		chooser.setInitialDirectory(new File(System.getProperty("user.dir")));
 		currentfile = chooser.showOpenDialog(myStage);
+		
 		XMLManager manager = new XMLManager(currentfile);
-		grid.xmlEdit(manager.getXMLFile());
-		NeighborFinder.getNeighbors(grid.getCells(), new Rectangle(), "standard", "standard");
-		gridgroup = myGrid.drawGrid(grid, WIDTH, HEIGHT, blocksize);
+		List<List<Integer>> editList = manager.getXMLFile();
+		grid.setSize(manager.getSize());
+		//grid.clear();
+		blocksize = GRIDSIZE / grid.getSize();
+		if (currentshape.equals("Square")) {
+			myGrid = new SquareGridView(GRIDX, GRIDY, GRIDSIZE / grid.getSize(), GRIDSIZE);
+		}
+		else if (currentshape.equals("Triangle")){
+			myGrid = new TriangleGridView(GRIDX, GRIDY, GRIDSIZE / grid.getSize(), GRIDSIZE);
+		}
+		else if (currentshape.equals("Hexagon")){
+			myGrid = new HexGridView(GRIDX, GRIDY, GRIDSIZE / grid.getSize(), GRIDSIZE);
+		}
+		grid.xmlEdit(editList);
+		
+		//NeighborFinder.getNeighbors(grid.getCells(), new Rectangle(), "cross", "standard");
+		gridgroup = myGrid.drawGrid(grid, WIDTH, HEIGHT, GRIDSIZE / grid.getSize());
 		myRoot.getChildren().add(gridgroup);
 		//initializeStart(WIDTH, HEIGHT, BACKGROUND, grid, getFile(GOLDESCRIPTION));
 	}
