@@ -53,11 +53,16 @@ public abstract class GridModel {
 	public int getKind(){
 		return 0;
 	}
-	public void clear(){
+	
+	public void clear(CellModel type){
 		for(int i = 0; i < size; i++) {
 			gridCells.add(new ArrayList<CellModel>());
 			for(int j = 0; j < size; j++) {
-				gridCells.get(i).add(new LifeCell());
+				try {
+					gridCells.get(i).add(type.getClass().newInstance());
+				} catch (InstantiationException | IllegalAccessException e) {
+					System.out.println("Not a viable cell model");
+				}
 			}
 		}
 	}

@@ -186,8 +186,6 @@ public class Menu extends Application{
 		myRoot.getChildren().remove(gridgroup);
 		gridgroup = myGrid.drawGrid(grid, WIDTH, HEIGHT, blocksize);
 		myRoot.getChildren().add(gridgroup);
-		//System.out.println("Step");
-		
 	}
 
 	/**
@@ -409,12 +407,10 @@ public class Menu extends Application{
 	}
 	
 	private void getFile(){
-		grid.clear();
+		grid.clear(grid.getCells().get(0).get(0));
 		FileChooser chooser = new FileChooser();
 		chooser.setInitialDirectory(new File(System.getProperty("user.dir")));
 		currentfile = chooser.showOpenDialog(myStage);
-		
-		
 		XMLManager manager = new XMLManager(currentfile);
 		grid.xmlEdit(manager.getXMLFile());
 		NeighborFinder.getNeighbors(grid.getCells(), new Rectangle(), "standard", "standard");
