@@ -26,7 +26,7 @@ public class LifeGrid extends GridModel{
 		NeighborFinder.getNeighbors(gridCells, currentshape, "standard", "standard");	
 	}
 	public LifeGrid() {
-		this(17);
+		this(20);
 	}
 	
 	@Override

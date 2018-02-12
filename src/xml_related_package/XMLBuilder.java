@@ -21,6 +21,11 @@ import simulations.CellModel;
 import simulations.GridModel;
 import simulations.LifeGrid;
 
+/**
+ * XML Builder 
+ * @author Dorian
+ *
+ */
 public class XMLBuilder {
 	
 	private DocumentBuilderFactory docFactory;

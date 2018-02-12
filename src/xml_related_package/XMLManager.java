@@ -22,10 +22,16 @@ public class XMLManager {
 		configFile = XMLFile;
 	}
 	
-	public List<List<Integer>> getXMLFile() {
+	public List<List<Integer>> getXMLFile(int gridModelType) {
 		XMLParser xml = new XMLParser("type");
-		modelDescription = xml.getModel(configFile);
-		return Collections.unmodifiableList(xml.getEdits());
+		try {
+			modelDescription = xml.getModel(configFile, gridModelType);
+			return Collections.unmodifiableList(xml.getEdits());
+		}
+		catch(XMLException e) {
+			throw new XMLException("Edits not reached");
+		}
+		
 	}
 	
 	public int getSimNumb() {

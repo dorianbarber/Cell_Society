@@ -17,6 +17,8 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import simulations.CellModel;
 
 /**
@@ -62,30 +64,56 @@ public class XMLParser {
      * 			title, author, and global configuration
      * 			of the simulation. 
      */
-    public Map<String, String> getModel(File dataFile){
-    	Element root = getRootElement(dataFile);
-    	if(!isValidFile(root, CellModel.DATA_TYPE)) {
-    		throw new XMLException(ERROR_MESSAGE, CellModel.DATA_TYPE);
+    public Map<String, String> getModel(File dataFile, int modelNumber){
+    	try {
+    		Element root = getRootElement(dataFile);
+    		if(!isValidFile(root, CellModel.DATA_TYPE)) {
+    			throw new XMLException(ERROR_MESSAGE, CellModel.DATA_TYPE);
+    		}
+
+        	Map<String, String> results = new HashMap<>();
+        	for(String field : DATA_FIELDS) {
+        		results.put(field, getTextValue(root, field));
+        	}
+        	if(modelNumber == Integer.parseInt(results.get(DATA_FIELDS.get(1)))) {
+        		ArrayList<String> list = new ArrayList<>();
+        		for(int i = 1; i < children.getLength(); i += 2) {
+        			list.add(children.item(i).getTextContent());
+        		}
+        		for(int j = 0; j < list.size(); j++) {
+        			xmlEdits.add(new ArrayList<Integer>());
+        			String edit = list.get(j);
+
+        			String[] values = edit.split(" ");
+        			for(int k = 0; k < values.length; k++) {
+        				xmlEdits.get(j).add(Integer.parseInt(values[k]));
+        			}
+        		}
+        		return results;
+        	}
+        	else {
+        		//This is the result if the user chooses an XML config file that does not 
+        		//correspond to the current model in menu. 
+        		Alert alert = new Alert(AlertType.INFORMATION);
+        		alert.setTitle("Alert Dialog");
+        		alert.setHeaderText("Incorrect file chosen.");
+        		alert.setContentText("Model type does not correspond to the model in the menu");
+
+        		alert.showAndWait();
+        		throw new XMLException("Model type does not correspond to the model in the menu");
+        	}
     	}
-    	Map<String, String> results = new HashMap<>();
-    	for(String field : DATA_FIELDS) {
-    		results.put(field, getTextValue(root, field));
+    	catch (IllegalArgumentException e) {
+    		Alert alert = new Alert(AlertType.INFORMATION);
+			alert.setTitle("Alert Dialog");
+			alert.setHeaderText("Incorrect file chosen.");
+			alert.setContentText("You chose a wrong file type.");
+
+			alert.showAndWait();
+			throw new IllegalArgumentException();
     	}
     	
-    	ArrayList<String> list = new ArrayList<>();
-    	for(int i = 1; i < children.getLength(); i += 2) {
-    		list.add(children.item(i).getTextContent());
-    	}
-    	for(int j = 0; j < list.size(); j++) {
-    		xmlEdits.add(new ArrayList<Integer>());
-    		String edit = list.get(j);
-    		
-    		String[] values = edit.split(" ");
-    		for(int k = 0; k < values.length; k++) {
-    			xmlEdits.get(j).add(Integer.parseInt(values[k]));
-    		}
-    	}
-    	return results;
+    	
     }
     
     // Helper method to make a documentBuilder.
@@ -109,7 +137,8 @@ public class XMLParser {
             return xmlDocument.getDocumentElement();
         }
         catch (SAXException | IOException e) {
-            throw new XMLException(e);
+        	//this is thrown if an incorrect file was chosen
+        	throw new NullPointerException();
         }
     }
     
@@ -134,7 +163,7 @@ public class XMLParser {
         }
     }
     
-    
+    //Returns the list of edits contained in the xml document
     public List<List<Integer>> getEdits(){
     	return xmlEdits;
     }

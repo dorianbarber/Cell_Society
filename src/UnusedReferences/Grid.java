@@ -1,4 +1,4 @@
-package cellsociety_team09;
+package UnusedReferences;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -19,7 +19,8 @@ import xml_related_package.XMLParser;
 
 
 /**
- * Manager for cell interactions 
+ * Is no longer used for functional purposes. 
+ * Remained in file for reference and information. 
  * 
  * @author Dorian
  *
