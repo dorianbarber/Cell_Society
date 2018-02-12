@@ -39,9 +39,20 @@ public class FireGrid extends GridModel{
 			int center=(t-size)/2;
 			for(int r=0; r<size; r++)
 				for(int c=0; c<size; c++)
-					tempCells.get(r+center).set(center+c, gridCells.get(r-center).get(c-center));
+					tempCells.get(r+center).set(center+c, gridCells.get(r).get(c));
+		}
+		else
+		{
+			if(t<size)
+			{
+				int center=(size-t)/2;
+				for(int r=0; r<t; r++)
+					for(int c=0; c<t; c++)
+						tempCells.get(r).set(c, gridCells.get(r+center).get(c+center));
+			}
 		}
 		gridCells=tempCells;
+		size=t;
 		
 	}
 	public FireGrid()
