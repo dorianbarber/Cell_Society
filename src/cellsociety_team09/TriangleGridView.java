@@ -28,8 +28,8 @@ public class TriangleGridView extends GridView {
 		int x = 0, y = 0;
 		boolean bool = true;
 		for (double i = gridXPosition; i < (gridXPosition + gridSize - 2 * blocksize); i += 2 * blocksize){
-			bool = i % 0 != 0;
-			for (double j = gridYPosition; j < gridYPosition + gridSize - .5; j += blocksize){
+			bool = true;
+			for (double j = gridYPosition; j < gridYPosition + gridSize; j += blocksize){
 				Polygon toAdd = new Triangle(i, j, blocksize, bool).getTriangle();
 				
 				//System.out.println("X: " + x + " Y: " + y);
