@@ -1,14 +1,17 @@
-package cellsociety_team09;
+package UnusedReferences;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javafx.scene.shape.Rectangle;
 import simulations.CellModel;
 import simulations.FireCell;
 import simulations.LifeCell;
+import simulations.NeighborFinder;
 import simulations.SegregationCell;
 import simulations.WatorCell;
 import xml_related_package.XMLParser;
@@ -16,22 +19,18 @@ import xml_related_package.XMLParser;
 
 
 /**
- * Manager for cell interactions 
+ * Is no longer used for functional purposes. 
+ * Remained in file for reference and information. 
  * 
  * @author Dorian
  *
  */
 public class Grid {
-	private static ArrayList<ArrayList<CellModel>> gridCells; 
+	private List<List<CellModel>> gridCells = new ArrayList<List<CellModel>>();
+	private List<List<CellModel>> smallerGrid;
 	private int gridSize;
 	private int modelType;
 	private String description = "";
-//	private static final CellModel[] possibleModels= {
-//			new LifeCell(),
-//			new FireCell(),
-//			new SegregationCell(),
-//			new WatorCell()
-//	};
 	
 	
 	private static final String[] xmlModel = {
@@ -42,7 +41,9 @@ public class Grid {
 
 	};
 	
-	Map<String, String> modelDescription =  new HashMap<>();
+	Map<Integer, CellModel> possibleModels;
+	
+	Map<String, String> modelDescription;
 	
 	/**
 	 * Constructs a grid with @param size and the specific @param modelChoice.
@@ -50,12 +51,13 @@ public class Grid {
 	 * the size of the grid. 
 	 */
 	public Grid(int size, int modelChoice) {
+		setMapOfModels();
 		modelType = modelChoice;
 		gridSize = size;
-		gridCells = new  ArrayList<ArrayList<CellModel>>();
+		gridCells = new  ArrayList<List<CellModel>>();
 		for(int i = 0; i < gridSize; i++) {
+			gridCells.add(new ArrayList<CellModel>());
 			for(int j = 0; j < gridSize; j++) {
-				gridCells.add(new ArrayList<CellModel>());
 				CellModel cell = getCell(modelChoice);
 				gridCells.get(i).add(cell);
 			}
@@ -68,24 +70,38 @@ public class Grid {
 	 * @param modelChoice
 	 */
 	public Grid(int modelChoice) {
+		setMapOfModels();
 		modelType = modelChoice;
 		ArrayList<ArrayList<Integer>> edits = this.getXMLFile(xmlModel[modelChoice]);
-		gridSize = Integer.parseInt(modelDescription.get("Size"));
+		
+		try {
+			gridSize = Integer.parseInt(modelDescription.get("Size")) + 2;
+		}
+		catch(NumberFormatException e) {
+			gridSize = 52;
+		}
+		
 				
-		gridCells = new  ArrayList<ArrayList<CellModel>>();
+		gridCells = new  ArrayList<List<CellModel>>();
 		for(int i = 0; i < gridSize; i++) {
+			gridCells.add(new ArrayList<CellModel>());
 			for(int j = 0; j < gridSize; j++) {
-				gridCells.add(new ArrayList<CellModel>());
-				CellModel cell = getCell(modelChoice);
+				CellModel cell;
+				if(i == 0 || j == 0 || i == gridSize || j == gridSize) {
+					cell = getCell(modelChoice);
+				} else {
+					cell = getCell(modelChoice);
+				}
 				gridCells.get(i).add(cell);
 			}
 		}
 		
 		//Applies the specific constraints from the XML file being read in
 		for(int i = 0; i < edits.size(); i++) {
-			int row = edits.get(i).get(0);
-			int col = edits.get(i).get(1);
+			int row = edits.get(i).get(0) + 1;
+			int col = edits.get(i).get(1) + 1;
 			List<Integer> listOfCellEdits = edits.get(i).subList(2, edits.get(i).size());
+//REVISIT THIS TRY/CATCH
 			try {
 				gridCells.get(row).get(col).getInput(listOfCellEdits);
 			}
@@ -93,8 +109,11 @@ public class Grid {
 				System.out.println(i);
 			}
 		}
+		this.shortenOnce();
 		this.findCellNeighbors();
 	}
+	
+	
 	
 	
 	public void setDescription(String s){
@@ -106,41 +125,58 @@ public class Grid {
 	
 	
 	//return the set of cells for the menu class to use
-	public ArrayList<ArrayList<CellModel>> getCells() {
-		return gridCells;
+	public List<List<CellModel>> getCells() {
+		return deepCopy();
+	}
+	
+	//returns the unmodifiable list
+	private List<List<CellModel>> deepCopy (){
+		return Collections.unmodifiableList(smallerGrid);
+	}
+	
+	private void shortenOnce() {
+		smallerGrid = new ArrayList<List<CellModel>>();
+		for(int i = 1; i < gridSize - 1; i++) {
+			smallerGrid.add(new ArrayList<CellModel>());
+			for(int j = 1; j < gridSize - 1; j++) {
+				smallerGrid.get(i - 1).add(gridCells.get(i).get(j));
+			}
+		}
 	}
 	
 	//returns the dimension of the grid
 	public int getGridSize() {
-		return gridSize;
+		return gridSize - 2;
 	}
+	
+	
+	public int getKind() {
+		return modelType;
+	}
+	
 	
 	/**
 	 * Loops through the cells to let them find their
 	 * neighbors and also get their next state
 	 */
 	public void findCellNeighbors() {
-		for(int i = 0; i < gridSize; i++) {
-			for(int j = 0; j < gridSize; j++) {
-				gridCells.get(i).get(j).getNeighbors(i, j, gridCells);
-				gridCells.get(i).get(j).findNextState();
-			}
-		}
+		NeighborFinder finder = new NeighborFinder();
+		finder.getNeighbors(this.getCells(), new Rectangle(1,1), getCell(modelType));
+
 	}
 	
 	/**
 	 * Loops through cells to move each one to their next state
 	 */
 	public void moveSimulationForward() {
-		
-		for(int i = 0; i < gridSize; i++) {
-			for(int j = 0; j < gridSize; j++) {
-				gridCells.get(i).get(j).moveForward(gridCells);
+		for(int i = 1; i < gridSize - 1; i++) {
+			for(int j = 1; j < gridSize - 1; j++) {
+				gridCells.get(i).get(j).moveForward(getCells());
 				
 			}
 		}
-		for(int i = 0; i < gridSize; i++) {
-			for(int j = 0; j < gridSize; j++) {
+		for(int i = 1; i < gridSize - 1; i++) {
+			for(int j = 1; j < gridSize - 1; j++) {
 				gridCells.get(i).get(j).findNextState();
 			}
 		}
@@ -160,30 +196,33 @@ public class Grid {
 		return xml.getEdits();
 	}
 	
-	
+	private void setMapOfModels() {
+		possibleModels = new HashMap<Integer, CellModel>();
+		possibleModels.put(0, new LifeCell());
+		possibleModels.put(1, new FireCell());
+		possibleModels.put(2, new SegregationCell());
+		possibleModels.put(3, new WatorCell());
+		
+	}
 	/**
 	 * ASK TA ABOUT THIS CONCEPT
 	 * ...does not seem like good Java OOP convention
 	 * @return the new instance of the CellModel subclass
 	 */
 	private CellModel getCell(int i) {
-		if(i == 0) {
-			return new LifeCell();
-		} else if (i == 1) {
-			return new FireCell();
-		} else if(i == 2) {
-			return new SegregationCell();
-		} else if(i == 3){
-			return new WatorCell();
-		} else {
-			return null;
+		CellModel result = possibleModels.get(i);
+		try {
+			return result.getClass().newInstance();
+		} catch (InstantiationException | IllegalAccessException e) {
+			System.out.println("Error in picking the proper cell model. Defaulting to LifeCell.");
 		}
+		return new LifeCell();
+	}
 		
-	}
 	
-	public int getKind() {
-		return modelType;
-	}
+	
+	
+	
 	
 	//NEXT METHODS ARE FOR TESTING THE GRID CLASS
 	
@@ -194,7 +233,7 @@ public class Grid {
 	 */
 	public static void main(String[] args) {
 		//input can either be a 0,1,2,3
-		Grid tester = new Grid(3);
+		Grid tester = new Grid(0);
 		
 		tester.findCellNeighbors();
 		System.out.println();
@@ -203,6 +242,7 @@ public class Grid {
 			System.out.println();
 			tester.moveSimulationForward();
 		}
+		
 	}
 	
 	/**
@@ -210,8 +250,8 @@ public class Grid {
 	 * Prints the state of each cell.
 	 */
 	private void printGrid() {
-		for(int i = 0; i < gridSize; i++) {
-			for(int j = 0; j < gridSize; j++) {
+		for(int i = 0; i < gridSize - 2; i++) {
+			for(int j = 0; j < gridSize - 2; j++) {
 				System.out.print(gridCells.get(i).get(j).getState() + " ");
 				System.out.flush();  
 			}

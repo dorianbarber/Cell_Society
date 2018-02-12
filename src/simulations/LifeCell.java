@@ -3,131 +3,98 @@ package simulations;
 import java.util.ArrayList;
 import java.util.List;
 
-import cellsociety_team09.StateNode;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 
+/**
+ * Cell for Game of Life. 
+ * Cells have states either dead or alive. 
+ * 
+ * @author Dorian and Conrad
+ *
+ */
 public class LifeCell extends CellModel {
 	
+	private int state;
+	private static final int DEADCELL=0;
+	private static final int ALIVECELL=1;
+	private static final Color[] colors = {Color.WHITE, Color.GREEN};
+	private ArrayList<LifeCell> neighbors = new ArrayList<LifeCell>();
+	private LifeCell next;
 	
-	public static final int DEADSTATE=0;
-	public static final int ALIVESTATE=1;
-	public static final Color[] colors = {Color.WHITE, Color.GREEN};
 	
 	public LifeCell(int cellstate)
 	{
 		//shape = new Rectangle(1,1);
+		state=cellstate;
 		color = colors[cellstate];
-		int[] states= {cellstate};
-		state = new StateNode(color,states);
-		neighbors = new LifeCell[]{null};
-		//int[] possiblestates = {0,1};
 	}
 	
 	public LifeCell()
 	{
 		this(0);
 	}
-
-	public Color[] getPossibleStates(){
-		return colors;
-	}
 	
-	
-	public int[] getStates()
+	@Override
+	public void getClicked()
 	{
-		return state.getStates();
-	}
-
-	public void findNextState()
-	{
-		
-		int alivecount=0;
-		for(int a=0; a<neighbors.length; a++)
-			if(neighbors[a]!=null && neighbors[a].getStates()[0]==1)
-				alivecount++;
-		if(getStates()[0]==ALIVESTATE && (alivecount==2) || alivecount==3)
-		{
-			StateNode s = new StateNode(colors[ALIVESTATE],new int[]{ALIVESTATE});
-			 state.setNextState(s);
+		if(state==0){
+			state=1;
 		}
-		else
-		{
-			StateNode s = new StateNode(colors[DEADSTATE],new int[]{DEADSTATE});
-			 state.setNextState(s);
+		else{
+			state=0;
 		}
-		
+		color = colors[state];
 	}
 	
-	public void moveForward(ArrayList<ArrayList<CellModel>> grid) {
-		state.moveForward();
-	}
-	
-	public void setNextState(StateNode b)
+	public int getState()
 	{
-		state.setNextState(b);
-	}
-	
-	public void getInput(List<Integer> states)
-	{
-		state.setState(colors[states.get(0)], new int[] {states.get(0)});
-
-	}
-
-	public StateNode getKind(){
 		return state;
 	}
 	
-	public void getNeighbors( int r, int c, ArrayList<ArrayList<CellModel>> grid)
+	public void addNeighbor(CellModel cell){
+		neighbors.add((LifeCell) cell);
+	}
+	
+	public LifeCell getNext()
 	{
-
-		int length=grid.get(0).size();
-		int height=grid.get(0).size();
-		if(c==0 && r==0){
-			neighbors = new LifeCell[] {null, null,(LifeCell)grid.get(r).get(c+1), (LifeCell)grid.get(r+1).get(c+1), (LifeCell)grid.get(r+1).get(c),
-					null, null, null, null};
+		return next;
+	}
+	
+	//finds the next state of this cell based on neighbors
+	public void findNextState()
+	{
+		//System.out.print(neighbors.size());
+		int alivecount=0;
+		for(int a=0; a<neighbors.size(); a++){
+			if(neighbors.get(a).getState()==ALIVECELL)
+				alivecount++;
 		}
-		else if(c==(length-1) && r==0){
-			neighbors= new LifeCell[] {null, null, null, null, (LifeCell)grid.get(r+1).get(c), (LifeCell)grid.get(r+1).get(c-1),
-					(LifeCell)grid.get(r).get(c-1), null};// 6 left
+				
+		if((state==ALIVECELL && (alivecount==2)) || alivecount==3){
+			setNextState(ALIVECELL);
 		}
-		else if(r==(height-1) && c==0){
-			neighbors= new LifeCell[] {(LifeCell)grid.get(r-1).get(c), (LifeCell)grid.get(r-1).get(c+1), (LifeCell)grid.get(r).get(c+1), null, null,
-					null, null, null};	
+		else{
+			setNextState(DEADCELL);
 		}
-		else if(r==(height-1) && c==(length-1)){
-			neighbors= new LifeCell[] {(LifeCell)grid.get(r-1).get(c), null, null, null, null, null, (LifeCell)grid.get(r).get(c-1), 
-					(LifeCell)grid.get(r-1).get(c-1)};
-		}
-		else if(r==0) { //top edge check
-			neighbors = new LifeCell[] {null, null,  (LifeCell)grid.get(r).get(c+1),  (LifeCell)grid.get(r+1).get(c+1), (LifeCell) grid.get(r+1).get(c), 
-					(LifeCell)grid.get(r+1).get(c-1),(LifeCell) grid.get(r).get(c-1), null}; 		
-		}
-		else if(r==(height-1)) { // bottom edge check
-			neighbors = new LifeCell[] {(LifeCell)grid.get(r-1).get(c), (LifeCell)grid.get(r-1).get(c+1),(LifeCell) grid.get(r).get(c+1),null,null, 
-					null, (LifeCell)grid.get(r).get(c-1) , (LifeCell)grid.get(r-1).get(c-1)};		
-		}
-		else if(c==0){ //left edge check
-			neighbors = new LifeCell[] {(LifeCell)grid.get(r-1).get(c), (LifeCell)grid.get(r-1).get(c+1),(LifeCell) grid.get(r).get(c+1),  (LifeCell)grid.get(r+1).get(c+1), 
-					(LifeCell)grid.get(r+1).get(c), null, null, null};  
-		}
-		else if( c==(length-1)) { // right edge check
-			neighbors = new LifeCell[] { (LifeCell)grid.get(r-1).get(c) ,null,null,null,(LifeCell) grid.get(r+1).get(c),(LifeCell)grid.get(r+1).get(c-1),  
-					(LifeCell)grid.get(r).get(c-1), (LifeCell) grid.get(r-1).get(c-1)};
-		}
-		else // checking for middle cell
-		{
-			neighbors = new LifeCell[] { (LifeCell)grid.get(r-1).get(c), //0 top 
-					(LifeCell) grid.get(r-1).get(c+1), //1 top right
-					(LifeCell) grid.get(r).get(c+1), //2 right
-					(LifeCell) grid.get(r+1).get(c+1), // 3 bottom right
-					(LifeCell) grid.get(r+1).get(c),  // 4 bottom 
-					(LifeCell) grid.get(r+1).get(c-1), // 5 bottom left
-					(LifeCell) grid.get(r).get(c-1), // 6 left
-					(LifeCell) grid.get(r-1).get(c-1)}; // top left
-		}
+		
+	}
+	
+	private void setNextState(int t)
+	{
+		next = new LifeCell(t);
 	}
 
+	
+	public void getInput(List<Integer> states)
+	{
+		state=states.get(0);
+		color = colors[state];
 
+	}
+
+	@Override
+	public String getXMLState() {
+		return Integer.toString(getState());
+	}	
 
 }

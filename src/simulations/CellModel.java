@@ -1,58 +1,44 @@
 
 package simulations;
-
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Shape;
-import java.util.ArrayList;
 import java.util.List;
-import cellsociety_team09.StateNode;
 
-public abstract class CellModel extends Shape{
-	protected Shape shape;
+/**
+ * Abstract class for all cell types. Cells have states
+ * colors and specific behaviors when updating their
+ * state depending on the number of neighbors. 
+ * 
+ * Contains the logic behind each simulation. 
+ * 
+ * @author Dorian and Conrad
+ *
+ */
+public abstract class CellModel{
+	
 	protected Color color;
-	protected StateNode state;
-	protected CellModel[] neighbors;
+
 	
 	//For XMLFile identification purposes
 	public static final String DATA_TYPE = "Model";
-	
-	
-	public CellModel(){}
-	
-	public abstract void getNeighbors(int row, int col, ArrayList<ArrayList<CellModel>> grid );
 
+	public CellModel(){}	
 	
-	abstract int[] getStates();
+	public abstract void addNeighbor(CellModel c);
+
+	public abstract void getInput(List<Integer> list);
 	
-	public abstract void findNextState();
-
-
-	public abstract void moveForward(ArrayList<ArrayList<CellModel>> cellgrid);
+	public abstract void getClicked();
 	
-	public abstract void getInput(List<Integer> states);
-
 	public Color getColor(){
-        return state.getColor();
-	}
-	public StateNode getKind(){
-		return state;
-	}
-	public void moveBackward()
-	{
-		if(state.hasPrev())
-			state.moveBackward();
+        return color;
 	}
 	
-	protected abstract void setNextState(StateNode a);
-	@Override
-	public com.sun.javafx.geom.Shape impl_configShape() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	//@Conrad this is a method so that I can test whether the grid
-	//class works well. I will delete this later. -Dorian
-	public String getState() {
-		return state.getStates()[0] + "";
-	}
-}
+	//returns the state
+	public abstract int getState();
 
+	public abstract CellModel getNext();
+
+	//returns the specific format for writing to xmlfiles
+	public abstract String getXMLState();
+
+}
