@@ -37,6 +37,7 @@ public class FireCell extends CellModel {
 	{
 		type=states.get(0);
 		burnprb=((double)states.get(1))/100;
+		color = colors[type];
 	}
 	
 	@Override
@@ -67,7 +68,7 @@ public class FireCell extends CellModel {
 			{
 				double rand = Math.random();
 				burning=(rand<burnprb);
-				//System.out.println(rand + " " + burnprb);
+				
 				break;
 			}
 		}	
@@ -76,7 +77,7 @@ public class FireCell extends CellModel {
 			setNextState(BURNINGCELL, burnprb);
 		}
 		else if(type==BURNINGCELL){
-			System.out.println(type);
+			
 			setNextState(EMPTYCELL, burnprb);
 		}
 		else if (type == EMPTYCELL){
