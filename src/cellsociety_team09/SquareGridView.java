@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
+import UnusedReferences.Grid;
 import javafx.scene.Group;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
@@ -13,95 +14,46 @@ import javafx.scene.shape.Shape;
 import simulations.GridModel;
 
 /**
- * Tasked with specifically creating square grid cells. 
+ * Tasked with specifically creating square grid cells. I think this class is well-designed because it does
+ * only two things differently than the superclass, and that is reflected in the code. The drawGrid method
+ * is concise and it's easy to follow the logic, and the setStateOnClck method is transparent and concise. It also excels at
+ * the more basic aspects of design like not using magic values and being consistent with naming conventions. 
  * 
  * @author Liam
  *
  */
 public class SquareGridView extends GridView{
-	private double gridXPosition;
-	private double gridYPosition;
-	private double gridSize;
+	private double gridxpos;
+	private double gridypos;
+	private double gridsize;
 	private ArrayList<Double> proportions;
 	private boolean outline = true;
+	private final double EDGEMARGIN = .5;
 	
 	public SquareGridView(double x, double y, double blocksize, double GRIDSIZE){
-		gridXPosition = x;
-		gridYPosition = y;
-		gridSize = GRIDSIZE;
+		gridxpos = x;
+		gridypos = y;
+		gridsize = GRIDSIZE;
 		proportions = new ArrayList<Double>();
 	}
-	public Group drawBlankGrid(int screenwidth, int screenheight, double blocksize){
-		Group retgroup = new Group();
-		for (double i = gridXPosition; i < gridXPosition + gridSize; i += blocksize){
-			for (double j = gridYPosition; j < gridYPosition + gridSize; j += blocksize){
-				Rectangle toAdd = new Rectangle(i, j, blocksize, blocksize);
-				toAdd.setFill(Color.ANTIQUEWHITE);
-				toAdd.setStroke(Color.BLACK);
-				retgroup.getChildren().add(toAdd);
-			}
-		}
-		return retgroup;
-	}
-	public Group drawRandomGrid(int screenwidth, int screenheight, int blocksize){
-		Group retgroup = new Group();
-		for (double i = gridXPosition; i < gridXPosition + gridSize; i += blocksize){
-			for (double j = gridYPosition; j < gridYPosition + gridSize; j += blocksize){
-				Rectangle toAdd = new Rectangle(i, j, blocksize, blocksize);
-				if (new Random().nextInt(3) == 0){
-					toAdd.setFill(Color.BLUE);
-				}
-				else if (new Random().nextInt(3) == 1){
-					toAdd.setFill(Color.RED);
-				}
-				else if (new Random().nextInt(3) == 2){
-					toAdd.setFill(Color.GREEN);
-				}
-				else{
-					toAdd.setFill(Color.YELLOWGREEN);
-				}
-				toAdd.setStroke(Color.BLACK);
-				retgroup.getChildren().add(toAdd);
-			}
-		}
-		return retgroup;
-	}
 	public Group drawGrid(GridModel grid, int screenwidth, int screenheight, double blocksize){
-		
-		HashMap<Paint,Integer> proportionmap = new HashMap<Paint,Integer>();
 		Group retgroup = new Group();
 		int x = 0, y = 0;
-		for (double i = gridXPosition; i < gridXPosition + gridSize - .5; i += blocksize){
-			for (double j = gridYPosition; j < gridYPosition + gridSize - .5; j += blocksize){
+		for (double i = gridxpos; i < gridxpos + gridsize - EDGEMARGIN; i += blocksize){
+			for (double j = gridypos; j < gridypos + gridsize - EDGEMARGIN; j += blocksize){
 				Rectangle toAdd = new Rectangle(i, j, blocksize, blocksize);
-				//System.out.println("X: " + x + " Y: " + y);
-				//sSystem.out.println("I: " + i + " J: " + j);
-				//System.out.println(grid.getCells().get(x).get(y).getColor().toString());
-				toAdd.setFill(grid.getCells().get(x).get(y).getColor());
-				if (!proportionmap.containsKey(toAdd.getFill())){
-					proportionmap.put(toAdd.getFill(), 1);
-				}
-				else {
-					proportionmap.put(toAdd.getFill(), proportionmap.get(toAdd.getFill()) + 1);
-				}
+				toAdd.setFill(super.getColor(grid, x, y));
 				if (outline){
 					toAdd.setStroke(Color.BLACK);
 				}
 				int xtemp = x;
 				int ytemp = y;
-				toAdd.setOnMouseClicked(e -> handleClick(xtemp,ytemp,grid, toAdd));
+				toAdd.setOnMouseClicked(e -> setStateOnClick(xtemp,ytemp,grid, toAdd));
 				retgroup.getChildren().add(toAdd);
 				y++;
 			}
 			x++;
 			y = 0;
-		}
-		int sum = 0;
-		for (Paint key : proportionmap.keySet()){
-			sum += proportionmap.get(key);
-		}
-		for (Paint key : proportionmap.keySet()){
-			proportions.add((double) proportionmap.get(key) / sum);
 		}
 		return retgroup;
 	}
@@ -114,25 +66,20 @@ public class SquareGridView extends GridView{
 	public boolean getOutline(){
 		return outline;
 	}
-	private void handleClick(int x, int y, GridModel g, Shape n) {
+	private void setStateOnClick(int x, int y, GridModel grid, Shape n) {
 		List<Integer> list = new ArrayList<>();
 		list.add(x);
 		list.add(y);
-		//g.getCells().get(x).get(y).getInput(list);
-		//System.out.println(g.getCells().get(x).get(y).getState());
-		g.getUserInput(list);
-		//System.out.println(g.getCells().get(x).get(y).getState());
-		n.setFill(g.getCells().get(x).get(y).getColor());
-		//System.out.println("Clicked!");
-		
+		grid.getUserInput(list);
+		n.setFill(super.getColor(grid, x, y));
 	}
 	public double getX(){
-		return gridXPosition;
+		return gridxpos;
 	}
 	public double getY(){
-		return gridYPosition;
+		return gridypos;
 	}
 	public double getDimensions(){
-		return gridSize;
+		return gridsize;
 	}
 }
