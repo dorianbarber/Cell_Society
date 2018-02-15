@@ -25,6 +25,12 @@ import simulations.LifeGrid;
  * XML Builder to create xml files during runtime. 
  * Contains all behaviors related to building xml files. 
  * 
+ * The only actual behavior comes from the setUpFile method
+ * which actually creates the file. However, what came out of that method 
+ * were a series of helper methods which refactored code away from that main
+ * function. This refactoring makes this code significantly easier 
+ * to read and also saved many lines of code. 
+ * 
  * @author Dorian
  *
  */
@@ -55,19 +61,22 @@ public class XMLBuilder {
 			docBuilder = docFactory.newDocumentBuilder();
 
 			doc = docBuilder.newDocument();
+			
+			//Creates the root element which signals the XMLParser that this
+			//is a proper cell society XML file
 			Element rootElement = doc.createElement("data");
 			rootElement.setAttribute("type", "Model");
 			doc.appendChild(rootElement);
 
+			//Adds the information to the root node
 			addContent(rootElement, model, fileName);
-			writePoints(model.getCells(), rootElement);
+			writePoints(rootElement, model.getCells());
 
+			//Creates the actual file
 			TransformerFactory transformerFactory = TransformerFactory.newInstance();
 			Transformer transformer = transformerFactory.newTransformer();
 			DOMSource source = new DOMSource(doc);
 			File fileToWrite = new File("./data\\" + fileName + ".xml");
-
-			
 			if(fileToWrite.createNewFile()) {
 				StreamResult result = new StreamResult(fileToWrite);
 				transformer.transform(source, result);
@@ -83,22 +92,20 @@ public class XMLBuilder {
 	 * Adds the basic contents related to the DATA_FIELDS
 	 */
 	private void addContent(Element root, GridModel model, String fileName) {
-		Element sim = doc.createElement(DATA_FIELDS.get(0));
-		sim.appendChild(doc.createTextNode(fileName));
-		root.appendChild(sim);
-		
-		Element simNumb = doc.createElement(DATA_FIELDS.get(1));
-		simNumb.appendChild(doc.createTextNode(Integer.toString(model.getKind())));
-		root.appendChild(simNumb);
-		
-		Element author = doc.createElement(DATA_FIELDS.get(2));
-		author.appendChild(doc.createTextNode("Conrad Mitchell"));
-		root.appendChild(author);
-		
-		Element size = doc.createElement(DATA_FIELDS.get(3));
-		size.appendChild(doc.createTextNode(Integer.toString(model.getSize())));
-		root.appendChild(size);
+		root.appendChild(createTag(DATA_FIELDS.get(0), fileName));
+		root.appendChild(createTag(DATA_FIELDS.get(1), Integer.toString(model.getKind())));
+		root.appendChild(createTag(DATA_FIELDS.get(2), "Conrad Mitchell"));
+		root.appendChild(createTag(DATA_FIELDS.get(3), Integer.toString(model.getSize())));
 	}
+	
+	
+	//Refactored to make addContent more concise
+	private Element createTag(String tagName, String content) {
+		Element node = doc.createElement(tagName);
+		node.appendChild(doc.createTextNode(content));
+		return node;
+	}
+	
 	
 	/**
 	 * Method for writing all of the data points related to 
@@ -107,7 +114,7 @@ public class XMLBuilder {
 	 * @param grid
 	 * @param root
 	 */
-	private void writePoints(List<List<CellModel>> grid, Element root) {
+	private void writePoints(Element root, List<List<CellModel>> grid) {
 		Element edits = doc.createElement(DATA_FIELDS.get(4));
 		for(int i = 0; i < grid.size(); i++) {
 			for(int j = 0; j < grid.size(); j++) {

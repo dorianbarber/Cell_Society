@@ -61,7 +61,6 @@ public class LifeGrid extends GridModel{
 		}
 		gridCells=tempCells;
 		size=t;
-		
 	}
 	
 	@Override

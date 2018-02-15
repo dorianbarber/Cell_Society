@@ -481,6 +481,8 @@ public class Menu extends Application{
     		alert.showAndWait();
 		}
 		catch (XMLException ee){
+			//The user picked the wrong kind of XML file so it gets sent back to the 
+			//file picker to let the user try again
 			this.getFile();
 		}
 		
