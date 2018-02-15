@@ -28,8 +28,12 @@ This project will have a design hierarchy that maximizes its ability to adapt to
 
 To add a new simulation, a designer will have to add a new CellModel and GridModel subclass and modify the GetNeighbors method within NeighborFinder to accomodate the new simulation. The designer will also have to give the GridModel class an appropriate simulation number that can be used to identify the simulation in both the Menu class and also to keep the convention in the XML files. This also involves editing the instance variable POSSIBLEGRIDS in Menu to include this new simulation. The functionality of this simulation is entirely dependent to the designer and as long as it can also work with the implementation of the XML file builder and parser the project is easily extensible. 
 
+New buttons can easily be added by simply following the same format as all the other buttons in the Menu class. The only concern would be positioning it relative to the other user interface aspects. The action performed by the button can be expanded quite significantly. 
+
 ## Major Design Choices
 
 We decided to abstract both the CellModel and the GridModel classes in order to simplify our algorithms. This made our class hierarchy more complex and makes our design less flexible. It does, however, make our code more readable and easy to interpret. Furthermore this spread out a significant amount of responsibility. This was helpful as each GridModel subclass acted as a container for the CellModel subclasses. Thus a lot of the behavior for the CellModel subclasses remained in an isolated location. 
+
+Another strong design choices was how the XML related package played into the rest of the project. There are only two locations outside of the XML classes where these classes get instantiated. Both are contained effectively and no information is passed either as mutable variables or revealed to the menu class. Furthermore the XML 
 
 
