@@ -25,7 +25,7 @@ public class WatorGrid extends GridModel
 				gridCells.get(a).add(new WatorCell());
 			}
 		}
-		NeighborFinder.getNeighbors(gridCells, this.getCurrentShape(), "cross", "toroidal");
+		NeighborFinder.getNeighbors(gridCells, this.getCurrentShape(), "cross", "standard");
 
 	}
 	public WatorGrid()
@@ -60,7 +60,7 @@ public class WatorGrid extends GridModel
 				WatorCell temp = (WatorCell) gridCells.get(r).get(c);
 				gridCells.get(r).set(c, temp.getNext());
 			}
-		NeighborFinder.getNeighbors(gridCells, currentshape, "cross", "toroidal");
+		NeighborFinder.getNeighbors(gridCells, currentshape, "cross", "standard");
 
 
 	}

@@ -26,7 +26,6 @@ public class TriangleGridView extends GridView {
 		gridYPosition = y;
 		this.gridSize = gridSize;
 	}
-	
 	public Group drawGrid(GridModel grid, int screenwidth, int screenheight, double blocksize){
 		Group retgroup = new Group();
 		int x = 0, y = 0;
@@ -35,11 +34,7 @@ public class TriangleGridView extends GridView {
 			bool = true;
 			for (double j = gridYPosition; j < gridYPosition + gridSize; j += blocksize){
 				Polygon toAdd = new Triangle(i, j, blocksize, bool).getTriangle();
-				
-				//System.out.println("X: " + x + " Y: " + y);
-				//System.out.println("I: " + i + " J: " + j);
-				toAdd.setFill(grid.getCells().get(x).get(y).getColor());
-				//System.out.println(toAdd.getFill().toString());
+				toAdd.setFill(super.getColor(grid, x, y));
 				if (outline){
 					toAdd.setStroke(Color.BLACK);
 				}
@@ -65,15 +60,9 @@ public class TriangleGridView extends GridView {
 		List<Integer> list = new ArrayList<>();
 		list.add(x);
 		list.add(y);
-		//g.getCells().get(x).get(y).getInput(list);
-		//System.out.println(g.getCells().get(x).get(y).getState());
 		g.getUserInput(list);
-		//System.out.println(g.getCells().get(x).get(y).getState());
-		n.setFill(g.getCells().get(x).get(y).getColor());
-		//System.out.println("Clicked!");
-		
+		n.setFill(g.getCells().get(x).get(y).getColor());	
 	}
-	
 	public double getX(){
 		return gridXPosition;
 	}
