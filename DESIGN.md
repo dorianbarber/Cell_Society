@@ -26,10 +26,10 @@ This project will have a design hierarchy that maximizes its ability to adapt to
    
 ## Adding new features
 
-To add a new simulation, a designer will have to add a new CellModel and GridModel subclass and modify the GetNeighbors method within NeighborFinder to accomodate the new simulation.
+To add a new simulation, a designer will have to add a new CellModel and GridModel subclass and modify the GetNeighbors method within NeighborFinder to accomodate the new simulation. The designer will also have to give the GridModel class an appropriate simulation number that can be used to identify the simulation in both the Menu class and also to keep the convention in the XML files. This also involves editing the instance variable POSSIBLEGRIDS in Menu to include this new simulation. The functionality of this simulation is entirely dependent to the designer and as long as it can also work with the implementation of the XML file builder and parser the project is easily extensible. 
 
 ## Major Design Choices
 
-We decided to abstract both the CellModel and the GridModel classes in order to simplify our algorithms. This made our class heirarchy more complex and makes our design less flexible. It does, however, make our code more readable and easy to intnerpret.
+We decided to abstract both the CellModel and the GridModel classes in order to simplify our algorithms. This made our class hierarchy more complex and makes our design less flexible. It does, however, make our code more readable and easy to interpret. Furthermore this spread out a significant amount of responsibility. This was helpful as each GridModel subclass acted as a container for the CellModel subclasses. Thus a lot of the behavior for the CellModel subclasses remained in an isolated location. 
 
 

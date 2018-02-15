@@ -8,7 +8,7 @@ import java.util.Map;
 
 /**
  * Manager for the XMLParser and Menu class.
- * Here the edits the special edits are returned. 
+ * Here the special edits are returned. 
  * 
  * @author Dorian
  *
@@ -37,7 +37,6 @@ public class XMLManager {
 		catch(XMLException e) {
 			throw new XMLException("Edits not reached");
 		}
-		
 	}
 	
 	public int getSimNumb() {
